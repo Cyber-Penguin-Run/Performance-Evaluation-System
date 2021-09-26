@@ -21,7 +21,7 @@ def students():
     #defining of error as temp holder for page response in case it is needed. this can be taken out if error testing is not required later on.
     error = None
     #if a get request then it returns a basic students.html page
-    if request.method!='GET':
+    if request.method=='GET':
         return render_template('students.html')
     #else it will return error and print out a status code
     else:
