@@ -4,14 +4,24 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] =''
 
 @app.route('/')
-def home():
-    return render_template()
+def index():
+    return 'Hello'
 
-@app.login('/login')
+@app.route('/login')
 def login():
-    return
+    return 'world'
 
+@app.route('/home')
+def home():
+    return 'home'
 
+@app.route('/students')
+def students():
+    return 'students'
+
+@app.route('/staff')
+def staff():
+    return 'staff'
 
 """
 Debug mode to run the code without having to
