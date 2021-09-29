@@ -4,15 +4,19 @@ app.config['SECRET_KEY'] =''
 
 @app.route('/')
 def index():
-    return 'Hello'
+    return 'Hello, world!'
 
 @app.route('/login')
 def login():
-    return 'world'
+    return 'Log in.'
+
+@app.route('/logout')
+def logout():
+    return 'Logged out.'
 
 @app.route('/home')
 def home():
-    return 'home'
+    return render_template('layout.html')
 
 # students page with diff request methods.
 # tables will be shown with editing functions add/edit/delete/etc.
