@@ -23,7 +23,7 @@ def home():
 # data entered will be replaced with sql information once DB is up and running.
 @app.route('/students', methods=['POST','GET', 'DELETE', 'PUT'])
 def students():
-    if request.method!='GET':
+    if request.method=='GET':
         return render_template('students.html', studentName='John Doe', studentID='0001', subjects='Sample Text',
                                grades='Sample Text', status='Active')
     else:
