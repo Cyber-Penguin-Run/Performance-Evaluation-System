@@ -1,0 +1,50 @@
+:root {
+    --main-accent-color: rgb(248, 223, 33);
+    --light-accent-color: rgb(255, 249, 207);
+    --main-dark-color: rgb(5, 5, 5);
+    --main-dark-color: rgb(29, 29, 29);
+    --main-light-color: rgb(255, 255, 255);
+    --main-primary-color: rgb(20, 255, 153);
+}
+
+body {
+    margin: 0;
+}
+
+
+.login-bg {
+    background: url(../img/login-bg.jpg) no-repeat center center fixed;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100vh;
+}
+
+
+.login-bg-darken {
+    background: rgba(255, 255, 255, 0.75);
+    overflow-y: scroll;
+}
+
+
+.enrichery-primary {
+    background-color: var(--main-accent-color);
+    color:var(--main-dark-color);
+    border-color: var(--main-accent-color);
+}
+.enrichery-primary:focus {
+    background-color: var(--main-accent-color);
+    color:var(--main-dark-color);
+    border-color: var(--main-accent-color);
+}
+
+.enrichery-primary:hover {
+    background-color: var(--light-accent-color);
+    border-color: var(--light-accent-color);
+    color:var(--light-dark-color)
+}
+
+.enrichery-primary:target {
+    border-color: var(--main-accent-color);
+}
