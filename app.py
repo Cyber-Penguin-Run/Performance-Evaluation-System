@@ -1,22 +1,58 @@
+from datetime import datetime, timedelta
 from flask import Flask, render_template, url_for, request, flash
+from flask.helpers import make_response
+import jwt
+import functools
+
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] =''
+app.config['JWT_KEY'] ='soiqwueho28973987265362#^$%#'
+
+def secure_site(f):
+    @functools.wraps(f)
+    def secure_wrapper(*args, **kwargs):
+
+        token = request.cookies.get('token')
+        
+        if not token:
+            return "No token provided."
+        
+        try:
+            auth_data = jwt.decode(token, app.config['JWT_KEY'], algorithms=["HS256"])
+            print(auth_data)
+        except:
+            return "Token invalid."
+
+        return f(*args, **kwargs, auth_data = auth_data)
+    return secure_wrapper
+
 
 @app.route('/')
 def index():
     return 'Hello, world!'
 
-@app.route('/login')
+@app.route('/login', methods = ['GET', 'POST'])
 def login():
-    return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
+    elif request.method == "POST":
+        username = request.form['username']
+        password = request.form['password']
+
+        if username == "Braian" and password == "password":
+            token = jwt.encode({"username":username, "exp":datetime.utcnow() + timedelta(hours = 24)}, app.config['JWT_KEY'])
+            response = make_response(render_template("layout.html"))
+            response.set_cookie("token", token.encode("UTF-8"))
+            return response
 
 @app.route('/logout')
 def logout():
     return 'Logged out.'
 
 @app.route('/home')
-def home():
-    return render_template('layout.html')
+@secure_site
+def home(auth_data = None):
+    return f"{auth_data['username']} you are logged in!"
 
 # students page with diff request methods.
 # tables will be shown with editing functions add/edit/delete/etc.
