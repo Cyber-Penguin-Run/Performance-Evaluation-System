@@ -71,6 +71,10 @@ def students():
 def staff():
     return 'staff'
 
+@app.route('/portal')
+def portal():
+    return render_template('staffportal.html')
+
 """
 Debug mode to run the code without having to
 run it from the terminal/cmd. Please remove it during
