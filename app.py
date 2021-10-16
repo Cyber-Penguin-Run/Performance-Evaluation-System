@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta
-from flask import Flask, render_template, url_for, request, flash
+from flask import Flask, render_template, url_for, request, flash, redirect
 from flask.helpers import make_response
 import jwt
 import functools
+import bcrypt
 
 
 app = Flask(__name__)
@@ -29,7 +30,7 @@ def secure_site(f):
 
 @app.route('/')
 def index():
-    return 'Hello, world!'
+    return 'This is the index page for the Enrichery web app.'
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -40,14 +41,21 @@ def login():
         password = request.form['password']
 
         if username == "Braian" and password == "password":
-            token = jwt.encode({"username":username, "exp":datetime.utcnow() + timedelta(hours = 24)}, app.config['JWT_KEY'])
+            token = jwt.encode({"username":username, "exp":datetime.utcnow() + timedelta(hours = 1)}, app.config['JWT_KEY'])
             response = make_response(render_template("layout.html"))
             response.set_cookie("token", token.encode("UTF-8"))
             return response
+        elif username != "Braian":
+            return redirect(url_for('login'),'there was an error')
+
 
 @app.route('/logout')
 def logout():
-    return 'Logged out.'
+    return 'You have been logged out.'
+
+@app.route('/register')
+def register():
+    pass
 
 @app.route('/home')
 @secure_site
@@ -67,9 +75,11 @@ def students():
         return render_template('error.html', studentName='John Doe')
 
 
-@app.route('/staff')
+@app.route('/coaches')
 def staff():
-    return 'staff'
+    return 'coaches'
+
+
 
 """
 Debug mode to run the code without having to
