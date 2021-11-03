@@ -32,7 +32,7 @@ def students():
 
 @app.route('/staff')
 def staff():
-    return 'staff'
+    return 'hello world'
 
 """
 Debug mode to run the code without having to
