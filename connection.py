@@ -4,13 +4,11 @@ def connection():
     username = 'Test'
     password = 'P@ssw0rd1'
 
-    # cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-    # cursor = cnxn.cursor()
-
-    # cursor.execute("SELECT * FROM staff;")
-
     cnxn = "DRIVER={{SQL Server}};SERVER=CoT-CIS3365-10.cougarnet.uh.edu;DATABASE={};UID={};PWD={}".format(database, username, password)
+    print(database)
     cursor = cnxn.cursor()
-    cursor.execute("SELECT * FROM staff;")
+
+    sessions =cursor.execute("SELECT * FROM studentSessions;")
 
     connection()
+    print(sessions)

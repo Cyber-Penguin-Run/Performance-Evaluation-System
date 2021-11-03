@@ -1,12 +1,10 @@
 from flask import Flask, render_template, url_for, request
 import pyodbc
-from connection import connection
+
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] =''
-
-
 
 @app.route('/')
 def index():
@@ -14,11 +12,26 @@ def index():
 
 @app.route('/login')
 def login():
-    return 'world'
+    return render_template('login.html')
 
 @app.route('/home')
 def home():
-    return 'home'
+    return render_template('home.html')
+
+@app.route('/sessions')
+def sessions():
+    return render_template('sessions.html')
+
+@app.route('/assignments')
+def assignments():
+    return render_template('assignments.html')
+
+
+
+
+
+
+
 
 #defining a route for students page with post and get methods. Delete method will be added later on but this is basis.
 @app.route('/students', methods=['POST','GET'])
