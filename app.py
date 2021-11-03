@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from flask import Flask, render_template, url_for, request, flash, redirect
 from flask.helpers import make_response
 import jwt
+import pyodbc
 import functools
 import bcrypt
 
@@ -27,6 +28,18 @@ def secure_site(f):
         return f(*args, **kwargs, auth_data = auth_data)
     return secure_wrapper
 
+def connection():
+    server = 'CoT-CIS3365-10.cougarnet.uh.edu'
+    database = 'Enrichery'
+    username = 'Test'
+    password = 'P@ssw0rd1'
+
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    cursor = cnxn.cursor()
+
+    cursor.execute("SELECT * FROM staff;")
+
+connection()
 
 @app.route('/')
 def index():
