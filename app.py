@@ -1,7 +1,12 @@
 from flask import Flask, render_template, url_for, request
+import pyodbc
+from connection import connection
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] =''
+
+
 
 @app.route('/')
 def index():
@@ -16,7 +21,7 @@ def home():
     return 'home'
 
 #defining a route for students page with post and get methods. Delete method will be added later on but this is basis.
-@app.route('/students', methods=['POST','GET'])d
+@app.route('/students', methods=['POST','GET'])
 def students():
     #defining of error as temp holder for page response in case it is needed. this can be taken out if error testing is not required later on.
     error = None
