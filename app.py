@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from flask import Flask, render_template, url_for, request, flash, redirect
+from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
 import jwt
 import functools
@@ -13,6 +13,12 @@ app.config['JWT_KEY'] ='soiqwueho28973987265362#^$%#'
 # Connecting to the database
 db = Database()
 
+
+@app.context_processor
+def handle_context():
+    '''Inject object into jinja2 templates.'''
+    return dict(jsonify = jsonify)
+
 def secure_site(f):
     @functools.wraps(f)
     def secure_wrapper(*args, **kwargs):
@@ -24,7 +30,6 @@ def secure_site(f):
         
         try:
             auth_data = jwt.decode(token, app.config['JWT_KEY'], algorithms=["HS256"])
-            print(auth_data)
         except:
             return "Token invalid."
 
@@ -56,9 +61,14 @@ def login():
 def logout():
     return 'You have been logged out.'
 
-@app.route('/register')
+@app.route('/register', methods = ["GET", "POST"])
 def register():
-    pass
+    if request.method == "GET":
+        states = db.getStates()
+        return render_template("register.html", states = states)
+
+    if request.method == "POST":
+        return f"User created with state {request.form.get('state')}"
 
 @app.route('/home')
 @secure_site

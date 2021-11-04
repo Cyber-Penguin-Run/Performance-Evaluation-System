@@ -15,7 +15,28 @@ class Database:
             print(e)
         else:
             print("Connection to database successful.")
+
+    def getStates(self):
+        try:
+            self.cursor.execute("SELECT * FROM states")
+
+            results = self.cursor.fetchall()
+
+            states = {}
+
+            for entry in results:
+
+                country = entry[2].strip()
+                if country not in states.keys():
+                    states[country] = []
+
+                states[country].append((entry[1], entry[0]))
+
+            return states
+
+
+        except Exception as e:
+            print("Error retrieving states:")
+            print(e)
+
         
-
-
-    
