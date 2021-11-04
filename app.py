@@ -47,15 +47,15 @@ def login():
     elif request.method == "POST":
         username = request.form['username']
         password = request.form['password']
-
-        if username == "Braian" and password == "password":
-            token = jwt.encode({"username":username, "exp":datetime.utcnow() + timedelta(hours = 1)}, app.config['JWT_KEY'])
-            response = make_response(render_template("layout.html"))
-            response.set_cookie("token", token.encode("UTF-8"))
-            return response
-        elif username != "Braian":
-            return redirect(url_for('login'),'there was an error')
-
+        userExists = db.get_user({"username":username})
+        #print(userExists)
+        if userExists is not None:
+            print('user exists')
+            if userExists["userPassword"] == password:
+                print('login successful.')
+                return render_template("home.html")
+        else:
+            return render_template('error.html'), {"Refresh": "4; url=/login"}
 
 @app.route('/logout')
 def logout():
@@ -66,8 +66,7 @@ def register():
     if request.method == "GET":
         states = db.getStates()
         return render_template("register.html", states = states)
-
-    if request.method == "POST":
+    elif request.method == "POST":
         return f"User created with state {request.form.get('state')}"
 
 @app.route('/home')
