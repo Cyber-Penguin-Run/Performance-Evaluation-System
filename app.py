@@ -3,6 +3,8 @@ from flask import Flask, json, render_template, url_for, request, redirect, json
 from flask.helpers import make_response
 import jwt
 import functools
+import random
+import string
 import bcrypt
 from connection import Database
 
@@ -63,12 +65,18 @@ def logout():
 
 @app.route('/register', methods = ["GET", "POST"])
 def register():
+    states = db.getStates()
     if request.method == "GET":
-        states = db.getStates()
         return render_template("register.html", states = states)
     elif request.method == "POST":
-        return f"User created with state {request.form.get('state')}"
-
+        username = request.form['username']
+        password = request.form['password']
+        address = request.form['address']
+        state = request.form['state']
+        if db.create_user({"username":username,"userPassword":password,"userAddress":address,"stateIDFK":state}):
+            return f"User created with state {request.form.get('state')}"
+        else:
+            return render_template('error.html'), {"Refresh": "4; url=/register"}
 @app.route('/home')
 @secure_site
 def home(auth_data = None):

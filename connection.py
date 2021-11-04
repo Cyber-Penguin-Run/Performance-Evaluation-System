@@ -1,4 +1,7 @@
+from flask.json import JSONEncoder, jsonify
 import pyodbc
+import json
+import uuid
 
 
 class Database:
@@ -17,6 +20,10 @@ class Database:
             print(e)
         else:
             print("Connection to database successful.")
+
+    def results_as_dict(self):
+        return [dict(zip([column[0] for column in self.cursor.description], row))
+                for row in self.cursor.fetchall()]
 
     def getStates(self):
         try:
@@ -54,21 +61,54 @@ class Database:
             columns = [column[0] for column in self.cursor.description]
 
             user = self.cursor.fetchone()
-
-            return dict(zip(columns, user))
+            if user:
+                return dict(zip(columns, user))
+            else:
+                return user
         except Exception as e:
             print("Error while retrieving user:")
             print(e)
 
-    def get_like_users(self, username=""):
+    def get_like_users(self, user_data):
+        user_data = {key: user_data[key] for key in ["userID", "username", "userAddress"] if key in user_data}
+
+        user_query = "SELECT * FROM users WHERE " + " AND ".join(
+            [f"{key} LIKE '%{value}%'" for key, value in user_data.items()])
+        print(user_query)
+
         try:
-            self.cursor.execute("SELECT * FROM users")
-            return self.cursor.fetchall()
+            self.cursor.execute(user_query)
+
+            users = db.results_as_dict()
+
+            return users
         except Exception as e:
-            print("Error while retrieving similar users:")
+            print("Error while retrieving multiple users:")
             print(e)
 
+    def create_user(self, user_data):
+
+        if any(key not in user_data for key in ["username", "userPassword"]):
+            print("Missing user or password")
+            return False
+
+        for key in ["userAddress", "stateIDFK"]:
+            if key not in user_data:
+                user_data[key] = ""
+
+        user_data["userID"] = uuid.uuid4().hex
+
+        user_query = "INSERT INTO users(userID, username, userPassword, userAddress, stateIDFK) VALUES ('%(userID)s', '%(username)s', '%(userPassword)s', '%(userAddress)s', '%(stateIDFK)s')" % user_data
+
+        try:
+            self.cursor.execute(user_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error while creating user:")
+            print(e)
+        else:
+            return True
 
 db = Database()
 #print(db.get_like_users())
-print(db.get_user({"userID":"db498e04ab7046cf91fc17e34c425466", "username":"bmeagherw"}))
+#print(db.get_user({"userID":"db498e04ab7046cf91fc17e34c425466", "username":"bmeagherw"}))
