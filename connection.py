@@ -3,7 +3,6 @@ import pyodbc
 import json
 import uuid
 
-
 class Database:
     def __init__(self):
         server = 'CoT-CIS3365-10.cougarnet.uh.edu'
@@ -12,8 +11,7 @@ class Database:
         password = 'P@ssw0rd1'
 
         try:
-            self.cnx = pyodbc.connect(
-                'DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + server + ';DATABASE=' + database + ';UID=' + username + ';PWD=' + password)
+            self.cnx = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
             self.cursor = self.cnx.cursor()
         except Exception as e:
             print("Error while connecting to database:")
@@ -23,7 +21,8 @@ class Database:
 
     def results_as_dict(self):
         return [dict(zip([column[0] for column in self.cursor.description], row))
-                for row in self.cursor.fetchall()]
+             for row in self.cursor.fetchall()]
+
 
     def getStates(self):
         try:
@@ -48,18 +47,18 @@ class Database:
             print("Error retrieving states:")
             print(e)
 
-    def get_user(self, user_data):
-        user_data = {key: user_data[key] for key in ["userID", "username"] if key in user_data}
 
-        user_query = "SELECT * FROM users WHERE " + " AND ".join(
-            [f"{key}='{value}'" for key, value in user_data.items()])
+    def get_user(self, user_data):
+        user_data = {key:user_data[key] for key in ["userID", "username"] if key in user_data}
+
+        user_query = "SELECT * FROM users WHERE " + " AND ".join([f"{key}='{value}'" for key, value in user_data.items()])
         print(user_query)
 
         try:
             self.cursor.execute(user_query)
 
             columns = [column[0] for column in self.cursor.description]
-
+            
             user = self.cursor.fetchone()
             if user:
                 return dict(zip(columns, user))
@@ -70,15 +69,14 @@ class Database:
             print(e)
 
     def get_like_users(self, user_data):
-        user_data = {key: user_data[key] for key in ["userID", "username", "userAddress"] if key in user_data}
+        user_data = {key:user_data[key] for key in ["userID", "username", "userAddress"] if key in user_data}
 
-        user_query = "SELECT * FROM users WHERE " + " AND ".join(
-            [f"{key} LIKE '%{value}%'" for key, value in user_data.items()])
+        user_query = "SELECT * FROM users WHERE " + " AND ".join([f"{key} LIKE '%{value}%'" for key, value in user_data.items()])
         print(user_query)
 
         try:
             self.cursor.execute(user_query)
-
+            
             users = db.results_as_dict()
 
             return users
@@ -97,9 +95,11 @@ class Database:
                 user_data[key] = ""
 
         user_data["userID"] = uuid.uuid4().hex
+                
 
         user_query = "INSERT INTO users(userID, username, userPassword, userAddress, stateIDFK) VALUES ('%(userID)s', '%(username)s', '%(userPassword)s', '%(userAddress)s', '%(stateIDFK)s')" % user_data
-
+        
+        
         try:
             self.cursor.execute(user_query)
             self.cursor.commit()
@@ -108,7 +108,3 @@ class Database:
             print(e)
         else:
             return True
-
-db = Database()
-#print(db.get_like_users())
-#print(db.get_user({"userID":"db498e04ab7046cf91fc17e34c425466", "username":"bmeagherw"}))
