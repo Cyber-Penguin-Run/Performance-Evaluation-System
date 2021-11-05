@@ -77,7 +77,7 @@ class Database:
         try:
             self.cursor.execute(user_query)
             
-            users = db.results_as_dict()
+            users = self.results_as_dict()
 
             return users
         except Exception as e:
@@ -108,3 +108,27 @@ class Database:
             print(e)
         else:
             return True
+
+    def get_like_families(self, family_data = {}):
+        family_data = {key:family_data[key] for key in ["familyID", "familyName"] if key in family_data}
+
+        if len(family_data.keys()) < 1:
+            family_query = "SELECT * FROM family"
+        else:
+            family_query = "SELECT * FROM family WHERE " + " AND ".join([f"{key} LIKE '%{value}%'" for key, value in family_data.items()])
+
+
+        try:
+            self.cursor.execute(family_query)
+            
+            families = self.results_as_dict()
+
+            return families
+        except Exception as e:
+            print("Error while retrieving multiple users:")
+            print(e)
+
+    
+db = Database()
+
+print(db.get_like_families())

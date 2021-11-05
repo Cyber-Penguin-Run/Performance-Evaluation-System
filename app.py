@@ -101,6 +101,8 @@ def staff():
     return 'coaches'
 
 
+import api
+
 
 """
 Debug mode to run the code without having to
