@@ -21,7 +21,17 @@
 
     }
 </script>
+<script type="text/javascript">
 
+function CheckSpace(event)
+{
+   if(event.which ==32)
+   {
+      event.preventDefault();
+      return false;
+   }
+}
+</script>
 
 {% extends "base.html" %}
 {% block content %}
@@ -35,17 +45,17 @@
                 <img style="width: 80%" class="mx-auto d-block"  src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
                 <h1 class="text-center h3 mb-3 font-weight-normal">Please sign in</h1>
         
-                <label for="emailAddress" class="sr-only my-1"><strong>Username</strong></label>
-                <input type="text" id="username" name="username" placeholder="Username" class="form-control" required autofocus>
+                <label for="username" class="sr-only my-1"><strong>Username</strong></label>
+                <input type="text" id="username" name="username" minlength="5" maxlength="24" placeholder="Username" onkeypress="CheckSpace(event)" class="form-control" required autofocus>
 
                 <label for="password" class="sr-only my-1" ><strong>Password</strong></label>
-                <input type="password" id="password" name="password" placeholder="Password" class="form-control">
+                <input type="password" id="password" name="password" minlength="8" maxlength="24" placeholder="Password" class="form-control">
 
 
 
                 <div class="d-flex mt-3">
-                    <input type="text" name="firstname" placeholder="First Name" class="form-control">
-                    <input type="text" name="lastname" placeholder="Last Name" class="form-control">
+                    <input type="text" name="firstname" minlength="1" maxlength="24" placeholder="First Name" onkeypress="CheckSpace(event)" class="form-control">
+                    <input type="text" name="lastname" minlength="1"  maxlength="24" placeholder="Last Name" onkeypress="CheckSpace(event)" class="form-control">
                 </div>
 
 

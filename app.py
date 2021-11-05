@@ -70,11 +70,12 @@ def register():
         return render_template("register.html", states = states)
     elif request.method == "POST":
         username = request.form['username']
+        username.lower()
         password = request.form['password']
         address = request.form['address']
         state = request.form['state']
         if db.create_user({"username":username,"userPassword":password,"userAddress":address,"stateIDFK":state}):
-            return f"User created with state {request.form.get('state')}"
+            return "<h1>Success! you will be redirected soon!</h1>", {"Refresh":"4; url=/login"}
         else:
             return render_template('error.html'), {"Refresh": "4; url=/register"}
 @app.route('/home')
