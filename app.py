@@ -1,9 +1,6 @@
 import sys
 from datetime import datetime, timedelta
-import MySQLdb
-import data as data
 import pyodbc
-import self as self
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
 import jwt
@@ -12,7 +9,6 @@ import random
 import string
 import bcrypt
 
-import connection
 from connection import Database
 
 app = Flask(__name__)
@@ -141,7 +137,7 @@ def states():
 
 
 
-"""""
+"""
 Debug mode to run the code without having to
 run it from the terminal/cmd. Please remove it during
 production.
