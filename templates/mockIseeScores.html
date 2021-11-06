@@ -1,0 +1,38 @@
+{%extends 'base.html'%}
+{% block content %}
+<table>
+  <tr>
+    <th>iSeeScoreID</th>
+    <th>studentIDFK</th>
+    <th>verbalScore</th>
+    <th>verbalMax</th>
+    <th>quantitativeSCore</th>
+    <th>quantitativeMax</th>
+    <th>readingSore</th>
+    <th>readingMax</th>
+    <th>readingScore</th>
+    <th>mathScore</th>
+    <th>mathMax</th>
+    <th>iseeCompScore</th>
+    <th>iseeTestDate</th>
+  </tr>
+       {% for row in mockIseeScores%}
+    <tr>
+      <td>{{row[0]}}</td>
+      <td>{{row[1]}}</td>
+      <td>{{row[2]}}</td>
+      <td>{{row[3]}}</td>
+      <td>{{row[4]}}</td>
+      <td>{{row[5]}}</td>
+      <td>{{row[6]}}</td>
+      <td>{{row[7]}}</td>
+      <td>{{row[8]}}</td>
+      <td>{{row[9]}}</td>
+      <td>{{row[10]}}</td>
+      <td>{{row[11]}}</td>
+      <td>{{row[12]}}</td>
+
+  </tr>
+    {% endfor %}
+</table>
+{%endblock content %}

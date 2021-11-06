@@ -1,4 +1,9 @@
+import sys
 from datetime import datetime, timedelta
+import MySQLdb
+import data as data
+import pyodbc
+import self as self
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
 import jwt
@@ -6,6 +11,8 @@ import functools
 import random
 import string
 import bcrypt
+
+import connection
 from connection import Database
 
 
@@ -99,6 +106,20 @@ def students():
 @app.route('/coaches')
 def staff():
     return 'coaches'
+
+
+@app.route('/assignments')
+def assignments():
+    assignment_result = [['59529529', '05-01-2021', '85', 'Quiz', '9429429429', '99919191']]
+    return render_template('assignments.html', assignments=assignment_result)
+
+@app.route('/sessions')
+def sessions():
+    session_result = [['59529529', '05-01-2021', '85', 'Quiz', '9429429429', '99919191']]
+    return render_template('sessions.html', sessions=session_result)
+
+
+
 
 
 

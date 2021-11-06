@@ -2,16 +2,19 @@
 {% block content %}
 <table>
   <tr>
-    <th>sessionID</th>
     <th>programIDFK</th>
-    <th>sessionSubject</th>
-    <th>sessionDate</th>
-    <th>sessionHours</th>
-    <th>sessionAttendedhours</th>
-    <th>studentIDFK</th>
-    <th>staffUsersIDF</th>
+    <th>testDate</th>
+    <th>testType</th>
+    <th>prevTaken</th>
+    <th>prevCourse</th>
+    <th>testAccommodations</th>
+    <th>mathEval</th>
+    <th>scienceEval</th>
+    <th>englishEval</th>
+    <th>histEval</th>
+
   </tr>
-       {% for row in sessions%}
+       {% for row in programEducationFuture%}
     <tr>
       <td>{{row[0]}}</td>
       <td>{{row[1]}}</td>
@@ -21,10 +24,9 @@
       <td>{{row[5]}}</td>
       <td>{{row[6]}}</td>
       <td>{{row[7]}}</td>
+      <td>{{row[8]}}</td>
+      <td>{{row[9]}}</td>
   </tr>
     {% endfor %}
 </table>
 {%endblock content %}
-
-
- >

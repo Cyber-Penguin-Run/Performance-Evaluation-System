@@ -2,20 +2,22 @@
 {% block content %}
 <table>
   <tr>
-    <th>studentID</th>
-    <th>firstName</th>
-    <th>lastName</th>
-    <th>school</th>
-    <th>familyIDFK</th>
-
+    <th>programIDFK</th>
+    <th>froom</th>
+    <th>Enddate</th>
+    <th>Testtaken</th>
+    <th>GPA</th>
+    <th>Notes</th>
   </tr>
-       {% for row in programEducationFuture%}
+
+       {% for row in programCollegeCoaching%}
     <tr>
       <td>{{row[0]}}</td>
       <td>{{row[1]}}</td>
       <td>{{row[2]}}</td>
       <td>{{row[3]}}</td>
       <td>{{row[4]}}</td>
+      <td>{{row[5]}}</td>
   </tr>
     {% endfor %}
 </table>
