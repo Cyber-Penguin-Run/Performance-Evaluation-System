@@ -1,6 +1,20 @@
 {%extends 'base.html'%}
 {% block content %}
+
+<form action='' method = "POST">
+  <p>sessionID <input type = "integer" name = "session_ID" /></p>
+  <p>programIDFK <input type = "char" name = "program_IDFK" /></p>
+  <p>Session Subject <input type = "text" name = "session_subject" /></p>
+  <p>Session Date <input type = "date" name = "session_date" /></p>
+  <p>Session Hours <input type = "double" name = "session_hours" /></p>
+  <p>Session Attended Hours <input type = "double" name = "session_attendedhours" /></p>
+  <p>Student IDFK <input type = 'char' name = "student_IDFK" /></p>
+  <p>Staff Users IDFK <input type = 'char' name = "staff_usersIDFK" /></p>
+  <p><input type = "submit" value = "Submit" /></p>
+</form>
+
 <table>
+
   <tr>
     <th>sessionID</th>
     <th>programIDFK</th>
@@ -9,7 +23,7 @@
     <th>sessionHours</th>
     <th>sessionAttendedhours</th>
     <th>studentIDFK</th>
-    <th>staffUsersIDF</th>
+    <th>staffUsersIDFK</th>
   </tr>
        {% for row in sessions%}
     <tr>

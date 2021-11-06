@@ -1,3 +1,4 @@
+import self as self
 from flask.json import JSONEncoder, jsonify
 import pyodbc
 import json
@@ -108,6 +109,11 @@ class Database:
             print(e)
         else:
             return True
+
+    # function to query sql
+    def query(self, sql):
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
 
 
 
