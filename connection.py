@@ -6,6 +6,7 @@ import uuid
 class Database:
     def __init__(self):
         server = 'CoT-CIS3365-10.cougarnet.uh.edu'
+        #server = "DESKTOP-MCGVN84\SQLEXPRESS"
         database = 'Enrichery'
         username = 'Test'
         password = 'P@ssw0rd1'
@@ -128,7 +129,23 @@ class Database:
             print("Error while retrieving multiple users:")
             print(e)
 
-    
-db = Database()
+    def get_coach_students(self, coachID):
+        get_coach_students_query = """SELECT DISTINCT 
+                                            student.firstName,
+                                            student.lastName,
+                                            student.school,
+                                            student.familyIDFK,
+                                            student.studentID
+                                    FROM studentSessions
+                                    LEFT JOIN student
+                                    ON (student.studentID = studentSessions.studentIDFK)
+                                    WHERE studentSessions.staffUsersIDFK = '%s'""" % coachID
 
-print(db.get_like_families())
+        try:
+            self.cursor.execute(get_coach_students_query)
+            results = self.results_as_dict()
+
+            return results
+        except Exception as e:
+            print("Error while retrieving coach students:")
+            print(e)
