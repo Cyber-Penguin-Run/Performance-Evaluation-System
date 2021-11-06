@@ -1,9 +1,6 @@
 import sys
 from datetime import datetime, timedelta
-import MySQLdb
-import data as data
 import pyodbc
-import self as self
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
 import jwt
@@ -12,7 +9,6 @@ import random
 import string
 import bcrypt
 
-import connection
 from connection import Database
 
 app = Flask(__name__)
@@ -156,13 +152,15 @@ def createSessions():
             return "<h1>Success! you will be redirected soon!</h1>", {"Refresh": "4; url=/login"}
         else:
             return render_template('error.html'), {"Refresh": "4; url=/register"}
-
+          
 
 @app.route('/states')
 def states():
     state_result = db.query(sql='SELECT* FROM states')
     return render_template('states.html', state=state_result)
 
+  
+import api
 
 """""
 Debug mode to run the code without having to
