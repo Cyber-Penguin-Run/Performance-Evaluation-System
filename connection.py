@@ -1,3 +1,4 @@
+import self as self
 from flask.json import JSONEncoder, jsonify
 import pyodbc
 import json
@@ -109,6 +110,15 @@ class Database:
         else:
             return True
 
+    # function to query sql
+    def query(self, sql):
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
+
+    #def create_sessions(self, sessions):
+       # self.cursor.execute(sql)
+        #return self.cursor.fetchall()
+
+
+
 db = Database()
-#print(db.get_like_users())
-#print(db.get_user({"userID":"db498e04ab7046cf91fc17e34c425466", "username":"bmeagherw"}))

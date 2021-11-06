@@ -1,47 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+{%extends 'base.html'%}
+{% block content %}
 
+   <meta http-equiv="refresh" content="7; url='http://127.0.0.1:5000/createSessions'" />
+  </head>
+  <body>
+    <p> <a href="http://127.0.0.1:5000/createSessions">Add a new session for student</a></p>
+    <p> <a href="http://127.0.0.1:5000/deleteSessions">Delete a session</a></p>
+    <p> <a href="http://127.0.0.1:5000/updateSessions">Update a session</a></p>
+  </body>
+<table>
 
-<head>
-  <style>table, th, td {
-  border:1px solid black;
-</style>
-    <meta charset="UTF-8">
-    <title>Student Sessions</title>
-    <table>
   <tr>
     <th>sessionID</th>
-    <th>programIDFK</th>
     <th>sessionSubject</th>
     <th>sessionDate</th>
     <th>sessionHours</th>
     <th>sessionAttendedhours</th>
-    <th>studentIDFK</th>
-    <th>staffUsersIDFK/th>
   </tr>
-  <tr>
-    <td>fsfssfsf</td>
-    <td>sfsfsfssf</td>
-    <td>fsdfsfsfsd</td>
-    <td>fsfsfsfsfsf</td>
-    <td>fsfsdsdf</td>
-    <td>sdfsfsfs</td>
-    <td>fsfsdsdf</td>
-    <td>sdfsfsfs</td>
+       {% for row in sessions%}
+    <tr>
+      <td>{{row[0]}}</td>
+      <td>{{row[2]}}</td>
+      <td>{{row[3]}}</td>
+      <td>{{row[4]}}</td>
+      <td>{{row[5]}}</td>
   </tr>
-  <tr>
-    <td>fsfssfsf</td>
-    <td>sfsfsfssf</td>
-    <td>fsdfsfsfsd</td>
-    <td>fsfsfsfsfsf</td>
-    <td>fsfsdsdf</td>
-    <td>sdfsfsfs</td>
-    <td>fsfsdsdf</td>
-    <td>sdfsfsfs</td>
-  </tr>
+    {% endfor %}
 </table>
-</head>
-<body>
-
-</body>
-</html>
+{%endblock content %}

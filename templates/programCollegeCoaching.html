@@ -2,15 +2,16 @@
 {% block content %}
 <table>
   <tr>
-      <th>assignmentID</th>
-      <th>assignmentDate</th>
-      <th>assignmentGrade</th>
-      <th>assignmentType</th>
-      <th>studentIDFK</th>
-      <th>staffUsersIDFK</th>
+    <th>programIDFK</th>
+    <th>froom</th>
+    <th>Enddate</th>
+    <th>Testtaken</th>
+    <th>GPA</th>
+    <th>Notes</th>
   </tr>
-        {% for row in assignments%}
-  <tr>
+
+       {% for row in programCollegeCoaching%}
+    <tr>
       <td>{{row[0]}}</td>
       <td>{{row[1]}}</td>
       <td>{{row[2]}}</td>
@@ -19,6 +20,5 @@
       <td>{{row[5]}}</td>
   </tr>
     {% endfor %}
-
 </table>
-{%endblock content%}
+{%endblock content %}

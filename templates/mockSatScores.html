@@ -1,0 +1,37 @@
+{%extends 'base.html'%}
+{% block content %}
+<table>
+  <tr>
+    <th>satScoreID</th>
+    <th>studentIDFK</th>
+    <th>writingScore</th>
+    <th>writingMax</th>
+    <th>mathCalcScore</th>
+    <th>mathCalcMax</th>
+    <th>mathScore</th>
+    <th>mathMax</th>
+    <th>readingScore</th>
+    <th>readingMax</th>
+    <th>satCompScore</th>
+    <th>satType</th>
+    <th>satTestDate</th>
+  </tr>
+       {% for row in mockSatScores%}
+    <tr>
+      <td>{{row[0]}}</td>
+      <td>{{row[1]}}</td>
+      <td>{{row[2]}}</td>
+      <td>{{row[3]}}</td>
+      <td>{{row[4]}}</td>
+      <td>{{row[5]}}</td>
+      <td>{{row[6]}}</td>
+      <td>{{row[7]}}</td>
+      <td>{{row[8]}}</td>
+      <td>{{row[9]}}</td>
+      <td>{{row[10]}}</td>
+      <td>{{row[11]}}</td>
+      <td>{{row[12]}}</td>
+  </tr>
+    {% endfor %}
+</table>
+{%endblock content %}

@@ -2,15 +2,15 @@
 {% block content %}
 <table>
   <tr>
-      <th>assignmentID</th>
-      <th>assignmentDate</th>
-      <th>assignmentGrade</th>
-      <th>assignmentType</th>
-      <th>studentIDFK</th>
-      <th>staffUsersIDFK</th>
+    <th>familyIDFK</th>
+    <th>firstName</th>
+    <th>lastName</th>
+    <th>phoneNumber</th>
+    <th>email</th>
+    <th>userIDFK</th>
   </tr>
-        {% for row in assignments%}
-  <tr>
+       {% for row in parent%}
+    <tr>
       <td>{{row[0]}}</td>
       <td>{{row[1]}}</td>
       <td>{{row[2]}}</td>
@@ -19,6 +19,5 @@
       <td>{{row[5]}}</td>
   </tr>
     {% endfor %}
-
 </table>
-{%endblock content%}
+{%endblock content %}
