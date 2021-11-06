@@ -120,11 +120,6 @@ class Database:
        # self.cursor.execute(sql)
         #return self.cursor.fetchall()
 
-
-
-<<<<<<< HEAD
-db = Database()
-=======
     def get_coach_students(self, coachID):
         get_coach_students_query = """SELECT DISTINCT 
                                             student.firstName,
@@ -145,4 +140,3 @@ db = Database()
         except Exception as e:
             print("Error while retrieving coach students:")
             print(e)
->>>>>>> origin/api
