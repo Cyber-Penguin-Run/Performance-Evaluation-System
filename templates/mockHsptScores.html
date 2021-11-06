@@ -1,0 +1,42 @@
+{%extends 'base.html'%}
+{% block content %}
+<table>
+  <tr>
+    <th>hsptScoreID</th>
+    <th>studentIDFK</th>
+    <th>verbalScore</th>
+    <th>verbalMax</th>
+    <th>quantitativeScore</th>
+    <th>quantitativeMax</th>
+    <th>readingScore</th>
+    <th>readingMax</th>
+    <th>mathScore</th>
+    <th>mathMax</th>
+    <th>languageScore</th>
+    <th>languageMax</th>
+    <th>hsptCompScore</th>
+    <th>hsptType</th>
+    <th>hsptTestType</th>
+  </tr>
+       {% for row in mockHsptScores%}
+    <tr>
+      <td>{{row[0]}}</td>
+      <td>{{row[1]}}</td>
+      <td>{{row[2]}}</td>
+      <td>{{row[3]}}</td>
+      <td>{{row[4]}}</td>
+      <td>{{row[5]}}</td>
+      <td>{{row[6]}}</td>
+      <td>{{row[7]}}</td>
+      <td>{{row[8]}}</td>
+      <td>{{row[9]}}</td>
+      <td>{{row[10]}}</td>
+      <td>{{row[11]}}</td>
+      <td>{{row[12]}}</td>
+      <td>{{row[13]}}</td>
+      <td>{{row[14]}}</td>
+
+  </tr>
+    {% endfor %}
+</table>
+{%endblock content %}

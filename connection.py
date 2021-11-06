@@ -128,7 +128,8 @@ class Database:
             print("Error while retrieving multiple users:")
             print(e)
 
-    
-db = Database()
+    # function to query sql
+    def query(self, sql):
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
 
-print(db.get_like_families())
