@@ -133,7 +133,7 @@ def sessions():
     return render_template('sessions.html', sessions=session_result)
 
 
-@app.route('/createSessions', methods=['GET', 'POST'])
+@app.route('/sessions_form', methods=['GET', 'POST'])
 def createSessions():
     if request.method == 'GET':
         return render_template('createSessions.html')
