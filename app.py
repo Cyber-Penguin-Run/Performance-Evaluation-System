@@ -1,10 +1,14 @@
 import sys
 from datetime import datetime, timedelta
+<<<<<<< HEAD
 import MySQLdb
 import data as data
 import pyodbc
 import self as self
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
+=======
+from flask import Flask, config, json, render_template, url_for, request, redirect, jsonify
+>>>>>>> origin/api
 from flask.helpers import make_response
 import jwt
 import functools
@@ -65,7 +69,12 @@ def login():
             print('user exists')
             if userExists["userPassword"] == password:
                 print('login successful.')
-                return render_template("home.html")
+                auth_token = jwt.encode({"user_id":userExists['userID'], "username":userExists["username"], "exp":datetime.utcnow() + timedelta(days=1)}, app.config['JWT_KEY'])
+
+                response = make_response(redirect("/home"))
+                response.set_cookie("token", auth_token)
+
+                return response
         else:
             return render_template('error.html'), {"Refresh": "4; url=/login"}
 
@@ -96,8 +105,13 @@ def register():
 # display home directory
 @app.route('/home')
 @secure_site
+<<<<<<< HEAD
 def home(auth_data=None):
     return f"{auth_data['username']} you are logged in!"
+=======
+def home(auth_data = None):
+    return render_template("home.html", auth_data=auth_data)
+>>>>>>> origin/api
 
 
 # students page with diff request methods.
