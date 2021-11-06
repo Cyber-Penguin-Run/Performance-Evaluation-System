@@ -115,6 +115,10 @@ class Database:
         self.cursor.execute(sql)
         return self.cursor.fetchall()
 
+    #def create_sessions(self, sessions):
+       # self.cursor.execute(sql)
+        #return self.cursor.fetchall()
+
 
 
 db = Database()

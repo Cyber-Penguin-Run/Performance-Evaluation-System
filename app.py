@@ -133,12 +133,35 @@ def sessions():
     return render_template('sessions.html', sessions=session_result)
 
 
+@app.route('/createSessions', methods=['GET', 'POST'])
+def createSessions():
+    if request.method == 'GET':
+        return render_template('createSessions.html')
+
+    elif request.method == 'POST':
+        session_ID = request.form['session_ID']
+        program_IDFK = request.form['program_IDFK']
+        session_subject = request.form['session_subject']
+        session_date = request.form['session_date']
+        session_hours = request.form['session_hours']
+        session_attendedhours = request.form['session_attendedhours']
+        student_IDFK = request.form['student_IDFK']
+        staff_usersIDFK = request.form['student_IDFK']
+        if db.create_sessions({"session_ID": session_ID, "program_IDFK": program_IDFK,
+                               "session_subject": session_subject,
+                               "session_date": session_date, "session_hours": "session_hours",
+                               session_hours: session_hours, "session_attendedhours:":
+                                   session_attendedhours, "student_IDFK": student_IDFK,
+                               "staff_usersIDFK": staff_usersIDFK}):
+            return "<h1>Success! you will be redirected soon!</h1>", {"Refresh": "4; url=/login"}
+        else:
+            return render_template('error.html'), {"Refresh": "4; url=/register"}
+
+
 @app.route('/states')
 def states():
     state_result = db.query(sql='SELECT* FROM states')
     return render_template('states.html', state=state_result)
-
-
 
 
 """""
