@@ -48,6 +48,7 @@ def login():
         return render_template("login.html")
     elif request.method == "POST":
         username = request.form['username']
+        username = username.lower()
         password = request.form['password']
         userExists = db.get_user({"username":username})
         #print(userExists)
@@ -70,16 +71,37 @@ def logout():
 
 @app.route('/register', methods = ["GET", "POST"])
 def register():
-    states = db.getStates()
+    
     if request.method == "GET":
-        return render_template("register.html", states = states)
+        states = db.getStates()
+        families = db.get_like_families({"familyName":""})
+        return render_template("register.html", families = families, states = states)
     elif request.method == "POST":
-        username = request.form['username']
-        username.lower()
-        password = request.form['password']
-        address = request.form['address']
-        state = request.form['state']
-        if db.create_user({"username":username,"userPassword":password,"userAddress":address,"stateIDFK":state}):
+        
+        try:
+            username = request.form['username']
+            username = username.lower()
+            password = request.form['password']
+            address = request.form['address']
+            state = request.form['state']
+            firstname = request.form['firstname']
+            lastname = request.form['lastname']
+            phone = request.form['phoneNumber']
+            email = request.form['emailAddress']
+            user_type = request.form['choose-form']
+        except KeyError as e:
+            print("Missing arguments for register.")
+            return render_template('error.html'), {"Refresh": "4; url=/register"}
+
+        new_user = {"username":username,"userPassword":password,"userAddress":address,"stateIDFK":state, 
+                    "firstName":firstname, "lastName":lastname, "phoneNumber":phone.strip(), "email":email}
+
+        if user_type == "parent":
+            family = request.form.get("userFamily")
+            new_user['familyID'] = family
+
+
+        if db.create_user(new_user):
             return "<h1>Success! you will be redirected soon!</h1>", {"Refresh":"4; url=/login"}
         else:
             return render_template('error.html'), {"Refresh": "4; url=/register"}
@@ -149,6 +171,7 @@ def createSessions():
 def states():
     state_result = db.query(sql='SELECT* FROM states')
     return render_template('states.html', state=state_result)
+
 
 
 import api
