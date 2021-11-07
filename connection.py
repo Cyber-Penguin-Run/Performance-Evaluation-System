@@ -5,8 +5,8 @@ import uuid
 
 class Database:
     def __init__(self):
-        server = 'CoT-CIS3365-10.cougarnet.uh.edu'
-        #server = "DESKTOP-MCGVN84\SQLEXPRESS"
+        #server = 'CoT-CIS3365-10.cougarnet.uh.edu'
+        server = "DESKTOP-MCGVN84\SQLEXPRESS"
         database = 'Enrichery'
         username = 'Test'
         password = 'P@ssw0rd1'
@@ -100,15 +100,24 @@ class Database:
 
         user_query = "INSERT INTO users(userID, username, userPassword, userAddress, stateIDFK) VALUES ('%(userID)s', '%(username)s', '%(userPassword)s', '%(userAddress)s', '%(stateIDFK)s')" % user_data
         
-        
+
+        if "familyID" in user_data.keys():
+            second_query = "INSERT INTO parent(userIDFK, firstName, lastName, phoneNumber, email, familyIDFK) VALUES ('%(userID)s', '%(firstName)s', '%(lastName)s', '%(phoneNumber)s', '%(email)s', '%(familyID)s')" % user_data
+        else:
+            second_query = "INSERT INTO staff(userIDFK, firstName, lastName, phoneNumber, email) VALUES ('%(userID)s', '%(firstName)s', '%(lastName)s', '%(phoneNumber)s', '%(email)s')" % user_data
+
+        print(second_query)
+
         try:
             self.cursor.execute(user_query)
+            self.cursor.execute(second_query)
             self.cursor.commit()
+
+            return True
         except Exception as e:
             print("Error while creating user:")
             print(e)
-        else:
-            return True
+
 
     def get_like_families(self, family_data = {}):
         family_data = {key:family_data[key] for key in ["familyID", "familyName"] if key in family_data}

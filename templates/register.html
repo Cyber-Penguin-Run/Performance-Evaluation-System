@@ -37,11 +37,11 @@ function CheckSpace(event)
 {% block content %}
 <div class="login-bg d-flex align-items-center">
 
-    <div class="login-bg-darken w-100 h-100 d-flex align-items-center" style="margin:auto">
+    <div class="login-bg-darken vw-100 vh-100 d-flex justify-content-center align-items-center">
 
-        <div class="container align-center mx-3r">
+        <div class="container align-center mx-3">
     
-            <form style="max-width: 400px; margin: auto;" method="POST"> 
+            <!---<form style="max-width: 400px; margin: auto;" method="POST"> 
                 <img style="width: 80%" class="mx-auto d-block"  src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
                 <h1 class="text-center h3 mb-3 font-weight-normal">Please sign in</h1>
         
@@ -80,7 +80,10 @@ function CheckSpace(event)
                     <button class="enrichery-primary btn btn-lg btn-primary btn-block">Register</button>
                 </div>
         
-            </form>
+            </form> --->
+
+            {% include "users_form.html" %}
+
         </div>
     
     </div>

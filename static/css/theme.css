@@ -4,7 +4,8 @@
     --main-dark-color: rgb(5, 5, 5);
     --light-dark-color: rgb(33,37,41);
     --main-light-color: rgb(255, 255, 255);
-    --main-primary-color: rgb(20, 255, 153);
+    --main-primary-color: rgb(62, 218, 150);
+    --dark-primary-color: rgb(66, 185, 134);
 }
 
 body {
@@ -53,6 +54,31 @@ body {
 .enrichery-primary:target {
     border-color: var(--main-accent-color);
 }
+
+
+
+.enrichery-secondary {
+    font-weight: bold;
+    background-color: var(--main-primary-color);
+    color:var(--main-light-color);
+    border-color: var(--main-primary-color);
+}
+.enrichery-secondary:focus {
+    background-color: var(--main-primary-color);
+    color:var(--main-light-color);
+    border-color: var(--main-primary-color);
+}
+
+.enrichery-secondary:hover {
+    background-color: var(--dark-primary-color);
+    color:var(--main-light-color);
+    border-color: var(--dark-primary-color);
+}
+
+.enrichery-secondary:target {
+    border-color: var(--main-primary-color);
+}
+
 
 .enrichery-bg-light {
     background-color: var(--main-light-color);
