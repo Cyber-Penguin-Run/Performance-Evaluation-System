@@ -32,6 +32,7 @@ def secure_site(f):
         
         try:
             auth_data = jwt.decode(token, app.config['JWT_KEY'], algorithms=["HS256"])
+            
         except:
             return "Token invalid."
 
@@ -173,6 +174,12 @@ def states():
     return render_template('states.html', state=state_result)
 
 
+####  Modular route files
+import my_student
+import admin_dashboard
+import todos_dashboard
+import testprep_dashboard
+import coach_dashboard
 
 import api
 

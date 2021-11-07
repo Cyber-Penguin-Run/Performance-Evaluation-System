@@ -5,8 +5,8 @@ import uuid
 
 class Database:
     def __init__(self):
-        #server = 'CoT-CIS3365-10.cougarnet.uh.edu'
-        server = "DESKTOP-MCGVN84\SQLEXPRESS"
+        server = 'CoT-CIS3365-10.cougarnet.uh.edu'
+        #server = "DESKTOP-MCGVN84\SQLEXPRESS"
         database = 'Enrichery'
         username = 'Test'
         password = 'P@ssw0rd1'
@@ -100,17 +100,27 @@ class Database:
 
         user_query = "INSERT INTO users(userID, username, userPassword, userAddress, stateIDFK) VALUES ('%(userID)s', '%(username)s', '%(userPassword)s', '%(userAddress)s', '%(stateIDFK)s')" % user_data
         
+        user_data['studentDashboard'] = True
+
+        for key in ["tutorDashboard", "staffDashboard", "businessDashboard", "studentProgress"]:
+            if user_data['userRole'] == "admin":
+                user_data[key] = True
+            else:
+                user_data[key] = False
 
         if "familyID" in user_data.keys():
             second_query = "INSERT INTO parent(userIDFK, firstName, lastName, phoneNumber, email, familyIDFK) VALUES ('%(userID)s', '%(firstName)s', '%(lastName)s', '%(phoneNumber)s', '%(email)s', '%(familyID)s')" % user_data
         else:
             second_query = "INSERT INTO staff(userIDFK, firstName, lastName, phoneNumber, email) VALUES ('%(userID)s', '%(firstName)s', '%(lastName)s', '%(phoneNumber)s', '%(email)s')" % user_data
 
-        print(second_query)
+
+        perms_query = """INSERT INTO userPerms(studentDashboard, tutorDashboard, staffDashboard, businessDashboard, studentProgress, userRole, userIDFK)
+                            VALUES(%(studentDashboard)s, %(tutorDashboard)s, %(staffDashboard)s, %(businessDashboard)s, %(studentProgress)s, %(userRole)s, %(userID)s)""" % user_data
 
         try:
             self.cursor.execute(user_query)
             self.cursor.execute(second_query)
+            self.cursor.execute(perms_query)
             self.cursor.commit()
 
             return True
