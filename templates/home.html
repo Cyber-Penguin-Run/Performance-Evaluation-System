@@ -1,0 +1,41 @@
+{% extends "authed_base.html" %}
+{% block content %}
+
+<main>
+
+
+            
+    <!--The container for the Header of the Homepage-->             
+            <div class="col-md-auto">
+                <div class="container">
+                    <!--Header is being defined as a class that references a bootstrap format-->
+                    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+                        <!--The 'VTS Home button that is clickable that send user to /home page'-->
+                        <div>
+ 
+                            <ul class="nav nav-pills">
+
+                                <a href="/home">
+                                <!--Button contents-->
+                                <img style="width: 10%" src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
+                                </a>
+    
+                                <h1>'Welcome to Vangenuity Technical Solutions'</h1>
+
+
+                        </div>
+                    </header>                
+                </div>
+             <h1> insert more things here in this section</h1>
+                
+
+
+
+            </div> 
+        </div>  
+    
+
+
+    </main>
+
+{% endblock content %}

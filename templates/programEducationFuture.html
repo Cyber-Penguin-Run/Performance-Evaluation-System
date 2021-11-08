@@ -1,0 +1,32 @@
+{%extends 'base.html'%}
+{% block content %}
+<table>
+  <tr>
+    <th>programIDFK</th>
+    <th>hoursWeek</th>
+    <th>notes</th>
+    <th>concernArea</th>
+    <th>englishGrade</th>
+    <th>historyGrade</th>
+    <th>mathGrade</th>
+    <th>scienceGrade</th>
+    <th>foreignLanguageGrade</th>
+
+  </tr>
+       {% for row in programEducationFuture%}
+    <tr>
+      <td>{{row[0]}}</td>
+      <td>{{row[1]}}</td>
+      <td>{{row[2]}}</td>
+      <td>{{row[3]}}</td>
+      <td>{{row[4]}}</td>
+      <td>{{row[5]}}</td>
+      <td>{{row[6]}}</td>
+      <td>{{row[7]}}</td>
+      <td>{{row[8]}}</td>
+
+
+  </tr>
+    {% endfor %}
+</table>
+{%endblock content %}

@@ -7,13 +7,23 @@
 
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" crossorigin="anonymous">
 
-    <link href="{{ url_for('static', filename='css/theme.css') }}" rel="stylesheet">   
+    <link href="{{ url_for('static', filename='css/theme.css') }}" rel="stylesheet">
+
+    
+    
+
     
     <title>Document</title>
 </head>
 <body>
+    <div class="container">
 
-    {% block content %} {% endblock content %}
+        <div class="row">
+            <div class = "col-md-auto">{% include "sidebar.html" %}</div>
+            <div class = "col">{% block content %} {% endblock content %}</div>
+        </div>
+       
+    </div>
 
     <!--<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     -->
