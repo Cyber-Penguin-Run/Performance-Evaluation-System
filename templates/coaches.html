@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<table style="width:100%">
+  <tr>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>phone number</th>
+    <th>email</th>
+    <th>userIDFK</th>
+  </tr>
+       {% for row in staff%}
+    <tr>
+      <td>{{row[0]}}</td>
+      <td>{{row[1]}}</td>
+      <td>{{row[2]}}</td>
+      <td>{{row[3]}}</td>
+      <td>{{row[4]}}</td>
+  </tr>
+    {% endfor %}
+</table>
+
+{% endblock content %}
