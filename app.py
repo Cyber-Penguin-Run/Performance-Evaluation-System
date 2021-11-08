@@ -140,6 +140,17 @@ def assignments():
     return render_template('assignments.html', assignments=assignment_result)
 
 
+@app.route('/assignments_form', methods=['POST', 'GET'])
+def assignmentform():
+    if request.method=='GET':
+        formsearch = request.data
+        student_results = db.query(sql='SELECT * FROM assignments')
+        return render_template('assignments_form.html', assignmentform=formsearch)
+
+
+
+
+
 # redirect to /sessions to display table
 @app.route('/sessions')
 def sessions():
