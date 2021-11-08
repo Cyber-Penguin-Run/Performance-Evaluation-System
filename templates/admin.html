@@ -1,22 +1,27 @@
 {%extends 'authed_base.html'%}
 {% block content %}
-<table>
-  <tr>
-    <th>firstName</th>
-    <th>lastName</th>
-    <th>phone number</th>
-    <th>email</th>
-    <th>userIDFK</th>
+    <header class="m-0" style="height: 200px; background-color:red">
+        This is so admins can see all staff.
+    </header>
+    <div class="px-3">
+        <table>
+          <tr>
+            <th>firstName</th>
+            <th>lastName</th>
+            <th>phone number</th>
+            <th>email</th>
+            <th>userIDFK</th>
 
-  </tr>
-       {% for row in staff_table%}
-    <tr>
-      <td>{{row[0]}}</td>
-      <td>{{row[1]}}</td>
-      <td>{{row[2]}}</td>
-      <td>{{row[3]}}</td>
-      <td>{{row[4]}}</td>
-  </tr>
-    {% endfor %}
-</table>
+          </tr>
+               {% for row in staff_table%}
+            <tr>
+              <td>{{row['firstName']}}</td>
+              <td>{{row['lastName']}}</td>
+              <td>{{row['phoneNumber']}}</td>
+              <td>{{row['email']}}</td>
+              <td>{{row['userIDFK']}}</td>
+          </tr>
+            {% endfor %}
+        </table>
+    <div>
 {% endblock %}

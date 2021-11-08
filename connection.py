@@ -173,5 +173,5 @@ class Database:
     # function to query sql
     def query(self, sql):
         self.cursor.execute(sql)
-        return self.cursor.fetchall()
+        return self.results_as_dict()
 
