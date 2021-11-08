@@ -142,9 +142,10 @@ def assignments():
 
 @app.route('/assignments_form', methods=['POST', 'GET'])
 def assignmentform():
+
     if request.method=='GET':
+        student_results = db.query(sql='SELECT * FROM assignments')       
         formsearch = request.data
-        student_results = db.query(sql='SELECT * FROM assignments')
         return render_template('assignments_form.html', assignmentform=formsearch)
 
 
