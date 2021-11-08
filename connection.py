@@ -100,23 +100,31 @@ class Database:
 
         user_query = "INSERT INTO users(userID, username, userPassword, userAddress, stateIDFK) VALUES ('%(userID)s', '%(username)s', '%(userPassword)s', '%(userAddress)s', '%(stateIDFK)s')" % user_data
         
-        user_data['studentDashboard'] = True
+        user_data['myStudent'] = 1
+        user_data["adminDashboard"] = 0
 
-        for key in ["tutorDashboard", "staffDashboard", "businessDashboard", "studentProgress"]:
-            if user_data['userRole'] == "admin":
-                user_data[key] = True
+        for key in ["myStudent", "coachDashboard", "todosDashboard", "testPrepDashboard"]:
+            if user_data['userRole'] in ["staff", "admin"]:
+                user_data[key] = 1
             else:
-                user_data[key] = False
+                user_data[key] = 0
+
+        if user_data['userRole'] == "admin":
+            user_data["adminDashboard"] = 1
+
 
         if "familyID" in user_data.keys():
+            user_data['isParent'] = 1
             second_query = "INSERT INTO parent(userIDFK, firstName, lastName, phoneNumber, email, familyIDFK) VALUES ('%(userID)s', '%(firstName)s', '%(lastName)s', '%(phoneNumber)s', '%(email)s', '%(familyID)s')" % user_data
         else:
-            
+            user_data['isParent'] = 0
             second_query = "INSERT INTO staff(userIDFK, firstName, lastName, phoneNumber, email) VALUES ('%(userID)s', '%(firstName)s', '%(lastName)s', '%(phoneNumber)s', '%(email)s')" % user_data
 
 
-        perms_query = """INSERT INTO userPerms(studentDashboard, tutorDashboard, staffDashboard, businessDashboard, studentProgress, userRole, userIDFK)
-                            VALUES(%(studentDashboard)s, %(tutorDashboard)s, %(staffDashboard)s, %(businessDashboard)s, %(studentProgress)s, %(userRole)s, %(userID)s)""" % user_data
+        perms_query = """INSERT INTO userPerms(myStudent, coachDashboard, adminDashboard, todosDashboard, testPrepDashboard, isParent, userIDFK)
+                            VALUES('%(myStudent)s', '%(coachDashboard)s', '%(adminDashboard)s', '%(todosDashboard)s', '%(testPrepDashboard)s', '%(isParent)s', '%(userID)s')""" % user_data
+
+        print(perms_query)
 
         try:
             self.cursor.execute(user_query)
@@ -169,6 +177,23 @@ class Database:
         except Exception as e:
             print("Error while retrieving coach students:")
             print(e)
+
+    def get_like_staff(self, staff_data):
+        if len(staff_data.keys()) > 0:
+            staff_query = "SELECT * FROM staff WHERE " + " AND ".join([f"{key} LIKE '%{value}%'" for key, value in staff_data.items()])
+        else:
+            staff_query = "SELECT * FROM staff"
+
+        try:
+            self.cursor.execute(staff_query)
+            
+            staff = self.results_as_dict()
+
+            return staff
+        except Exception as e:
+            print("Error while retrieving multiple staff:")
+            print(e)
+
 
     # function to query sql
     def query(self, sql):

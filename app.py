@@ -80,6 +80,7 @@ def register():
     elif request.method == "POST":
         
         try:
+            print(request.form)
             username = request.form['username']
             username = username.lower()
             password = request.form['password']
@@ -89,15 +90,16 @@ def register():
             lastname = request.form['lastname']
             phone = request.form['phoneNumber']
             email = request.form['emailAddress']
-            user_type = request.form['choose-form']
+            user_role = request.form['userRole']
         except KeyError as e:
             print("Missing arguments for register.")
             return render_template('error.html'), {"Refresh": "4; url=/register"}
 
         new_user = {"username":username,"userPassword":password,"userAddress":address,"stateIDFK":state, 
-                    "firstName":firstname, "lastName":lastname, "phoneNumber":phone.strip(), "email":email}
+                    "firstName":firstname, "lastName":lastname, "phoneNumber":phone.strip(), "email":email,
+                    "userRole":user_role}
 
-        if user_type == "parent":
+        if user_role == "parent":
             family = request.form.get("userFamily")
             new_user['familyID'] = family
 
