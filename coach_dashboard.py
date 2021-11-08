@@ -6,7 +6,7 @@ from __main__ import app, secure_site, db
 @app.route("/coach/home", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def coach_home(auth_data = None):
-    return "/coach/home"
+    return render_template("coach_home.html", auth_data = auth_data)
 
 @app.route("/coach/info", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site

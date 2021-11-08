@@ -6,5 +6,4 @@ from __main__ import app, secure_site, db
 @app.route("/admin/staff", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def admin_staff(auth_data = None):
-    return "/admin/staff"
-
+    return render_template('admin.html',auth_data=auth_data)

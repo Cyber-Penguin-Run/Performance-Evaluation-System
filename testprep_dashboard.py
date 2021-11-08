@@ -6,4 +6,4 @@ from __main__ import app, secure_site, db
 @app.route("/testprep", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def testprep(auth_data = None):
-    return "/testprep"
+    return render_template('test_prep_dashboard.html', auth_data = auth_data)

@@ -1,4 +1,4 @@
-{% extends "authed_base.html" %}
+{% extends "base.html" %}
 {% block content %}
 
 <main>
@@ -6,10 +6,10 @@
 
             
     <!--The container for the Header of the Homepage-->             
-            <div class="col-md-auto">
-                <div class="container">
+            <div class="col-md-auto" >
+                <div class="d-flex" >
                     <!--Header is being defined as a class that references a bootstrap format-->
-                    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+                    <header class="d-flex flex-column flex-wrap justify-content-center w-100 py-3 mb-4 border-bottom">
                         <!--The 'VTS Home button that is clickable that send user to /home page'-->
                         <div>
  
@@ -20,14 +20,21 @@
                                 <img style="width: 10%" src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
                                 </a>
     
-                                <h1>'Welcome to Vangenuity Technical Solutions'</h1>
+                                <h1>Vangenuity Technical Solutions</h1>
 
-
+                                <a type="button" class="btn btn-primary enrichery-primary m-3 ms-auto mb-auto" style="width:12vw; height:8vw; border-radius:5% " href="{{ url_for('logout') }}">Log out</a>
                         </div>
                     </header>                
                 </div>
-             <h1> insert more things here in this section</h1>
-                
+             <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
+                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/coach/home">Coach Dashboard</a>
+                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/mystudent/students">My Students</a>
+                 <br>
+                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/todos">To Do List</a>
+                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/testprep">Test Prep Dashboard</a>
+                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/admin/staff">Admin Dashboard</a>
+             </div>
+
 
 
 

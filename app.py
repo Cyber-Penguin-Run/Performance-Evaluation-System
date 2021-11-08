@@ -65,10 +65,12 @@ def login():
                 return response
         else:
             return render_template('error.html'), {"Refresh": "4; url=/login"}
+    return render_template('error.html'), {"Refresh": "4; url=/login"}
 
 @app.route('/logout')
 def logout():
-    return 'You have been logged out.'
+    return render_template('logout.html')
+
 
 @app.route('/register', methods = ["GET", "POST"])
 def register():
@@ -166,13 +168,6 @@ def createSessions():
             return "<h1>Success! you will be redirected soon!</h1>", {"Refresh": "4; url=/login"}
         else:
             return render_template('error.html'), {"Refresh": "4; url=/register"}
-
-
-@app.route('/states')
-def states():
-    state_result = db.query(sql='SELECT* FROM states')
-    return render_template('states.html', state=state_result)
-
 
 ####  Modular route files
 import my_student
