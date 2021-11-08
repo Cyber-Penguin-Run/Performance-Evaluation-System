@@ -38,15 +38,13 @@
     // hide the forms when page is ready
     
 
-    $('#choose-form').change(function(){ 
-        var selected_option = $('#choose-form').find(":selected").val()
+    $('#userRole').change(function(){ 
+        var selected_option = $('#userRole').find(":selected").val()
 
-        console.log(selected_option)
         if (selected_option === "parent") {
-            console.log("YES")
             $('#parent-form').show();
         }
-        else if(selected_option === "coach")
+        else
         {
             $('#parent-form').hide();
         }
@@ -105,9 +103,10 @@
 
     <hr>
 
-    <select class="form-control" id="choose-form" name="choose-form">
-        <option value="coach">Coach</option>
+    <select class="form-control" id="userRole" name="userRole">
+        <option value="staff">Staff</option>
         <option value="parent">Parent</option>
+        <option value="admin">Admin</option>
     </select>
 
     <div id="parent-form" style="display: none;">

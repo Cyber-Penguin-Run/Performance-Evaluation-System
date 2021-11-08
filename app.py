@@ -65,10 +65,12 @@ def login():
                 return response
         else:
             return render_template('error.html'), {"Refresh": "4; url=/login"}
+    return render_template('error.html'), {"Refresh": "4; url=/login"}
 
 @app.route('/logout')
 def logout():
-    return 'You have been logged out.'
+    return render_template('logout.html')
+
 
 @app.route('/register', methods = ["GET", "POST"])
 def register():
@@ -80,6 +82,7 @@ def register():
     elif request.method == "POST":
         
         try:
+            print(request.form)
             username = request.form['username']
             username = username.lower()
             password = request.form['password']
@@ -89,15 +92,16 @@ def register():
             lastname = request.form['lastname']
             phone = request.form['phoneNumber']
             email = request.form['emailAddress']
-            user_type = request.form['choose-form']
+            user_role = request.form['userRole']
         except KeyError as e:
             print("Missing arguments for register.")
             return render_template('error.html'), {"Refresh": "4; url=/register"}
 
         new_user = {"username":username,"userPassword":password,"userAddress":address,"stateIDFK":state, 
-                    "firstName":firstname, "lastName":lastname, "phoneNumber":phone.strip(), "email":email}
+                    "firstName":firstname, "lastName":lastname, "phoneNumber":phone.strip(), "email":email,
+                    "userRole":user_role}
 
-        if user_type == "parent":
+        if user_role == "parent":
             family = request.form.get("userFamily")
             new_user['familyID'] = family
 
@@ -177,13 +181,6 @@ def createSessions():
             return "<h1>Success! you will be redirected soon!</h1>", {"Refresh": "4; url=/login"}
         else:
             return render_template('error.html'), {"Refresh": "4; url=/register"}
-
-
-@app.route('/states')
-def states():
-    state_result = db.query(sql='SELECT* FROM states')
-    return render_template('states.html', state=state_result)
-
 
 ####  Modular route files
 import my_student
