@@ -19,16 +19,16 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto" >
         <li>
-            <a href="#" class="nav-link text-center" aria-current="page">
+            <div class="nav-link text-center" aria-current="page">
             <a type="button" class="btn btn-primary enrichery-primary w-100" href="/home">Home</a>
-            </a>
+            </div>
         </li>
         
         {% for nav_column, nav_link in nav_columns.items() %}
 
         <li>
-            <a href="#" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="{{nav_link}}"></use></svg>
+            <a href="{{url_for(nav_link)}}" class="nav-link text-white">
+            <svg class="bi me-2" width="16" height="16"></svg>
             {{nav_column}}
             </a>
         </li>

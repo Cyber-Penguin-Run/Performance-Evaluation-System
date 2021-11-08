@@ -9,4 +9,4 @@ nav_columns = {}
 @secure_site
 def todos(auth_data = None):
     if request.method=='GET':
-        return render_template('todos.html', auth_data = auth_data)
+        return render_template('todos.html', auth_data = auth_data, nav_columns=nav_columns)

@@ -3,7 +3,7 @@ from flask.helpers import make_response
 from connection import Database
 from __main__ import app, secure_site, db
 
-nav_columns = {"Home":"/coach/home", "Personal Information":"/coach/info"}
+nav_columns = {"Home":"coach_home", "Personal Information":"coach_info"}
 
 @app.route("/coach/home", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
