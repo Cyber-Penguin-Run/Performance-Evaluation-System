@@ -1,1 +1,34 @@
-<form></form>
+{%extends 'base.html'%}
+{% block content %}
+
+<body>
+    <form>
+        
+    </form>
+
+    <table>
+        <tr>
+            <th>Assignment ID<th>
+            <th>Assignment Date</th>
+            <th>Assignment Grade</th>
+            <th>Assignment Type</th>
+        </tr>
+
+        {% for row in assignments %}
+        <tr>
+            <td>{{row['assignmentID']}}</td>
+            <td>{{row['assignmentDate']}}</td>
+            <td>{{row['assignmentGrade']}}</td>
+            <td>{{row['assignmentType']}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+
+</body>
+
+
+
+
+{%endblock content%}
