@@ -7,7 +7,7 @@ from __main__ import app, secure_site, db
 
 
 @app.route("/api/families", methods = ["POST", "GET", "PUT", "DELETE"])
-#@secure_site
+@secure_site
 def familyroute(auth_data = None):
     if request.method == "GET":
         families = db.get_like_families()
