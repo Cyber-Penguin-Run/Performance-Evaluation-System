@@ -6,4 +6,4 @@ from __main__ import app, secure_site, db
 @app.route("/todos", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def todos(auth_data = None):
-    return "/todos"
+    return render_template('todos.html', auth_data = auth_data)

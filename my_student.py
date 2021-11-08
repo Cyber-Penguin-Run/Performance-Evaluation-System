@@ -6,7 +6,7 @@ from __main__ import app, secure_site, db
 @app.route("/mystudent/overview", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def mystudent_overview(auth_data = None):
-    return "/mystudent/overview"
+    return render_template("")
 
 @app.route("/mystudent/students", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
