@@ -41,7 +41,7 @@ def secure_site(f):
 
 @app.route('/')
 def index():
-    return 'This is the index page for the Enrichery web app.'
+    return 'this is the index page for vangenuity tech services'
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -69,7 +69,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    return render_template('logout.html')
+    return render_template('logout.html'), {"Refresh": "4; url=/login"}
 
 
 @app.route('/register', methods = ["GET", "POST"])
