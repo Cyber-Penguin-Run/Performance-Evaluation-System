@@ -6,6 +6,7 @@ import functools
 import random
 import string
 import bcrypt
+from pyodbc import native_uuid
 from connection import Database
 
 app = Flask(__name__)
@@ -13,7 +14,6 @@ app.config['JWT_KEY'] = 'soiqwueho28973987265362#^$%#'
 
 # Connecting to the database
 db = Database()
-
 
 @app.context_processor
 def handle_context():
@@ -76,8 +76,7 @@ def login():
 def logout():
     return render_template('logout.html'), {"Refresh": "4; url=/login"}
 
-
-@app.route('/register', methods=["GET", "POST"])
+@app.route('/register', methods = ["GET", "POST"])
 def register():
     if request.method == "GET":
         states = db.getStates()
@@ -133,26 +132,13 @@ def students():
         # template text showcasing an error or something in else in the future. will return an error page or something.
         return render_template('error.html', studentName='John Doe')
 
-
-@app.route('/coaches')
-def staff():
-    return 'coaches'
-
-
 # redirect to /assignments to display table
 @app.route('/assignments')
-def assignments():
-    assignment_result = db.query('SELECT* FROM assignments')
-    return render_template('assignments.html', assignments=assignment_result)
+def assignments(auth_data = None):
+    nav_columns = {"Overview":"admin_overview", "Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business"}
 
-
-@app.route('/assignments_form', methods=['POST', 'GET'])
-def assignmentform():
-    if request.method == 'GET':
-        student_results = db.query('SELECT * FROM assignments')
-        formsearch = request.data
-        return render_template('assignments_form.html', assignmentform=formsearch)
-
+    assignment_result = db.query(sql='SELECT* FROM assignments')
+    return render_template('assignments.html', assignments=assignment_result, auth_data=auth_data, nav_columns=nav_columns)
 
 # redirect to /sessions to display table
 @app.route('/sessions')
@@ -164,7 +150,7 @@ def sessions():
 @app.route('/sessions_form', methods=['GET', 'POST'])
 def sessions_form():
     if request.method == 'GET':
-        return render_template('/elements/sessions_form')
+        return render_template('sessions.html')
 
     elif request.method == 'POST':
         session_ID = request.form['session_ID']
@@ -190,7 +176,7 @@ import admin_dashboard
 import todos_dashboard
 import testprep_dashboard
 import coach_dashboard
-
+import assignments
 
 if __name__ == '__main__':
     app.run(debug=True)

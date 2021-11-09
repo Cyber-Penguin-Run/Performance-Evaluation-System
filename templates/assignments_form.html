@@ -1,10 +1,9 @@
-{%extends 'base.html'%}
-{% block content %}
+{%extends 'base.html'%} {% block content %}
 
 
-
-<div class="col-md-auto" >
-    <div class="d-flex" >
+<!--This is the header section that has the logo, name, and the logout button-->
+<div class="col-md-auto">
+    <div class="d-flex">
         <!--Header is being defined as a class that references a bootstrap format-->
         <header class="d-flex flex-column flex-wrap justify-content-center w-100 py-3 mb-4 border-bottom">
             <!--The 'VTS Home button that is clickable that send user to /home page'-->
@@ -13,36 +12,38 @@
                 <ul class="nav nav-pills">
 
                     <a href="/home">
-                    <!--Button contents-->
-                    <img style="width: 10%" src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
+                        <!--Button contents-->
+                        <img style="width: 10%" src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
                     </a>
 
                     <h1>Vangenuity Technical Solutions</h1>
 
                     <a type="button" class="btn btn-primary enrichery-primary m-3 ms-auto mb-auto" style="width:12vw; height:10%; border-radius:5% " href="{{ url_for('logout') }}">Log out</a>
             </div>
-        </header>                
+        </header>
     </div>
 </div>
 
 
 <div class='container-lg'>
+
     <body>
         <h1>Student assignment information</h1>
-        <form method = 'get'>
-            <input type='search' placeholder='search student'>
-            <button type='button' href='/assignments_form'>Search</button>
+        <form id='form' role='search' method='POST' action='/assignments_form'>
+            <input aria-label='Search a students assignments' name='stusearch' type='search' id='studentsearch' placeholder='Search student...'>
+            <button type='submit' class='btn btn-default'>Search</button>
         </form>
 
         <table stroke='2px'>
             <tr>
-                <th>Assignment ID<th>
-                <th>Assignment Date</th>
-                <th>Assignment Grade</th>
-                <th>Assignment Type</th>
+                <th>Assignment ID
+                    <th>
+                        <th>Assignment Date</th>
+                        <th>Assignment Grade</th>
+                        <th>Assignment Type</th>
             </tr>
 
-            {%for row in assignments %}
+            {% for row in assignmentform %}
             <tr>
                 <td>{{row['assignmentID']}}</td>
                 <td>{{row['assignmentDate']}}</td>
