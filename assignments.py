@@ -1,6 +1,7 @@
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
 from connection import Database
+import uuid
 from __main__ import app, secure_site, db
 
 nav_columns = {"Overview":"admin_overview", "Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business"}
@@ -11,8 +12,6 @@ nav_columns = {"Overview":"admin_overview", "Staff":"admin_staff", "Families":"a
 @app.route('/assignments/form', methods=['POST', 'GET'])
 @secure_site
 def assignmentform(auth_data = None):
-
-
 
     if request.method=='GET':    
         selected_student = request.args.get('stusearch')
@@ -29,4 +28,4 @@ def assignmentform(auth_data = None):
 
 
     elif request.method =='POST':
-        return render_template('assignments.html',auth_data=auth_data)
+        return render_template('assignments.html',auth_data=auth_data, nav_columns=nav_columns)
