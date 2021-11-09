@@ -2,9 +2,21 @@
 {% block content %}
 
 <form action='/admin/business' method = "POST">
-  <p>family name <input type = "text" id="familyName" name="familyName"/></p>
-  <p><input type = "submit" value = "Submit" /></p>
+    <h2>Insert a family name</h2>
+    <p>family name <input type = "text" id="familyName" name="familyName"/></p>
+    <p><input type = "submit" value = "Submit" /></p>
 </form>
 
+<form action='/admin/business' method = 'PUT'>
+    <h2>Update a family name</h2>
+    <p>family name to search<input type="text" id="oldFamilyName" name="oldFamilyName"/></p>
+    <p>Change family to<input type="text" id="newFamilyName" name="newFamilyName"/></p>
+    <p><input type = "submit" value = "Submit"/></p>
+</form>
 
+<form action='/admin/business' method = 'DELETE'>
+    <h2>Delete a family name</h2>
+    <p>family name to delete<input type="text" id="deleteFamilyName" name="deleteFamilyName"/></p>
+    <p><input type = "submit" value = "Submit"/></p>
+</form>
 {%endblock content %}

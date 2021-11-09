@@ -27,7 +27,7 @@ def admin_staff(auth_data = None):
         staff_insert = db.query('INSERT INTO staff(firstName, lastName, phoneNumber, email) Values (%s,%s,%s,%s)',
                                 (firstName, lastName, phoneNumber, email))
         # db.cursor.execute(family_insert)
-        return render_template('loginSucess.html'), {"Refresh": "4; url=/admin/families"}
+        return render_template('success.html'), {"Refresh": "4; url=/admin/families"}
 
     elif request.method == 'PUT':
         pass
@@ -41,7 +41,7 @@ def admin_families(auth_data = None):
     family_table = db.query('Select * FROM family')
     if request.method == 'GET':
         return render_template("family.html",auth_data=auth_data, nav_columns=nav_columns,family_table=family_table)
-    if request.method == 'POST':
+    elif request.method == 'POST':
         return render_template("")
     
 @app.route("/admin/business", methods = ["POST", "GET", "PUT", "DELETE"])
@@ -49,14 +49,14 @@ def admin_families(auth_data = None):
 def admin_business(auth_data = None):
     if request.method == 'GET':
         return render_template("/elements/family_form.html",auth_data=auth_data, nav_columns=nav_columns)
-
-    if request.method == 'POST':
+    elif request.method == 'POST':
         familyName = request.form['familyName']
         db.create_family(familyName)
-        return render_template('loginSucess.html'), {"Refresh": "4; url=/admin/families"}
-    return render_template('family_form.html',auth_data=auth_data,nav_columns=nav_columns)
-
-    if request.method == 'PUT':
-        familyName = request.form['familyName']
+        return render_template('success.html'), {"Refresh": "4; url=/admin/families"}
+    elif request.method == 'PUT':
+        oldFamilyName = request.form['oldFamilyName']
         newFamilyName = request.form['newFamilyName']
-        db.edit_family(familyName,newFamilyName)
+        db.edit_family(oldFamilyName,newFamilyName)
+        return render_template('success.html'), {"Refresh": "4; url=/admin/families"}
+    return render_template('/elements/family_form.html', auth_data=auth_data, nav_columns=nav_columns)
+
