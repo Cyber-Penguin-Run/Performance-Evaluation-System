@@ -1,5 +1,6 @@
 from flask.json import JSONEncoder, jsonify
 import pyodbc
+import random
 import json
 import uuid
 
@@ -36,17 +37,34 @@ class Database:
             #family_data = (familyID,familyName)
             return familyID
         return familyName
-    #taking in old family name, then taking a new family name they want to change it to after checking the key value matches.
-    def edit_family(self,oldFamilyName, newFamilyName):
-        print('success in reaching edit family')
-        if oldFamilyName is not None:
+
+    def edit_family(self, oldFamilyName, newFamilyName):
+        new_family_ID = uuid.uuid4().hex
+        get_family_info = ('Select * from family where familyName = ?', oldFamilyName)
+        if get_family_info is not None:
             print('there is a family')
-            family_update = ("UPDATE family SET familyName = ? WHERE familyID = ?", newFamilyName)
-            self.cursor.execute(family_update)
+            family_update = self.query("UPDATE family SET familyName = ?, familyID = ?"
+                                       , newFamilyName, new_family_ID)
             self.cnx.commit()
             return newFamilyName
         return newFamilyName
 
+    def delete_family(self, deleteFamilyName):
+        get_family_info = ('DELETE * from family where familyName = ?', deleteFamilyName)
+        self.cursor.execute(get_family_info)
+        self.cnx.commit()
+        return deleteFamilyName
+
+    def create_todo(self, description):
+        staff_users_ID = uuid.uuid4().hex
+        todo_id = random.randint(0,99999)
+        if description is not None:
+            todo_insert = ("INSERT INTO todos(toDoDescription,staffUsersID,todoID)values (?,?,?)")
+            values = (description, staff_users_ID,todo_id)
+            self.cursor.execute(todo_insert,values)
+            self.cnx.commit()
+            return staff_users_ID
+        return description
     def getStates(self):
         try:
             self.cursor.execute("SELECT * FROM states")
