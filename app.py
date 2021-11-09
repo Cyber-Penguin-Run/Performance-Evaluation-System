@@ -8,13 +8,11 @@ import string
 import bcrypt
 from connection import Database
 
-
 app = Flask(__name__)
 app.config['JWT_KEY'] ='soiqwueho28973987265362#^$%#'
 
 # Connecting to the database
 db = Database()
-
 
 @app.context_processor
 def handle_context():
@@ -71,7 +69,6 @@ def login():
 def logout():
     return render_template('logout.html'), {"Refresh": "4; url=/login"}
 
-
 @app.route('/register', methods = ["GET", "POST"])
 def register():
     
@@ -127,18 +124,11 @@ def students():
         #template text showcasing an error or something in else in the future. will return an error page or something.
         return render_template('error.html', studentName='John Doe')
 
-
-@app.route('/coaches')
-def staff():
-    return 'coaches'
-
-
 # redirect to /assignments to display table
 @app.route('/assignments')
 def assignments():
     assignment_result = db.query(sql='SELECT* FROM assignments')
     return render_template('assignments.html', assignments=assignment_result)
-
 
 @app.route('/assignments_form', methods=['POST', 'GET'])
 def assignmentform():
@@ -147,10 +137,6 @@ def assignmentform():
         student_results = db.query(sql='SELECT * FROM assignments')       
         formsearch = request.data
         return render_template('assignments_form.html', assignmentform=formsearch)
-
-
-
-
 
 # redirect to /sessions to display table
 @app.route('/sessions')
@@ -162,7 +148,7 @@ def sessions():
 @app.route('/sessions_form', methods=['GET', 'POST'])
 def createSessions():
     if request.method == 'GET':
-        return render_template('createSessions.html')
+        return render_template('sessions.html')
 
     elif request.method == 'POST':
         session_ID = request.form['session_ID']
@@ -190,12 +176,5 @@ import todos_dashboard
 import testprep_dashboard
 import coach_dashboard
 
-import api
-
-"""""
-Debug mode to run the code without having to
-run it from the terminal/cmd. Please remove it during
-production.
-"""
 if __name__ == '__main__':
     app.run(debug=True)

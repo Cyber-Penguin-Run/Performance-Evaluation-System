@@ -1,0 +1,10 @@
+{%extends 'authed_base.html' %}
+{% block content %}
+
+<form action='/admin/business' method = "POST">
+  <p>family name <input type = "text" id="familyName" name="familyName"/></p>
+  <p><input type = "submit" value = "Submit" /></p>
+</form>
+
+
+{%endblock content %}
