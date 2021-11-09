@@ -32,16 +32,21 @@ class Database:
                                        "Values (?,?)")
             values = (familyID, familyName)
             self.cursor.execute(family_insert,values)
+            self.cnx.commit()
             #family_data = (familyID,familyName)
             return familyID
         return familyName
     #taking in old family name, then taking a new family name they want to change it to after checking the key value matches.
-    def edit_family(self,familyName, newFamilyName):
-        #familyID = uuid.uuid4().hex
-        if familyName is not None:
-            family_update = ("UPDATE family SET familyName = ? WHERE familyID = ?", newFamilyName, familyID)
+    def edit_family(self,oldFamilyName, newFamilyName):
+        print('success in reaching edit family')
+        if oldFamilyName is not None:
+            print('there is a family')
+            family_update = ("UPDATE family SET familyName = ? WHERE familyID = ?", newFamilyName)
             self.cursor.execute(family_update)
-        return familyID
+            self.cnx.commit()
+            return newFamilyName
+        return newFamilyName
+
     def getStates(self):
         try:
             self.cursor.execute("SELECT * FROM states")
