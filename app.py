@@ -161,7 +161,7 @@ def sessions():
 @app.route('/sessions_form', methods=['GET', 'POST'])
 def createSessions():
     if request.method == 'GET':
-        return render_template('createSessions.html')
+        return render_template('sessions.html')
 
     elif request.method == 'POST':
         session_ID = request.form['session_ID']

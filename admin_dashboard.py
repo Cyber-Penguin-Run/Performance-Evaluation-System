@@ -16,11 +16,19 @@ def admin_overview(auth_data = None):
 @secure_site
 def admin_staff(auth_data = None):
     staff_table = db.query('Select * FROM staff')
-
     if request.method == 'GET':
         return render_template('admin.html',auth_data=auth_data, nav_columns= nav_columns, staff_table=staff_table)
     elif request.method == 'POST':
-        pass
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
+        phoneNumber = request.form['phoneNumber']
+        email = request.form['email']
+        staff_insert = db.query('INSERT INTO staff(firstName, lastName, phoneNumber, email) Values (%s,%s,%s,%s)', (firstName, lastName,
+                                                                                                                    phoneNumber, email))
+
+        # db.cursor.execute(family_insert)
+        return render_template('loginSucess.html'), {"Refresh": "4; url=/admin/families"}
+
     elif request.method == 'PUT':
         pass
     elif request.method == 'DELETE':
@@ -32,10 +40,18 @@ def admin_staff(auth_data = None):
 @app.route("/admin/families", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def admin_families(auth_data = None):
-    return render_template("admin.html")
+    family_table = db.query('Select * FROM family')
+    return render_template("family.html",auth_data=auth_data, nav_columns=nav_columns,family_table=family_table)
 
     
 @app.route("/admin/business", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def admin_business(auth_data = None):
-    return render_template("admin.html")
+    if request.method == 'GET':
+        return render_template("/elements/family_form.html",auth_data=auth_data, nav_columns=nav_columns)
+    if request.method == 'POST':
+        familyName = request.form['familyName']
+        #family_insert = db.query('INSERT INTO family(familyName, familyID) Values (%s,%s)', (familyName,'123'))
+        #db.cursor.execute(family_insert)
+        return render_template('loginSucess.html'), {"Refresh": "4; url=/admin/families"}
+    return render_template('family_form.html',auth_data=auth_data,nav_columns=nav_columns)

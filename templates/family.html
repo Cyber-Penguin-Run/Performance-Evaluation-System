@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<script>
+    function example(a) {
+        console.log(a)
+    };
+</script>
 
-</body>
-</html>
+
+{%extends 'authed_base.html'%}
+{% block content %}
+    <header class="m-0" style="height: 200px; background-color:red">
+        This is so admins can see all family.
+    </header>
+    <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
+        {% for row in family_table %}
+            <div class="mt-2 me-2" style="background-color:grey; width:47%; border-radius:5px; height: 75px">
+            <h2>
+                {{ row['familyName'] }} {{ row['familyID'] }}
+            </h2>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
