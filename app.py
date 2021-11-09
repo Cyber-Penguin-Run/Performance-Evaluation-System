@@ -15,6 +15,7 @@ app.config['JWT_KEY'] = 'soiqwueho28973987265362#^$%#'
 # Connecting to the database
 db = Database()
 
+
 @app.context_processor
 def handle_context():
     '''Inject object into jinja2 templates.'''
@@ -78,10 +79,11 @@ def login():
 @app.route('/logout')
 def logout():
     response = make_response(render_template('logout.html'), {"Refresh": "1; url=/login"})
-    response.delete_cookie("token") 
+    response.delete_cookie("token")
     return response
 
-@app.route('/register', methods = ["GET", "POST"])
+
+@app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "GET":
         states = db.getStates()
@@ -137,13 +139,17 @@ def students():
         # template text showcasing an error or something in else in the future. will return an error page or something.
         return render_template('error.html', studentName='John Doe')
 
+
 # redirect to /assignments to display table
 @app.route('/assignments')
-def assignments(auth_data = None):
-    nav_columns = {"Overview":"admin_overview", "Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business"}
+def assignments(auth_data=None):
+    nav_columns = {"Overview": "admin_overview", "Staff": "admin_staff", "Families": "admin_families",
+                   "Business": "admin_business"}
 
     assignment_result = db.query(sql='SELECT* FROM assignments')
-    return render_template('assignments.html', assignments=assignment_result, auth_data=auth_data, nav_columns=nav_columns)
+    return render_template('assignments.html', assignments=assignment_result, auth_data=auth_data,
+                           nav_columns=nav_columns)
+
 
 # redirect to /sessions to display table
 @app.route('/sessions')
@@ -151,11 +157,12 @@ def sessions():
     session_result = db.query('SELECT* FROM studentSessions')
     return render_template('sessions.html', sessions=session_result)
 
-#redirect to form submit
-@app.route('/sessions_form', methods=['GET', 'POST'])
+
+# redirect to form submit
+@app.route('/sessions/sessions_form', methods=['GET', 'POST'])
 def sessions_form():
     if request.method == 'GET':
-        return render_template('sessions.html')
+        return render_template('/elements/sessions_form.html')
 
     elif request.method == 'POST':
         session_ID = request.form['session_ID']
@@ -167,12 +174,12 @@ def sessions_form():
         student_IDFK = request.form['student_IDFK']
         staff_usersIDFK = request.form['staff_usersIDFK']
 
-        staff_insert = db.query('INSERT INTO studentSessions(sessionID, programIDFK, sessionSubject, sessionDate, '
-                                'sessionHours, sessionsAttended, studentIDFK, staffUsersIDFK) Values (%s,%s,%s,%s,%s,'
-                                '%s,%s,%s)',
-                                (session_ID, program_IDFK, session_subject, session_date, session_hours,
-                                 session_attendedhours, student_IDFK, staff_usersIDFK))
-        return render_template('/sessions')
+        result = db.create_session(
+            {'programIDFK': program_IDFK, 'sessionSubject': session_subject, 'sessionDate': session_date,
+             'sessionHours': session_hours, 'sessionAttendedhours': session_attendedhours, 'studentIDFK': student_IDFK,
+             'staffUsersIDFK': staff_usersIDFK})
+
+        return render_template('sessions.html')
 
 
 ####  Modular route files
