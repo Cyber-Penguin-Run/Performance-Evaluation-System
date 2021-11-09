@@ -17,11 +17,11 @@
   </tr>
        {% for row in sessions%}
     <tr>
-      <td>{{row[0]}}</td>
-      <td>{{row[2]}}</td>
-      <td>{{row[3]}}</td>
-      <td>{{row[4]}}</td>
-      <td>{{row[5]}}</td>
+      <td>{{row['sessionID']}}</td>
+      <td>{{row['sessionSubject']}}</td>
+      <td>{{row['sessionDate']}}</td>
+      <td>{{row['sessionHours']}}</td>
+      <td>{{row['sessionAttendedhours']}}</td>
   </tr>
     {% endfor %}
 </table>
