@@ -23,9 +23,8 @@ def admin_staff(auth_data = None):
         lastName = request.form['lastName']
         phoneNumber = request.form['phoneNumber']
         email = request.form['email']
-        staff_insert = db.query('INSERT INTO staff(firstName, lastName, phoneNumber, email) Values (%s,%s,%s,%s)', (firstName, lastName,
-                                                                                                                    phoneNumber, email))
-
+        staff_insert = db.query('INSERT INTO staff(firstName, lastName, phoneNumber, email) Values (%s,%s,%s,%s)',
+                                (firstName, lastName, phoneNumber, email))
         # db.cursor.execute(family_insert)
         return render_template('loginSucess.html'), {"Refresh": "4; url=/admin/families"}
 
@@ -51,6 +50,7 @@ def admin_business(auth_data = None):
         return render_template("/elements/family_form.html",auth_data=auth_data, nav_columns=nav_columns)
     if request.method == 'POST':
         familyName = request.form['familyName']
+        familyID = uuid.uuid4().hex
         #family_insert = db.query('INSERT INTO family(familyName, familyID) Values (%s,%s)', (familyName,'123'))
         #db.cursor.execute(family_insert)
         return render_template('loginSucess.html'), {"Refresh": "4; url=/admin/families"}

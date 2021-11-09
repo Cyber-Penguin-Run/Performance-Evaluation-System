@@ -33,6 +33,11 @@ def api_admin_staff(auth_data = None):
 
         return jsonify(results)
 
+@app.route("/api/family", methods = ['POST', 'GET', 'PUT', 'DELETE'])
+def api_family(auth_data = None):
+    if request.method == 'GET':
+        familyName = request.json.get('familyName')
+        return jsonify(db.get_like_families({'familyName':familyName}))
 
         
 
