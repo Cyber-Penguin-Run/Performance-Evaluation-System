@@ -1,6 +1,7 @@
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
 from connection import Database
+import uuid
 from __main__ import app, secure_site, db
 
 nav_columns = {"Overview":"admin_overview", "Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business"}
@@ -34,24 +35,28 @@ def admin_staff(auth_data = None):
         pass
     return render_template('admin.html', auth_data=auth_data, nav_columns=nav_columns)
 
-
-
 @app.route("/admin/families", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def admin_families(auth_data = None):
     family_table = db.query('Select * FROM family')
-    return render_template("family.html",auth_data=auth_data, nav_columns=nav_columns,family_table=family_table)
-
+    if request.method == 'GET':
+        return render_template("family.html",auth_data=auth_data, nav_columns=nav_columns,family_table=family_table)
+    if request.method == 'POST':
+        return render_template("")
     
 @app.route("/admin/business", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def admin_business(auth_data = None):
     if request.method == 'GET':
         return render_template("/elements/family_form.html",auth_data=auth_data, nav_columns=nav_columns)
+
     if request.method == 'POST':
         familyName = request.form['familyName']
-        familyID = uuid.uuid4().hex
-        #family_insert = db.query('INSERT INTO family(familyName, familyID) Values (%s,%s)', (familyName,'123'))
-        #db.cursor.execute(family_insert)
+        db.create_family(familyName)
         return render_template('loginSucess.html'), {"Refresh": "4; url=/admin/families"}
     return render_template('family_form.html',auth_data=auth_data,nav_columns=nav_columns)
+
+    if request.method == 'PUT':
+        familyName = request.form['familyName']
+        newFamilyName = request.form['newFamilyName']
+        db.edit_family(familyName,newFamilyName)

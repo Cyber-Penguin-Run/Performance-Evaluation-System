@@ -24,7 +24,24 @@ class Database:
         return [dict(zip([column[0] for column in self.cursor.description], row))
              for row in self.cursor.fetchall()]
 
-
+    def create_family(self, familyName):
+        familyID = uuid.uuid4().hex
+        print(familyID)
+        if familyName is not None:
+            family_insert = ("INSERT INTO family(familyID, familyName)"
+                                       "Values (?,?)")
+            values = (familyID, familyName)
+            self.cursor.execute(family_insert,values)
+            #family_data = (familyID,familyName)
+            return familyID
+        return familyName
+    #taking in old family name, then taking a new family name they want to change it to after checking the key value matches.
+    def edit_family(self,familyName, newFamilyName):
+        #familyID = uuid.uuid4().hex
+        if familyName is not None:
+            family_update = ("UPDATE family SET familyName = ? WHERE familyID = ?", newFamilyName, familyID)
+            self.cursor.execute(family_update)
+        return familyID
     def getStates(self):
         try:
             self.cursor.execute("SELECT * FROM states")
