@@ -32,10 +32,10 @@ def admin_staff(auth_data = None):
 @app.route("/admin/families", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def admin_families(auth_data = None):
-    return render_template("admin.html")
+    return render_template("admin.html", auth_data=auth_data, nav_columns=nav_columns)
 
     
 @app.route("/admin/business", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def admin_business(auth_data = None):
-    return render_template("admin.html")
+    return render_template("admin.html", auth_data=auth_data, nav_columns=nav_columns)

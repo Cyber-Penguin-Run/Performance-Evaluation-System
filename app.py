@@ -191,12 +191,6 @@ import todos_dashboard
 import testprep_dashboard
 import coach_dashboard
 
-import api
 
-"""""
-Debug mode to run the code without having to
-run it from the terminal/cmd. Please remove it during
-production.
-"""
 if __name__ == '__main__':
     app.run(debug=True)
