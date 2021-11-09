@@ -9,16 +9,17 @@
       <th>studentIDFK</th>
       <th>staffUsersIDFK</th>
   </tr>
-        {% for row in assignments%}
+
+        {% for row in assignments %}
   <tr>
-      <td>{{row[0]}}</td>
-      <td>{{row[1]}}</td>
-      <td>{{row[2]}}</td>
-      <td>{{row[3]}}</td>
-      <td>{{row[4]}}</td>
-      <td>{{row[5]}}</td>
+      <td>{{row['assignmentID']}}</td>
+      <td>{{row['assignmentDate']}}</td>
+      <td>{{row['assignmentGrade']}}</td>
+      <td>{{row['assignmentType']}}</td>
+      <td>{{row['studentIDFK']}}</td>
+      <td>{{row['staffUsersIDFK']}}</td>
   </tr>
     {% endfor %}
 
 </table>
-{%endblock content%}
+{% endblock content%}
