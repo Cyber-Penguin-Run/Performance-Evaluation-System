@@ -32,12 +32,13 @@
         </table>-->
     <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
         {% for row in staff_table %}
-            <a class="mt-2 me-2" style="background-color:grey; width:45%; border-radius:5px; height: 75px" onclick="example('{{ row['userIDFK'] }}')">
+            <div class="mt-2 me-2" style="background-color:grey; width:45%; border-radius:5px; height: 75px" onclick="example('{{ row['userIDFK'] }}')">
             <h2>
                 {{ row['firstName'] }} {{ row['lastName'] }}
             </h2>
             phone #:{{ row['phoneNumber'] }} {{ row['email'] }}
-            </a>
+            </div>
         {% endfor %}
     </div>
+    <action>
 {% endblock %}
