@@ -19,34 +19,21 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto" >
         <li>
-            <a href="#" class="nav-link text-center" aria-current="page">
+            <div class="nav-link text-center" aria-current="page">
             <a type="button" class="btn btn-primary enrichery-primary w-100" href="/home">Home</a>
-            </a>
+            </div>
         </li>
+        
+        {% for nav_column, nav_link in nav_columns.items() %}
+
         <li>
-            <a href="#" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
-            Dashboard
+            <a href="{{url_for(nav_link)}}" class="nav-link text-white">
+            <svg class="bi me-2" width="16" height="16"></svg>
+            {{nav_column}}
             </a>
         </li>
-        <li>
-            <a href="#" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
-            Orders
-            </a>
-        </li>
-        <li>
-            <a href="#" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
-            Products
-            </a>
-        </li>
-        <li>
-            <a href="#" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-            Customers
-            </a>
-        </li>
+
+        {% endfor %}
         
     </ul>
     <hr>
