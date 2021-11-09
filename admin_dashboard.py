@@ -44,7 +44,7 @@ def admin_families(auth_data = None):
     elif request.method == 'POST':
         return render_template("")
     
-@app.route("/admin/business", methods = ["POST", "GET", "PUT", "DELETE"])
+@app.route("/admin/business", methods = ["POST", "GET"])
 @secure_site
 def admin_business(auth_data = None):
     if request.method == 'GET':
@@ -53,10 +53,4 @@ def admin_business(auth_data = None):
         familyName = request.form['familyName']
         db.create_family(familyName)
         return render_template('success.html'), {"Refresh": "4; url=/admin/families"}
-    elif request.method == 'PUT':
-        oldFamilyName = request.form['oldFamilyName']
-        newFamilyName = request.form['newFamilyName']
-        db.edit_family(oldFamilyName,newFamilyName)
-        return render_template('success.html'), {"Refresh": "4; url=/admin/families"}
     return render_template('/elements/family_form.html', auth_data=auth_data, nav_columns=nav_columns)
-
