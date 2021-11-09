@@ -32,8 +32,11 @@ def secure_site(f):
 
         try:
             auth_data = jwt.decode(token, app.config['JWT_KEY'], algorithms=["HS256"])
+            perms = db.get_user_perms(auth_data['user_id'])
+            auth_data['userPerms'] = perms[0]
 
-        except:
+        except Exception as e:
+            print(e)
             return "Token invalid."
 
         return f(*args, **kwargs, auth_data=auth_data)

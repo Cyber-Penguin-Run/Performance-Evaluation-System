@@ -216,6 +216,16 @@ class Database:
             print("Error while retrieving multiple staff:")
             print(e)
 
+    def get_user_perms(self, userID):
+        perms_query = "SELECT adminDashboard, myStudent, coachDashboard, todosDashboard, testPrepDashboard, isParent FROM userPerms WHERE userIDFK = ?"
+
+        try:
+            self.cursor.execute(perms_query, (userID, ))
+            results = self.results_as_dict()
+            return results
+        except Exception as e:
+            print("Error retrieving the user perms:")
+            print(e)
 
     # function to query sql
     def query(self, sql):
