@@ -77,7 +77,9 @@ def login():
 
 @app.route('/logout')
 def logout():
-    return render_template('logout.html'), {"Refresh": "4; url=/login"}
+    response = make_response(render_template('logout.html'), {"Refresh": "1; url=/login"})
+    response.delete_cookie("token") 
+    return response
 
 @app.route('/register', methods = ["GET", "POST"])
 def register():

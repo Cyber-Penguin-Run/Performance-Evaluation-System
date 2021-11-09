@@ -2,56 +2,47 @@
 {% block content %}
 
 <main>
-
-
-            
-    <!--The container for the Header of the Homepage-->             
-            <div class="col-md-auto" >
-                <div class="d-flex" >
-                    <!--Header is being defined as a class that references a bootstrap format-->
-                    <header class="d-flex flex-column flex-wrap justify-content-center w-100 py-3 mb-4 border-bottom">
-                        <!--The 'VTS Home button that is clickable that send user to /home page'-->
-                        <div>
- 
-                            <ul class="nav nav-pills">
-
-                                <a href="/home">
-                                <!--Button contents-->
-                                <img style="width: 10%" src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
-                                </a>
     
-                                <h1>Vangenuity Technical Solutions</h1>
 
-                                <a type="button" class="btn btn-primary enrichery-primary m-3 ms-auto mb-auto" style="width:12vw; height:8vw; border-radius:5% " href="{{ url_for('logout') }}">Log out</a>
-                        </div>
-                    </header>                
-                </div>
-             <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
-                {% if auth_data['userPerms']['coachDashboard'] %}
-                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/coach/overview">Coach Dashboard</a>
-                 {%endif%}
-                 {% if auth_data['userPerms']['myStudent'] or auth_data['userPerms']['isParent'] %}
-                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/mystudent/overview">My Students</a>
-                 {%endif%}
-                 {% if auth_data['userPerms']['todosDashboard'] %}
-                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/todos">To Do List</a>
-                 {%endif%}
-                 {% if auth_data['userPerms']['testPrepDashboard'] %}
-                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/testprep">Test Prep Dashboard</a>
-                 {%endif%}
-                 {% if auth_data['userPerms']['adminDashboard'] %}
-                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/admin/overview">Admin Dashboard</a>
-                 {%endif%}
-            </div>
+                    
+    <nav class="d-flex navbar-light p-2 m-0 enrichery-bg-primary">
+        <div class="col-9">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" width="100" height="100" alt="">
+            <h1>Vangenuity Technical Solutions</h1>
+        </div>
+
+        <div class="col-3 d-flex">
+            <a class="btn btn-primary enrichery-primary ms-auto p-2 align-self-start" href="{{url_for('logout')}}">Log out</a>
+        </div>
+        
+
+    </nav>
 
 
+                
+                
+    <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
+        {% if auth_data['userPerms']['coachDashboard'] %}
+        <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/coach/overview">Coach Dashboard</a>
+        {%endif%}
+        {% if auth_data['userPerms']['myStudent'] or auth_data['userPerms']['isParent'] %}
+        <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/mystudent/overview">My Students</a>
+        {%endif%}
+        {% if auth_data['userPerms']['todosDashboard'] %}
+        <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/todos">To Do List</a>
+        {%endif%}
+        {% if auth_data['userPerms']['testPrepDashboard'] %}
+        <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/testprep">Test Prep Dashboard</a>
+        {%endif%}
+        {% if auth_data['userPerms']['adminDashboard'] %}
+        <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/admin/overview">Admin Dashboard</a>
+        {%endif%}
 
+    </div> 
 
-            </div> 
-        </div>  
     
 
 
-    </main>
+</main>
 
 {% endblock content %}
