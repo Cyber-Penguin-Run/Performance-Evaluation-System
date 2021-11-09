@@ -130,14 +130,6 @@ def assignments():
     assignment_result = db.query(sql='SELECT* FROM assignments')
     return render_template('assignments.html', assignments=assignment_result)
 
-@app.route('/assignments_form', methods=['POST', 'GET'])
-def assignmentform():
-
-    if request.method=='GET':
-        student_results = db.query(sql='SELECT * FROM assignments')       
-        formsearch = request.data
-        return render_template('assignments_form.html', assignmentform=formsearch)
-
 # redirect to /sessions to display table
 @app.route('/sessions')
 def sessions():
@@ -175,6 +167,7 @@ import admin_dashboard
 import todos_dashboard
 import testprep_dashboard
 import coach_dashboard
+import assignments
 
 if __name__ == '__main__':
     app.run(debug=True)
