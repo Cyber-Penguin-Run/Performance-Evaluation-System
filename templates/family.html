@@ -9,8 +9,8 @@
             <h2>
                 {{ row['familyName'] }}
             </h2>
-            <a class="btn-primary btn enrichery-primary ms-auto me-1" type="button" href="{{ url_for('todo_update',todoID=row['todoID']) }}">Update</a>
-            <a class="btn-primary btn enrichery-primary me-3" type="button" href="{{ url_for('todo_delete',todoID=row['todoID']) }}">Delete</a>
+            <a class="btn-primary btn enrichery-primary ms-auto me-1" type="button" href="{{ url_for('admin_families_update',familyID=row['familyID']) }}">Update</a>
+            <a class="btn-primary btn enrichery-primary me-3" type="button" href="{{ url_for('admin_families_delete',familyID=row['familyID']) }}">Delete</a>
             </div>
         {% endfor %}
     </div>
