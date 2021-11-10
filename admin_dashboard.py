@@ -18,7 +18,7 @@ def admin_overview(auth_data = None):
 def admin_staff(auth_data = None):
     staff_table = db.query('Select * FROM staff')
     if request.method == 'GET':
-        return render_template('admin.html',auth_data=auth_data, nav_columns= nav_columns, staff_table=staff_table)
+        return render_template('/elements/staff_form.html',auth_data=auth_data, nav_columns= nav_columns, staff_table=staff_table)
     elif request.method == 'POST':
         firstName = request.form['firstName']
         lastName = request.form['lastName']
