@@ -78,6 +78,18 @@ class Database:
             print('error during deletion of todo', e)
             return False
 
+    def update_todo(self,toDoDescription, todoID):
+        update_todo = "UPDATE todos set toDoDescription = '%s' WHERE todoID = '%s' " % (toDoDescription,todoID)
+        try:
+            print(update_todo)
+            self.cursor.execute(update_todo)
+            self.cursor.commit()
+            return True
+        except Exception as e:
+            print('error during deletion of todo', e)
+            return False
+
+
     def getStates(self):
         try:
             self.cursor.execute("SELECT * FROM states")

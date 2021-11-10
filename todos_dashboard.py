@@ -34,11 +34,28 @@ def todo_delete(todoID,auth_data = None):
     isdeleted = db.delete_todo(todoID)
     todos_table = db.query("Select * FROM todos WHERE staffUsersID = '%s'" % auth_data['user_id'])
     if isdeleted:
-        return render_template('todos.html',auth_data=auth_data, nav_columns=nav_columns,message='deleted successfully',todos_table=todos_table)
+        return render_template('todos.html',auth_data=auth_data, nav_columns=nav_columns,
+                               message='deleted successfully',todos_table=todos_table)
     else:
-        return render_template('todos.html',auth_data=auth_data, nav_columns=nav_columns,message='error while deleting',todos_table=todos_table)
+        return render_template('todos.html',auth_data=auth_data, nav_columns=nav_columns,
+                               message='error while deleting',todos_table=todos_table)
 
 @app.route("/todos/update/<todoID>", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def todo_update(todoID,auth_data = None):
-    return todoID
+    if request.method == 'GET':
+        todo = db.query("SELECT * FROM todos WHERE todoID = '%s'" % todoID)
+        print(todo[0])
+        return render_template('/elements/todos_form.html',auth_data=auth_data,
+                               nav_columns=nav_columns,todoDescription=todo[0]['toDoDescription'])
+    if request.method=='POST':
+        print('updated')
+        description = request.form.get('todoDescription')
+        isupdated = db.update_todo(description,todoID)
+        todos_table = db.query("Select * FROM todos WHERE staffUsersID = '%s'" % auth_data['user_id'])
+        if isupdated:
+            return render_template('todos.html', auth_data=auth_data, nav_columns=nav_columns,
+                                   message='updated successfully', todos_table=todos_table)
+        else:
+            return render_template('todos.html', auth_data=auth_data, nav_columns=nav_columns,
+                                   message='error while updating', todos_table=todos_table)
