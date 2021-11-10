@@ -1,38 +1,21 @@
-{%extends 'base.html'%}
+{%extends 'authed_base.html'%}
 {% block content %}
-<table style="width:100%">
-  <tr>
-    <th>actScoresID</th>
-    <th>studentIDFK</th>
-    <th>englishScore</th>
-    <th>englishMax</th>
-    <th>mathScore</th>
-    <th>mathMax</th>
-    <th>readingScore</th>
-    <th>readingMax</th>
-    <th>scienceScore</th>
-    <th>scienceMax</th>
-    <th>actCompScore</th>
-    <th>actType</th>
-    <th>actTestDate</th>
-  </tr>
-       {% for row in mockActScores%}
-    <tr>
-      <td>{{row[0]}}</td>
-      <td>{{row[1]}}</td>
-      <td>{{row[2]}}</td>
-      <td>{{row[3]}}</td>
-      <td>{{row[4]}}</td>
-      <td>{{row[5]}}</td>
-      <td>{{row[6]}}</td>
-      <td>{{row[7]}}</td>
-      <td>{{row[8]}}</td>
-      <td>{{row[9]}}</td>
-      <td>{{row[10]}}</td>
-      <td>{{row[11]}}</td>
-      <td>{{row[12]}}</td>
+<header class="m-0 text-center" style="height: 200px; background-color:rgb(248 223 33)">
+        ACT Test Prep Tables and Information Section
+</header>
+    Scores actual/maximum <br>
+    {% for row in act_select %}
+    <h5>
+        English: {{ row['englishScore'] }}/{{ row['englishMax'] }}
+        Math: {{ row['mathScore'] }}/{{ row['mathMax'] }}
+        Reading: {{ row['readingScore'] }}/{{ row['readingMax'] }}
+        Science: {{ row['scienceScore'] }}/{{ row['scienceMax'] }}
+        ACT Score: {{ row['actCompScore'] }}   Date Taken:{{ row['actTestDate'] }}<br>
+        Student Name: {{ row['lastName'] }},{{ row['firstName'] }}
 
-  </tr>
+    </h5>
+    <br>
+    <br>
+
     {% endfor %}
-</table>
 {%endblock content %}
