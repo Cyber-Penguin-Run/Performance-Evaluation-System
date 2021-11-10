@@ -1,22 +1,18 @@
-<script>
-    function example(a) {
-        console.log(a)
-    };
-</script>
-
-
 {%extends 'authed_base.html'%}
 {% block content %}
-    <header class="m-0" style="height: 200px; background-color:red">
+    <header class="m-0 enrichery-bg-dark" style="height: 200px">
         This is so admins can see all family.
     </header>
-    <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
+    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
         {% for row in family_table %}
-            <div class="mt-2 me-2" style="background-color:grey; width:47%; border-radius:5px; height: 75px">
+            <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: 75px">
             <h2>
-                {{ row['familyName'] }} {{ row['familyID'] }}
+                {{ row['familyName'] }}
             </h2>
+            <a class="btn-primary btn enrichery-primary ms-auto me-1" type="button" href="{{ url_for('todo_update',todoID=row['todoID']) }}">Update</a>
+            <a class="btn-primary btn enrichery-primary me-3" type="button" href="{{ url_for('todo_delete',todoID=row['todoID']) }}">Delete</a>
             </div>
         {% endfor %}
     </div>
+    {% include 'elements/message_element.html' %}
 {% endblock %}
