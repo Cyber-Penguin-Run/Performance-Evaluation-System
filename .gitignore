@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+# Byte-compiled / optimized / DLL files
+>>>>>>> ea9895b501c1f0fd6d0dffdcba9328ccec478f70
 __pycache__/
 .idea
 venv

@@ -10,15 +10,15 @@ nav_columns = {"Overview":"admin_overview", "Staff":"admin_staff", "Families":"a
 @app.route("/admin/overview", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def admin_overview(auth_data = None):
-    staff_table = db.query('Select * FROM staff')
-    return render_template('admin.html',auth_data=auth_data, nav_columns= nav_columns, staff_table=staff_table)
+    users_table = db.query('Select * FROM users')
+    return render_template('admin.html',auth_data=auth_data, nav_columns= nav_columns, users_table=users_table)
 
 @app.route("/admin/staff", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def admin_staff(auth_data = None):
     staff_table = db.query('Select * FROM staff')
     if request.method == 'GET':
-        return render_template('admin.html',auth_data=auth_data, nav_columns= nav_columns, staff_table=staff_table)
+        return render_template('/elements/staff_form.html',auth_data=auth_data, nav_columns= nav_columns, staff_table=staff_table)
     elif request.method == 'POST':
         firstName = request.form['firstName']
         lastName = request.form['lastName']
@@ -27,7 +27,7 @@ def admin_staff(auth_data = None):
         staff_insert = db.query('INSERT INTO staff(firstName, lastName, phoneNumber, email) Values (%s,%s,%s,%s)',
                                 (firstName, lastName, phoneNumber, email))
         # db.cursor.execute(family_insert)
-        return render_template('success.html'), {"Refresh": "4; url=/admin/families"}
+        return render_template('success.html'), {"Refresh": "2; url=/admin/families"}
 
     elif request.method == 'PUT':
         pass
@@ -52,5 +52,5 @@ def admin_business(auth_data = None):
     elif request.method == 'POST':
         familyName = request.form['familyName']
         db.create_family(familyName)
-        return render_template('success.html'), {"Refresh": "4; url=/admin/families"}
+        return render_template('layout.html'), {"Refresh": "2; url=/admin/families"}
     return render_template('/elements/family_form.html', auth_data=auth_data, nav_columns=nav_columns)
