@@ -18,11 +18,27 @@ def todos(auth_data = None):
 @app.route("/todos_form", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def todos_form(auth_data = None):
-    todos_table = db.query("Select * FROM todos WHERE staffUsersID = '%s'" % auth_data['user_id'])
+    #todos_table = db.query("Select * FROM todos WHERE staffUsersID = '%s'" % auth_data['user_id'])
     if request.method == 'POST':
         description = request.form['todoDescription']
         staffID = auth_data['user_id']
         result = db.create_todo(staffID,description)
         if result == True:
-            return render_template('layout.html'), {"Refresh": "4; url=/todos"}
-    return render_template('/elements/todos_form.html', auth_data = auth_data, nav_columns=nav_columns, todos_table=todos_table)
+            return render_template('layout.html'), {"Refresh": "2; url=/todos"}
+    return render_template('/elements/todos_form.html', auth_data = auth_data, nav_columns=nav_columns)
+
+@app.route("/todos/delete/<todoID>", methods = ["POST", "GET", "PUT", "DELETE"])
+@secure_site
+def todo_delete(todoID,auth_data = None):
+    print('deleted')
+    isdeleted = db.delete_todo(todoID)
+    todos_table = db.query("Select * FROM todos WHERE staffUsersID = '%s'" % auth_data['user_id'])
+    if isdeleted:
+        return render_template('todos.html',auth_data=auth_data, nav_columns=nav_columns,message='deleted successfully',todos_table=todos_table)
+    else:
+        return render_template('todos.html',auth_data=auth_data, nav_columns=nav_columns,message='error while deleting',todos_table=todos_table)
+
+@app.route("/todos/update/<todoID>", methods = ["POST", "GET", "PUT", "DELETE"])
+@secure_site
+def todo_update(todoID,auth_data = None):
+    return todoID

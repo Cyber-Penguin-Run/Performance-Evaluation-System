@@ -27,7 +27,7 @@ def admin_staff(auth_data = None):
         staff_insert = db.query('INSERT INTO staff(firstName, lastName, phoneNumber, email) Values (%s,%s,%s,%s)',
                                 (firstName, lastName, phoneNumber, email))
         # db.cursor.execute(family_insert)
-        return render_template('success.html'), {"Refresh": "4; url=/admin/families"}
+        return render_template('success.html'), {"Refresh": "2; url=/admin/families"}
 
     elif request.method == 'PUT':
         pass
@@ -52,5 +52,5 @@ def admin_business(auth_data = None):
     elif request.method == 'POST':
         familyName = request.form['familyName']
         db.create_family(familyName)
-        return render_template('success.html'), {"Refresh": "4; url=/admin/families"}
+        return render_template('success.html'), {"Refresh": "2; url=/admin/families"}
     return render_template('/elements/family_form.html', auth_data=auth_data, nav_columns=nav_columns)

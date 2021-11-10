@@ -68,6 +68,16 @@ class Database:
                 print('error during insert todo', e)
                 return False
 
+    def delete_todo(self,todoID):
+        todo_delete = "DELETE FROM todos WHERE todoID = '%s'" % todoID
+        try:
+            self.cursor.execute(todo_delete)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during deletion of todo', e)
+            return False
+
     def getStates(self):
         try:
             self.cursor.execute("SELECT * FROM states")
