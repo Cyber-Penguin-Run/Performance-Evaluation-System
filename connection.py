@@ -275,3 +275,16 @@ class Database:
         self.cursor.execute(sql)
         return self.results_as_dict()
 
+    def get_coach_assignments(self, coachID):
+        coach_assignments_query = f"""SELECT assignments.assignmentID,
+                                            assignments.assignmentDate,
+                                            assignments.assignmentGrade,
+                                            assignments.assignmentType,
+                                            student.firstName,
+                                            student.lastName
+                                        FROM assignments
+                                        LEFT JOIN student
+                                        ON (student.studentID = assignments.studentIDFK)
+                                        WHERE assignments.staffUsersIDFK LIKE '%{coachID}%'"""
+        
+        return self.query(coach_assignments_query)
