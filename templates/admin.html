@@ -1,35 +1,8 @@
-<script>
-    function example(a) {
-        console.log(a)
-    };
-</script>
-
-
 {%extends 'authed_base.html'%}
 {% block content %}
     <header class="m-0" style="height: 200px; background-color:rgb(248 223 33)">
         This is so admins can see all staff.
     </header>
-    <div class="px-3">
-        <!--<table>
-          <tr>
-            <th>firstName</th>
-            <th>lastName</th>
-            <th>phone number</th>
-            <th>email</th>
-            <th>userIDFK</th>
-
-          </tr>
-               {% for row in staff_table%}
-            <tr>
-              <td>{{row['firstName']}}</td>
-              <td>{{row['lastName']}}</td>
-              <td>{{row['phoneNumber']}}</td>
-              <td>{{row['email']}}</td>
-              <td>{{row['userIDFK']}}</td>
-          </tr>
-            {% endfor %}
-        </table>-->
     <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
         {% for row in staff_table %}
             <div class="mt-2 me-2" style="background-color:grey; width:45%; border-radius:5px; height: 75px" onclick="example('{{ row['userIDFK'] }}')">
@@ -40,5 +13,4 @@
             </div>
         {% endfor %}
     </div>
-    <action>
 {% endblock %}

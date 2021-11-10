@@ -55,16 +55,29 @@ class Database:
         self.cnx.commit()
         return deleteFamilyName
 
-    def create_todo(self, description):
-        staff_users_ID = uuid.uuid4().hex
-        todo_id = random.randint(0,99999)
+    def create_todo(self,staffID, description):
+        todo_id = uuid.uuid4().hex
         if description is not None:
             todo_insert = ("INSERT INTO todos(toDoDescription,staffUsersID,todoID)values (?,?,?)")
-            values = (description, staff_users_ID,todo_id)
-            self.cursor.execute(todo_insert,values)
+            values = (description, staffID,todo_id)
+            try:
+                self.cursor.execute(todo_insert,values)
+                self.cnx.commit()
+                return True
+            except Exception as e:
+                print('error during insert todo', e)
+                return False
+
+    def delete_todo(self,todoID):
+        todo_delete = "DELETE FROM todos WHERE todoID = '%s'" % todoID
+        try:
+            self.cursor.execute(todo_delete)
             self.cnx.commit()
-            return staff_users_ID
-        return description
+            return True
+        except Exception as e:
+            print('error during deletion of todo', e)
+            return False
+
     def getStates(self):
         try:
             self.cursor.execute("SELECT * FROM states")
