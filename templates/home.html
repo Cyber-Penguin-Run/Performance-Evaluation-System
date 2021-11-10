@@ -1,48 +1,53 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <main>
 
 
-            
-    <!--The container for the Header of the Homepage-->             
-            <div class="col-md-auto" >
-                <div class="d-flex" >
-                    <!--Header is being defined as a class that references a bootstrap format-->
-                    <header class="d-flex flex-column flex-wrap justify-content-center w-100 py-3 mb-4 border-bottom">
-                        <!--The 'VTS Home button that is clickable that send user to /home page'-->
-                        <div>
- 
-                            <ul class="nav nav-pills">
 
-                                <a href="/home">
-                                <!--Button contents-->
-                                <img style="width: 10%" src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
-                                </a>
-    
-                                <h1>Vangenuity Technical Solutions</h1>
+    <!--The container for the Header of the Homepage-->
+    <div class="col-md-auto">
+        <div class="d-flex">
+            <!--Header is being defined as a class that references a bootstrap format-->
+            <header class="d-flex flex-column flex-wrap justify-content-center w-100 py-3 mb-4 border-bottom">
+                <!--The 'VTS Home button that is clickable that send user to /home page'-->
+                <div>
 
-                                <a type="button" class="btn btn-primary enrichery-primary m-3 ms-auto mb-auto" style="width:12vw; height:8vw; border-radius:5% " href="{{ url_for('logout') }}">Log out</a>
-                        </div>
-                    </header>                
+                    <ul class="nav nav-pills">
+
+                        <a href="/home">
+                            <!--Button contents-->
+                            <img style="width: 10%" src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
+                        </a>
+
+                        <h1>Vangenuity Technical Solutions</h1>
+
+                        <a type="button" class="btn btn-primary enrichery-primary m-3 ms-auto mb-auto" style="width:12vw; height:8vw; border-radius:5% " href="{{ url_for('logout') }}">Log out</a>
                 </div>
-             <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
-                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/coach/overview">Coach Dashboard</a>
-                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/mystudent/overview">My Students</a>
-                 <br>
-                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/todos">To Do List</a>
-                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/testprep">Test Prep Dashboard</a>
-                 <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/admin/overview">Admin Dashboard</a>
-             </div>
+            </header>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center w-100 mx-3" id='buttontext'>
+            <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/coach/overview">Coach Dashboard</a>
+            <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/mystudent/overview">My Students</a>
+            <br>
+            <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/todos">To Do List</a>
+            <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/testprep">Test Prep Dashboard</a>
+            <a type="button" class="btn btn-primary enrichery-primary m-3" style="width:25vw; height:25vw; border-radius:5% " href="/admin/overview">Admin Dashboard</a>
+        </div>
 
 
 
 
-            </div> 
-        </div>  
-    
+    </div>
+    </div>
 
 
-    </main>
+
+</main>
+<style>
+    #buttontext {
+        font-size: 50px;
+    }
+</style>
+
 
 {% endblock content %}

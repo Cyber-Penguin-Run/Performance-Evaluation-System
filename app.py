@@ -128,7 +128,7 @@ def students():
 # redirect to /assignments to display table
 @app.route('/assignments')
 def assignments(auth_data = None):
-    nav_columns = {"Overview":"admin_overview", "Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business"}
+    nav_columns = {"All Assignments":"assignments_all", "Quizzes":"get_quizzes", "Exams": "get_exams", "Homeworks":"get_homeworks", "Papers": "get_papers"}
 
     assignment_result = db.query(sql='SELECT* FROM assignments')
     return render_template('assignments.html', assignments=assignment_result, auth_data=auth_data, nav_columns=nav_columns)
