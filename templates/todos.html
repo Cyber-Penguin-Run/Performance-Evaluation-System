@@ -9,8 +9,10 @@
             <h2>
                 Description: {{ row['toDoDescription'] }}
             </h2>
-            <a class="btn-primary btn enrichery-primary ms-auto me-1" type="button" href="{{ url_for('todo_update',todoID=row['todoID']) }}">Update</a>
-            <a class="btn-primary btn enrichery-primary me-3" type="button" href="{{ url_for('todo_delete',todoID=row['todoID']) }}">Delete</a>
+                {% if auth_data['userPerms']['adminDashboard'] %}
+                    <a class="btn-primary btn enrichery-primary ms-auto me-1" type="button" href="{{ url_for('todo_update',todoID=row['todoID']) }}">Update</a>
+                    <a class="btn-primary btn enrichery-primary me-3" type="button" href="{{ url_for('todo_delete',todoID=row['todoID']) }}">Delete</a>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
