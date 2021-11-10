@@ -1,0 +1,17 @@
+{%extends "authed_base.html"%}
+{%block content%}
+
+
+<form class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
+
+    <div class="row d-flex">
+        <div class="col-3 py-2 ms-auto">
+            <input class="align-middle" style="border-radius: 5px; height: 35px;" type="text" placeholder="Student Name">
+            <button type="submit" class="btn btn-primary enrichery-primary">Search</button>
+        </div>
+    </div>
+</form>
+
+
+{%include "students.html"%}
+{%endblock content%}

@@ -165,7 +165,6 @@ def sessions_form():
         return render_template('/elements/sessions_form.html')
 
     elif request.method == 'POST':
-        session_ID = request.form['session_ID']
         program_IDFK = request.form['program_IDFK']
         session_subject = request.form['session_subject']
         session_date = request.form['session_date']

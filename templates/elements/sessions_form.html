@@ -1,14 +1,14 @@
 {%extends 'base.html' %}
 {% block content %}
 
-<form action='/sessions.html' method = "GET">
-  <p>programIDFK <input type = "char" name = "program_IDFK" /></p>
+<form class="form-control" action='/sessions.html' method = "GET">
   <p>Session Subject <input type = "text" name = "session_subject" /></p>
   <p>Session Date <input type = "date" name = "session_date" /></p>
   <p>Session Hours <input type = "double" name = "session_hours" /></p>
   <p>Session Attended Hours <input type = "double" name = "session_attendedhours" /></p>
-  <p>Student IDFK <input type = 'char' name = "student_IDFK" /></p>
+  <p>Student <input type = 'char' name = "student_IDFK" /></p>
   <p>Staff Users IDFK <input type = 'char' name = "staff_usersIDFK" /></p>
+  <p>programIDFK <input type = "char" name = "program_IDFK" /></p>
   <p><input type = "submit" value = "Submit" /></p>
 </form>
 

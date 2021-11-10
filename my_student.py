@@ -13,7 +13,11 @@ def mystudent_overview(auth_data = None):
 @app.route("/mystudent/students", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def mystudent_students(auth_data = None):
-    return render_template("students.html", auth_data=auth_data, nav_columns=nav_columns)
+    if auth_data['userPerms']['adminDashboard']:
+        students = db.query("SELECT * FROM student")
+    else:
+        students = db.get_coach_students(auth_data['user_id'])
+    return render_template("mystudent_students.html", auth_data=auth_data, nav_columns=nav_columns, students = students)
 
 @app.route("/mystudent/family", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
