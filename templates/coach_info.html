@@ -1,9 +1,84 @@
 {%extends 'authed_base.html'%}
 {% block content %}
-    <header class="m-0" style="height: 200px; background-color:rgb(248 223 33)">
-        Your Personal Coach Information
-    </header>
 
+<script>
+    function addStates()
+    {
+        var country = document.getElementById("country").value;
+
+        var states = {{ states|tojson }}
+
+        statesString = "<option value = \"\">State</option>"
+
+        if (country in states) {
+
+            for (let i = 0; i < states[country].length; i++) {
+
+
+            statesString += "<option value = "+states[country][i][1] + ">"+states[country][i][0]+"</option>\n"
+
+            }
+
+        }
+
+
+
+        document.getElementById("state").innerHTML = statesString
+
+    }
+</script>
+
+<script>
+    // This code empowers all input tags having a placeholder and data-slots attribute
+    document.addEventListener('DOMContentLoaded', () => {
+        for (const el of document.querySelectorAll("[placeholder][data-slots]")) {
+            const pattern = el.getAttribute("placeholder"),
+                slots = new Set(el.dataset.slots || "_"),
+                prev = (j => Array.from(pattern, (c,i) => slots.has(c)? j=i+1: j))(0),
+                first = [...pattern].findIndex(c => slots.has(c)),
+                accept = new RegExp(el.dataset.accept || "\\d", "g"),
+                clean = input => {
+                    input = input.match(accept) || [];
+                    return Array.from(pattern, c =>
+                        input[0] === c || slots.has(c) ? input.shift() || c : c
+                    );
+                },
+                format = () => {
+                    const [i, j] = [el.selectionStart, el.selectionEnd].map(i => {
+                        i = clean(el.value.slice(0, i)).findIndex(c => slots.has(c));
+                        return i<0? prev[prev.length-1]: back? prev[i-1] || first: i;
+                    });
+                    el.value = clean(el.value).join``;
+                    el.setSelectionRange(i, j);
+                    back = false;
+                };
+            let back = false;
+            el.addEventListener("keydown", (e) => back = e.key === "Backspace");
+            el.addEventListener("input", format);
+            el.addEventListener("focus", format);
+            el.addEventListener("blur", () => el.value === pattern && (el.value=""));
+        }
+    });
+
+
+    /* Toggle parent and staff*/
+
+    $(document).ready(function() {
+    // hide the forms when page is ready
+
+    addStates()
+
+    $("#state option:contains('{{coach['stateName']}}')").attr('selected', true);
+
+});
+
+
+
+    </script>
+
+    <header class="m-0 h-25 enrichery-bg-dark text-center p-3">
+        <h1>Coach Information</h1>
+    </header>
 
     <form style="max-width: 400px; margin: auto;" method="POST"> 
         <h1 class="text-center h3 mb-3 font-weight-normal">Edit Information</h1>
@@ -20,7 +95,7 @@
             <select class="form-control" name="country" id="country" onchange="addStates()">
                 <option value="">Country</option>
                 {% for item, value in states.items() %}
-                    <option value = "{{item}}" >{{item}}</option>
+                    <option value = "{{item}}" {% if coach['countryName'].strip() == item %} selected="selected" {%endif%}>{{item}}</option>
                 {% endfor %}
             </select>
     
