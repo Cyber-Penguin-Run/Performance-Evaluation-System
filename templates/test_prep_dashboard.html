@@ -1,14 +1,36 @@
 {%extends 'authed_base.html'%}
 {% block content %}
-    <header class="m-0 text-center" style="height: 200px; background-color:rgb(248 223 33)">
-        This is the coach test prep dashboard.
-    </header>
-    <body>
-    <table style="height:75px;width:100%; background-color:grey">
-        <th class="text-center">
-            Test prep information goes here for the coaches to view!
-        </th>
-    </table>
+    <form method="POST" class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
 
-    </body>
+    <div class="row text-center h-50">
+        <h1>Student Test Prep Dashboard</h1>
+    </div>
+
+    <div class="row d-flex h-50">
+        <div class="col py-2 ms-auto mt-auto">
+                <input class="align-middle" id="fullname" name="fullname" style="border-radius: 5px; height: 35px;" type="text" placeholder="Student Name" value="{%if request.form.get('fullname')%}{{request.form.get('fullname')}}{%endif%}">
+                <button class="btn btn-primary enrichery-primary">Search</button>
+        </div>
+    </div>
+</form>
+    <div class = "d-flex flex-wrap w-100 justify-content-center">
+    {% for row in students %}
+
+      <a href = "{{url_for('change', studentID = row['studentID'])}}"
+         class="container btn text-start m-2 p-1 enrichery-bg-primary" style="width: 40%; min-width: 300px; max-width: 650px; border-radius: 10px">
+
+        <div class="row">
+          <h2>{{row['firstName'].capitalize() + " " + row['lastName'].capitalize() }}</h2>
+        </div>
+
+        <div class="row">
+          <div class="col d-flex">
+            <h6>{{row['school']}}</h6>
+          </div>
+        </div>
+
+      </a>
+    {% endfor %}
+
+</div>
 {% endblock %}

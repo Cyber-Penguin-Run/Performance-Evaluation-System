@@ -1,42 +1,10 @@
 {%extends 'authed_base.html'%}
 {% block content %}
-
-    <script type="text/javascript">
-
-    $(document).ready(function() {
-        function swapForms() {
-            var choice = $("#choose-form").find(":selected").val()
-            //Hide -other- visible forms
-            $("#sat, #act, #hspt, #isee").hide();
-            if (choice !== "") {
-                $("#" + choice).show();
-
-            }
-
-            console.log(choice)
-        }
-
-        swapForms()
-
-        $("#choose-form").change(swapForms)
-    })
-
-</script>
-<script type="text/javascript">
-    $("#sat, #act, #hspt, #isee").hide();
-</script>
     <header class="m-0 enrichery-bg-dark row text-center h-50" class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
         This is a page for inserting test scores
     </header>
     <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
-    <select id="choose-form">
-    <option value = "">Please choose...</option>
-    <option value="sat">SAT FORM</option>
-    <option value="act">ACT FORM</option>
-    <option value="hspt">HSPT FORM</option>
-    <option value="isee">ISEE FORM</option>
-    </select>
-
+{% if examType == 'sat' %}
     <div id="sat" >
         <form method="POST">
         <input type="text" name="writingScore" placeholder="writing score">
@@ -49,6 +17,7 @@
         <input type="submit" id="satButton" name="satButton">
         </form>
     </div>
+        {% elif examType=='act'%}
     <div id="act" >
         <form method="POST">
         <input type="text" name="englishScore" placeholder="english score">
@@ -61,6 +30,7 @@
         <input type="submit" id="actButton" name="actButton">
         </form>
     </div>
+        {% elif examType=='hspt'%}
     <div id="hspt" >
         <form method="POST">
         <input type="text" name="verbalScore" placeholder="verbal score">
@@ -74,6 +44,7 @@
         <input type="submit" id="hsptButton" name="hsptButton">
         </form>
     </div>
+        {% elif examType=='isee'%}
     <div id="isee" >
         <form method="POST">
         <input type="text" name="verbalScore" placeholder="verbal score">
@@ -86,6 +57,7 @@
         <input type="submit" id="iseeButton" name="iseeButton">
         </form>
     </div>
+    {% endif %}
     </div>
     {% include 'elements/message_element.html' %}
     </body>

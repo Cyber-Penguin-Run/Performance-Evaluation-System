@@ -87,17 +87,79 @@ class Database:
             print('error during deletion of todo', e)
             return False
 
-    def create_score(self):
-        pass
+    def create_mock(self,mockType,mockInfo):
+        mock_score_id = uuid.uuid4().hex
+        if mockType == 'act':
+            mockInfo['actScoreID'] = mock_score_id
+            mock_insert = """INSERT INTO mockActScores(actScoreID,studentIDFK,englishScore,englishMax,mathScore,mathMax,
+                          readingScore,readingMax,scienceScore,scienceMax,actCompScore,actType,actTestDate) values
+                          ('%(actScoreID)s','%(studentIDFK)s','%(englishScore)s','%(englishMax)s','%(mathScore)s',
+                          '%(mathMax)s','%(readingScore)s','%(readingMax)s','%(scienceScore)s','%(scienceMax)s',
+                          '%(actCompScore)s','%(actType)s','%(actTestDate)s')""" % mockInfo
+        elif mockType == 'sat':
+            mockInfo['satScoreID'] = mock_score_id
+            mock_insert = """INSERT INTO mockSatScores(satScoreID,studentIDFK,writingScore,writingMax,mathCalcScore,mathCalcMax,
+                              mathScore,mathMax,readingScore,readingMax,satCompScore,satType,satTestDate) values
+                              ('%(satScoreID)s','%(studentIDFK)s','%(writingScore)s','%(writingMax)s','%(mathCalcScore)s',
+                              '%(mathCalcMax)s','%(mathScore)s', '%(mathMax)s','%(readingScore)s','%(readingMax)s',
+                              '%(satCompScore)s','%(satType)s','%(satTestDate)s')""" % mockInfo
+        elif mockType == 'hspt':
+            mockInfo['hsptScoreID'] = mock_score_id
+            mock_insert = """INSERT INTO mockhsptScores(actScoreID,studentIDFK,englishScore,englishMax,mathScore,mathMax,
+                              readingScore,readingMax,scienceScore,scienceMax,actCompScore,actType,actTestDate) values
+                              ('%(hsptScoreID)s','%(studentIDFK)s','%(englishScore)s','%(englishMax)s','%(mathScore)s',
+                              '%(mathMax)s','%(readingScore)s','%(readingMax)s','%(scienceScore)s','%(scienceMax)s',
+                              '%(actCompScore)s','%(actType)s','%(actTestDate)s')""" % mockInfo
+        if mockType == 'isee':
+            mockInfo['iseeScoreID'] = mock_score_id
+            mock_insert = """INSERT INTO mockActScores(actScoreID,studentIDFK,englishScore,englishMax,mathScore,mathMax,
+                              readingScore,readingMax,scienceScore,scienceMax,actCompScore,actType,actTestDate) values
+                              ('%(iseeScoreID)s','%(studentIDFK)s','%(englishScore)s','%(englishMax)s','%(mathScore)s',
+                              '%(mathMax)s','%(readingScore)s','%(readingMax)s','%(scienceScore)s','%(scienceMax)s',
+                              '%(actCompScore)s','%(actType)s','%(actTestDate)s')""" % mockInfo
+        try:
+            print("executing mock query")
+            print(mock_insert)
+            self.cursor.execute(mock_insert)
+            self.cursor.commit()
+            return True
+        except Exception as e:
+            print('error during insertion of act mock', e)
+            return False
 
-    def delete_score(self):
-        pass
+    def delete_mock(self,mockType,mockID):
+        if mockType == 'sat':
+            mock_delete = "DELETE FROM mockSatScores WHERE satScoreID = '%s'" % mockID
+        if mockType == 'act':
+            mock_delete = "DELETE FROM mockActScores WHERE actScoreID = '%s'" % mockID
+        if mockType == 'isee':
+            mock_delete = "DELETE FROM mockIseeScores WHERE iseeScoreID = '%s'" % mockID
+        if mockType == 'hspt':
+            mock_delete = "DELETE FROM mockHsptScores WHERE hsptScoreID = '%s'" % mockID
+        try:
+            self.cursor.execute(mock_delete)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during deletion of todo', e)
+            return False
 
-    def update_score(self):
-        pass
-
-
-
+    def update_mock(self,mockType,examID, mock_info):
+        if mockType == 'sat':
+            mock_update = "UPDATE mockSatScores SET " + ", ".join([f"{column} = '{value}'" for column, value in mock_info.items() if value != ""]) + " WHERE satScoreID = '%s'" % examID
+        elif mockType == 'act':
+            pass
+        elif mockType == 'hspt':
+            pass
+        elif mockType == 'isee':
+            pass
+        try:
+            self.cursor.execute(mock_update)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during deletion of todo', e)
+            return False
 
     def getStates(self):
         try:
