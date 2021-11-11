@@ -13,9 +13,9 @@ def coach_home(auth_data = None):
 @app.route("/coach/info", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def coach_info(auth_data = None):
-    coach_table = db.query('SELECT * FROM staff')
-    specific_coach = db.query("SELECT * FROM staff WHERE userIDFK = ('03762ebe90034818a82fcd011f6389ea')")
-    return render_template('coaches.html', auth_data=auth_data, nav_columns=nav_columns, coach_table=coach_table, specific_coach=specific_coach)
+    states = db.getStates()
+    coach = db.get_coach_information(auth_data['user_id'])
+    return render_template('coach_info.html', auth_data=auth_data, nav_columns=nav_columns, states=states, coach=coach[0])
 
 @app.route("/coach/assignments", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site

@@ -288,3 +288,18 @@ class Database:
                                         WHERE assignments.staffUsersIDFK LIKE '%{coachID}%'"""
         
         return self.query(coach_assignments_query)
+
+    def get_coach_information(self, coachID):
+        specific_coach = f"""SELECT staff.*, 
+                                    users.userAddress,
+                                    states.stateName,
+                                    states.countryName
+                                    FROM staff 
+                                    LEFT JOIN users 
+                                    ON(staff.userIDFK = users.userID)
+                                    LEFT JOIN states
+                                    ON (users.stateIDFK = states.stateID)
+                                    WHERE staff.userIDFK LIKE '%{coachID}%'"""
+
+        return self.query(specific_coach)
+
