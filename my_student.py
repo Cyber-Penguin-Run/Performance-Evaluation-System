@@ -1,10 +1,11 @@
+import re
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
 from app import assignments, sessions
 from connection import Database
 from __main__ import app, secure_site, db
 
-nav_columns = {"Overview":"mystudent_overview", "Students":"mystudent_students", "Family":"mystudent_family"}
+nav_columns = {"Students":"mystudent_students", "Family":"mystudent_families"}
 
 @app.route("/mystudent/overview", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
@@ -65,7 +66,35 @@ def mystudent_student_assignment(studentID, auth_data = None):
         return redirect(f"/mystudent/students/{studentID}")
 
 
-@app.route("/mystudent/family", methods = ["POST", "GET", "PUT", "DELETE"])
+@app.route("/mystudent/families", methods = ["POST", "GET"])
 @secure_site
-def mystudent_family(auth_data = None):
-    return "/mystudent/family"
+def mystudent_families(auth_data = None):
+    if request.method == "GET":
+        if auth_data['userPerms']['adminDashboard']:
+            families = db.get_coach_families("")
+        else:
+            families = db.get_coach_families(auth_data['user_id'])
+
+        return render_template("mystudent_families.html", auth_data=auth_data, nav_columns=nav_columns, families=families)
+
+    if request.method == "POST": 
+        if auth_data['userPerms']['adminDashboard']:
+            families = db.get_coach_like_families("", request.form['familyName'])
+        else:
+            families = db.get_coach_like_families(auth_data['user_id'], request.form['familyName'])
+
+        return render_template("mystudent_families.html", auth_data=auth_data, nav_columns=nav_columns, families=families)
+
+
+
+
+@app.route("/mystudent/families/<familyID>", methods = ["POST", "GET", "PUT", "DELETE"])
+@secure_site
+def mystudent_family_info(familyID, auth_data = None):
+    if request.method == "GET":
+        family = db.get_family(familyID)
+        
+        return render_template("/elements/family_display.html", auth_data=auth_data, nav_columns=nav_columns, family=family)
+    
+    if request.method == "POST":
+        return redirect("/mystudent/families")

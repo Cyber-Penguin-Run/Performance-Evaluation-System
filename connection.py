@@ -324,3 +324,34 @@ class Database:
         assignments_query = """SELECT * FROM studentSessions WHERE studentSessions.studentIDFK = '%s'""" % studentID 
         
         return self.query(assignments_query)
+
+    def get_coach_families(self, coachID):
+        families_query = f"""SELECT * FROM studentSessions
+                                    LEFT JOIN student
+                                    ON (student.studentID = studentSessions.studentIDFK)
+                                    RIGHT JOIN family
+                                    ON (family.familyID = student.familyIDFK)
+                                    WHERE studentSessions.staffUsersIDFK LIKE '%{coachID}%'"""
+
+        return self.query(families_query)
+
+    def get_family(self, familyID):
+        family_query = f"SELECT * FROM family WHERE familyID = '{familyID}'"
+
+        family = self.query(family_query)[0]
+
+        family['parents'] = self.query(f"SELECT * FROM parent WHERE familyIDFK = '{familyID}'")
+        family['students'] = self.query(f"SELECT * FROM student WHERE familyIDFK = '{familyID}'")
+
+        return family
+
+    def get_coach_like_families(self, coachID, familyName):
+        families_query = f"""SELECT * FROM studentSessions
+                                    LEFT JOIN student
+                                    ON (student.studentID = studentSessions.studentIDFK)
+                                    RIGHT JOIN family
+                                    ON (family.familyID = student.familyIDFK)
+                                    WHERE studentSessions.staffUsersIDFK LIKE '%{coachID}%'
+                                    AND family.familyName LIKE '%{familyName}%'"""
+
+        return self.query(families_query)
