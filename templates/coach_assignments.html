@@ -1,0 +1,31 @@
+{% extends "authed_base.html" %}
+{% block content %}
+
+<form class = "h-25 enrichery-bg-dark p-3 text-center">
+    <h1>Assignments</h1>
+
+</form>
+
+<table class='table'>
+    <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
+        <tr>
+            <th>Student</th>
+            <th>Assignment Date</th>
+            <th>Assignment Grade</th>
+            <th>Assignment Type</th>
+        </tr>
+
+        {% for row in assignments %}
+
+        <tr>
+            <td>{{row['firstName'] + " " + row['lastName']}}</td>
+            <td>{{row['assignmentDate']}}</td>
+            <td>{{row['assignmentGrade']}}</td>
+            <td>{{row['assignmentType']}}</td>
+        </tr>
+        {% endfor %}
+    </div>
+</table>
+
+
+{% endblock content %}
