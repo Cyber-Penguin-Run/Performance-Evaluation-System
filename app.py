@@ -116,7 +116,7 @@ def register():
             new_user['familyID'] = family
 
         if db.create_user(new_user):
-            return "<h1>Success! you will be redirected soon!</h1>", {"Refresh": "4; url=/login"}
+            return "<h1>Success! you will be redirected soon!</h1>", {"Refresh": "2; url=/admin/staff"}
         else:
             return render_template('error.html'), {"Refresh": "4; url=/register"}
 
@@ -141,18 +141,6 @@ def students():
 
 
 # redirect to /assignments to display table
-<<<<<<< HEAD
-@app.route('/assignments')
-def assignments(auth_data=None):
-    nav_columns = {"Overview": "admin_overview", "Staff": "admin_staff", "Families": "admin_families",
-                   "Business": "admin_business"}
-
-    assignment_result = db.query(sql='SELECT* FROM assignments')
-    return render_template('assignments.html', assignments=assignment_result, auth_data=auth_data,
-                           nav_columns=nav_columns)
-
-=======
->>>>>>> coachDashboard
 
 # redirect to /sessions to display table
 @app.route('/sessions')

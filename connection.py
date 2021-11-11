@@ -53,6 +53,16 @@ class Database:
         self.cnx.commit()
         return deleteFamilyName
 
+    def delete_staff(self, staffID):
+        delete_query = f"DELETE from staff where userIDFK = '{staffID}'"
+        try:
+            self.cursor.execute(delete_query)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during delete staff', e)
+            return False
+
     def create_todo(self,staffID, description):
         todo_id = uuid.uuid4().hex
         if description is not None:
@@ -208,8 +218,7 @@ class Database:
     def get_like_users(self, user_data):
         user_data = {key:user_data[key] for key in ["userID", "username", "userAddress"] if key in user_data}
 
-        user_query = "SELECT * FROM users WHERE " + " AND ".join([f"{key} LIKE '%{value}%'" for key, value in user_data.items()])
-        print(user_query)
+        user_query = "SELECT * FROM staff LEFT JOIN users ON (staff.userIDFK = users.userID) LEFT JOIN userPerms ON (users.userID = userPerms.userIDFK) WHERE " + " AND ".join([f"{key} LIKE '%{value}%'" for key, value in user_data.items()])
 
         try:
             self.cursor.execute(user_query)
