@@ -6,8 +6,8 @@ import uuid
 
 class Database:
     def __init__(self):
-        #server = 'CoT-CIS3365-10.cougarnet.uh.edu'
-        server = "DESKTOP-MCGVN84\SQLEXPRESS"
+        server = 'CoT-CIS3365-10.cougarnet.uh.edu'
+        #server = "DESKTOP-MCGVN84\SQLEXPRESS"
         database = 'Enrichery'
         username = 'Test'
         password = 'P@ssw0rd1'
@@ -319,3 +319,8 @@ class Database:
         except Exception as e:
             print("Error creating assignment:")
             print(e)
+
+    def get_student_sessions(self, studentID):
+        assignments_query = """SELECT * FROM studentSessions WHERE studentSessions.studentIDFK = '%s'""" % studentID 
+        
+        return self.query(assignments_query)

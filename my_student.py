@@ -1,6 +1,6 @@
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
-from app import assignments
+from app import assignments, sessions
 from connection import Database
 from __main__ import app, secure_site, db
 
@@ -43,6 +43,7 @@ def mystudent_student_info(studentID, auth_data = None):
             return render_template("mystudent_student_info.html", auth_data=auth_data, nav_columns=nav_columns, message = "Student is not valid.", student_info={"assignments":[]})
 
         student_info['assignments'] = db.get_student_assignments(studentID)
+        student_info['sessions'] = db.get_student_sessions(studentID)
 
         return render_template("mystudent_student_info.html", auth_data=auth_data, nav_columns=nav_columns, student_info=student_info)
 
