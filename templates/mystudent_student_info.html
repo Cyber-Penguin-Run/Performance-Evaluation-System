@@ -5,17 +5,23 @@
 <form method="POST" class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
 
     <div class="row text-center h-75">
-        <h1>My Students</h1>
+        <h1>Student Name</h1>
     </div>
 
     <div class="row d-flex">
         <div class="col py-2 ms-auto">
                 <input class="align-middle" id="fullname" name="fullname" style="border-radius: 5px; height: 35px;" type="text" placeholder="Student Name" value="{%if request.form.get('fullname')%}{{request.form.get('fullname')}}{%endif%}">
-                <button class="btn btn-primary enrichery-primary">Search</button>
+                <button id="searchBtn" name="submitBtn" value="searchAssignment" class="btn btn-primary enrichery-primary">Search</button>
+        </div>
+
+        <div class="col py-2 ms-auto d-flex">
+            <button id="addAssignmentBtn" name="submitBtn" value="addAssignment" class="btn btn-primary enrichery-primary ms-auto px-4">Add</button>
         </div>
     </div>
 </form>
 
 
-{%include "students.html"%}
+{%include "assignments.html"%}
+
+
 {%endblock content%}

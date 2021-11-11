@@ -6,8 +6,8 @@ import uuid
 
 class Database:
     def __init__(self):
-        server = 'CoT-CIS3365-10.cougarnet.uh.edu'
-        #server = "DESKTOP-MCGVN84\SQLEXPRESS"
+        #server = 'CoT-CIS3365-10.cougarnet.uh.edu'
+        server = "DESKTOP-MCGVN84\SQLEXPRESS"
         database = 'Enrichery'
         username = 'Test'
         password = 'P@ssw0rd1'
@@ -55,16 +55,29 @@ class Database:
         self.cnx.commit()
         return deleteFamilyName
 
-    def create_todo(self, description):
-        staff_users_ID = uuid.uuid4().hex
-        todo_id = random.randint(0,99999)
+    def create_todo(self,staffID, description):
+        todo_id = uuid.uuid4().hex
         if description is not None:
             todo_insert = ("INSERT INTO todos(toDoDescription,staffUsersID,todoID)values (?,?,?)")
-            values = (description, staff_users_ID,todo_id)
-            self.cursor.execute(todo_insert,values)
+            values = (description, staffID,todo_id)
+            try:
+                self.cursor.execute(todo_insert,values)
+                self.cnx.commit()
+                return True
+            except Exception as e:
+                print('error during insert todo', e)
+                return False
+
+    def delete_todo(self,todoID):
+        todo_delete = "DELETE FROM todos WHERE todoID = '%s'" % todoID
+        try:
+            self.cursor.execute(todo_delete)
             self.cnx.commit()
-            return staff_users_ID
-        return description
+            return True
+        except Exception as e:
+            print('error during deletion of todo', e)
+            return False
+
     def getStates(self):
         try:
             self.cursor.execute("SELECT * FROM states")
@@ -265,5 +278,44 @@ class Database:
             print(e)
             return False
 
+    def get_coach_students_fullname(self, coachID, fullname):
 
+        fullname_query = f"""SELECT s.firstName, s.lastName, s.school, s.studentID, s.familyIDFK, concat(s.firstName , ' ' , s.lastName) AS FullName
+                                FROM student AS s
+                                RIGHT JOIN studentSessions
+                                ON (s.studentID = studentSessions.studentIDFK)
+                                WHERE studentSessions.staffUsersIDFK LIKE '%{coachID}%'
+                                AND concat(s.firstName , ' ' , s.lastName) LIKE '%{fullname}%'"""
 
+        try:
+            self.cursor.execute(fullname_query)
+            results = self.results_as_dict()
+
+            return results
+        except Exception as e:
+            print("Error while retrieving coach fullname students:")
+            print(e)
+
+    def get_student_assignments(self, studentID):
+        assignments_query = """SELECT * FROM assignments WHERE assignments.studentIDFK = '%s'""" % studentID 
+        
+        return self.query(assignments_query)
+
+    def get_student(self, studentID):
+        student_query = "SELECT * FROM student WHERE student.studentID = '%s'" % studentID
+
+        return self.query(student_query)
+
+    def create_assignment(self, staffID, studentID, assignment_info):
+        assignment_query = "INSERT INTO assignments(assignmentDate, assignmentType, assignmentID, staffUsersIDFK, studentIDFK) VALUES ('%s', '%s', '%s', '%s', '%s')"
+
+        assignmentID = uuid.uuid4().hex
+
+        assignment_query = assignment_query % (assignment_info['assignmentDate'], assignment_info['assignmentType'], assignmentID, staffID, studentID)
+
+        try:
+            self.cursor.execute(assignment_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error creating assignment:")
+            print(e)

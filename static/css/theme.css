@@ -95,6 +95,7 @@ main {
 }
 
 .enrichery-bg-dark {
+    color: var(--main-light-color);
     background-color: var(--light-dark-color);
 }
 
