@@ -1,5 +1,6 @@
 from flask.json import JSONEncoder, jsonify
 import pyodbc
+import random
 import json
 import uuid
 
@@ -32,16 +33,63 @@ class Database:
                                        "Values (?,?)")
             values = (familyID, familyName)
             self.cursor.execute(family_insert,values)
+            self.cnx.commit()
             #family_data = (familyID,familyName)
             return familyID
         return familyName
-    #taking in old family name, then taking a new family name they want to change it to after checking the key value matches.
-    def edit_family(self,familyName, newFamilyName):
-        #familyID = uuid.uuid4().hex
-        if familyName is not None:
-            family_update = ("UPDATE family SET familyName = ? WHERE familyID = ?", newFamilyName, familyID)
-            self.cursor.execute(family_update)
-        return familyID
+
+    def edit_family(self, oldFamilyName, newFamilyName):
+        new_family_ID = uuid.uuid4().hex
+        get_family_info = ('Select * from family where familyName = ?', oldFamilyName)
+        if get_family_info is not None:
+            print('there is a family')
+            family_update = self.query("UPDATE family SET familyName = ?, familyID = ?"
+                                       , newFamilyName, new_family_ID)
+            self.cnx.commit()
+            return newFamilyName
+        return newFamilyName
+
+    def delete_family(self, deleteFamilyName):
+        get_family_info = ('DELETE * from family where familyName = ?', deleteFamilyName)
+        self.cursor.execute(get_family_info)
+        self.cnx.commit()
+        return deleteFamilyName
+
+    def create_todo(self,staffID, description):
+        todo_id = uuid.uuid4().hex
+        if description is not None:
+            todo_insert = ("INSERT INTO todos(toDoDescription,staffUsersID,todoID)values (?,?,?)")
+            values = (description, staffID,todo_id)
+            try:
+                self.cursor.execute(todo_insert,values)
+                self.cnx.commit()
+                return True
+            except Exception as e:
+                print('error during insert todo', e)
+                return False
+
+    def delete_todo(self,todoID):
+        todo_delete = "DELETE FROM todos WHERE todoID = '%s'" % todoID
+        try:
+            self.cursor.execute(todo_delete)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during deletion of todo', e)
+            return False
+
+    def update_todo(self,toDoDescription, todoID):
+        update_todo = "UPDATE todos set toDoDescription = '%s' WHERE todoID = '%s' " % (toDoDescription,todoID)
+        try:
+            print(update_todo)
+            self.cursor.execute(update_todo)
+            self.cursor.commit()
+            return True
+        except Exception as e:
+            print('error during deletion of todo', e)
+            return False
+
+
     def getStates(self):
         try:
             self.cursor.execute("SELECT * FROM states")
@@ -211,6 +259,16 @@ class Database:
             print("Error while retrieving multiple staff:")
             print(e)
 
+    def get_user_perms(self, userID):
+        perms_query = "SELECT adminDashboard, myStudent, coachDashboard, todosDashboard, testPrepDashboard, isParent FROM userPerms WHERE userIDFK = ?"
+
+        try:
+            self.cursor.execute(perms_query, (userID, ))
+            results = self.results_as_dict()
+            return results
+        except Exception as e:
+            print("Error retrieving the user perms:")
+            print(e)
 
     # function to query sql
     def query(self, sql):

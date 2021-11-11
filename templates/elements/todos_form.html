@@ -1,1 +1,10 @@
-<form></form>
+{%extends 'authed_base.html' %}
+{% block content %}
+
+<form method = "POST">
+    <h2>Insert a new todo item</h2>
+    <p>description <input type = "text" id="todoDescription" name="todoDescription" value="{% if todoDescription %}
+{{ todoDescription }} {% endif %}"/></p>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
+{%endblock content %}

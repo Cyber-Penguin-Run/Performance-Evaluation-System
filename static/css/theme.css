@@ -8,8 +8,15 @@
     --dark-primary-color: rgb(66, 185, 134);
 }
 
+html {
+    margin:0
+}
+
 body {
     margin: 0;
+}
+main {
+    margin:0
 }
 
 .container {
@@ -86,4 +93,8 @@ body {
 
 .enrichery-bg-dark {
     background-color: var(--light-dark-color);
+}
+
+.enrichery-bg-primary {
+    background-color: var(--main-primary-color);
 }

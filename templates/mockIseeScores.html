@@ -1,38 +1,22 @@
-{%extends 'base.html'%}
+{%extends 'authed_base.html'%}
 {% block content %}
-<table>
-  <tr>
-    <th>iSeeScoreID</th>
-    <th>studentIDFK</th>
-    <th>verbalScore</th>
-    <th>verbalMax</th>
-    <th>quantitativeSCore</th>
-    <th>quantitativeMax</th>
-    <th>readingSore</th>
-    <th>readingMax</th>
-    <th>readingScore</th>
-    <th>mathScore</th>
-    <th>mathMax</th>
-    <th>iseeCompScore</th>
-    <th>iseeTestDate</th>
-  </tr>
-       {% for row in mockIseeScores%}
-    <tr>
-      <td>{{row[0]}}</td>
-      <td>{{row[1]}}</td>
-      <td>{{row[2]}}</td>
-      <td>{{row[3]}}</td>
-      <td>{{row[4]}}</td>
-      <td>{{row[5]}}</td>
-      <td>{{row[6]}}</td>
-      <td>{{row[7]}}</td>
-      <td>{{row[8]}}</td>
-      <td>{{row[9]}}</td>
-      <td>{{row[10]}}</td>
-      <td>{{row[11]}}</td>
-      <td>{{row[12]}}</td>
+<header class="m-0 text-center" style="height: 200px; background-color:rgb(248 223 33)">
+        ISEE Test Prep Tables and Information Section
+</header>
+    Scores actual/maximum <br>
+    {% for row in isee_select %}
+    <h5>
+        Verbal: {{ row['verbalScore'] }}/{{ row['verbalMax'] }}
+        Quantitative: {{ row['quantitativeScore'] }}/{{ row['quantitativeMax'] }}
+        Reading: {{ row['readingScore'] }}/{{ row['readingMax'] }}
+        Math: {{ row['mathScore'] }}/{{ row['mathMax'] }}
+        Language: {{ row['languageScore'] }}/{{ row['languageMax'] }}
+        Isee Score: {{ row['iseeCompScore'] }}  {{ row['iseeTestDate'] }}
+        Student Name: {{ row['lastName'] }},{{ row['firstName'] }}<br>
+        School: {{ row['school'] }}
+    </h5>
+    <br>
+    <br>
 
-  </tr>
     {% endfor %}
-</table>
 {%endblock content %}

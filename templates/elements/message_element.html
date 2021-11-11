@@ -1,0 +1,14 @@
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+    function closemessage() {
+        $("#message").hide()
+    }
+</script>
+<div>
+        {% if message %}
+            <div id="message" style="background-color:darkred; color: white; position:absolute; top:5%; padding:5px; border-radius:5px; left:50%">
+                {{ message }}
+            <a class="p-1" type="button" onclick="closemessage()">X</a>
+            </div>
+        {% endif %}
+</div>
