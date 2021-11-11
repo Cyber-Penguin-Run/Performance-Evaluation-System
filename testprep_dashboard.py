@@ -3,7 +3,7 @@ from flask.helpers import make_response
 from connection import Database
 from __main__ import app, secure_site, db
 
-nav_columns = {'Mock ACT':'mockACT','Mock SAT':'mockSAT','Mock HSPT':'mockHSPT','Mock ISEE':'mockISEE','Insert/Edit/Delete':'insert_edit_delete'}
+nav_columns = {'Mock ACT':'mockACT','Mock SAT':'mockSAT','Mock HSPT':'mockHSPT','Mock ISEE':'mockISEE','Insert Scores':'change'}
 
 @app.route("/testprep", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
@@ -42,7 +42,7 @@ def mockISEE(auth_data = None):
 
 @app.route("/testprep/change", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
-def insert_edit_delete(auth_data = None):
+def change(auth_data = None):
     if request.method == 'GET':
         isee_select = db.query('SELECT * FROM mockIseeScores left join student ON mockIseeScores.studentIDFK=student.studentID')
         return render_template('/elements/mock_exam_form.html', auth_data = auth_data, nav_columns=nav_columns,isee_select=isee_select)

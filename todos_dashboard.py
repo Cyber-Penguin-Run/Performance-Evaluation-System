@@ -6,7 +6,7 @@ from flask.helpers import make_response
 from connection import Database
 from __main__ import app, secure_site, db
 
-nav_columns = {"Todos":"todos","Change Todo List":"todos_form"}
+nav_columns = {"Todos":"todos","All Staff Todos":"todos_all","Change Todo List":"todos_form"}
 
 
 @app.route("/todos", methods = ["POST", "GET", "PUT", "DELETE"])
@@ -59,3 +59,9 @@ def todo_update(todoID,auth_data = None):
         else:
             return render_template('todos.html', auth_data=auth_data, nav_columns=nav_columns,
                                    message='error while updating', todos_table=todos_table)
+
+@app.route("/todos/all", methods = ["POST", "GET", "PUT", "DELETE"])
+@secure_site
+def todos_all(auth_data = None):
+    todos_table = db.query("Select * FROM todos")
+    return render_template('todos.html', auth_data = auth_data, nav_columns=nav_columns, todos_table=todos_table)
