@@ -1,5 +1,34 @@
 {%extends 'authed_base.html'%}
 {% block content %}
+
+    <script>
+        $("#cases").change(function () {
+            var case = $( "#cases option:selected" ).val();
+            if(case=="ACT")
+            {
+              //show 2 form fields here and show div
+               $("#ACT").show();
+            }
+            if(case=="SAT")
+            {
+              //show 2 form fields here and show div
+               $("#SA").show();
+            }
+            if(case=="general")
+            {
+              //show 2 form fields here and show div
+               $("#general").show();
+            }
+        });
+    </script>
+    <header class="m-0 enrichery-bg-dark" style="height: 200px">
+        This is a page for inserting test scores
+    </header>
+    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
+
+    </div>
+    {% include 'elements/message_element.html' %}
+
        <script src=http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js></script>
    <script>
         $(document).ready(function() {
@@ -50,4 +79,5 @@
     <input type="text" name="text8" value="text8" />
 </div>
     </body>
+
 {% endblock %}
