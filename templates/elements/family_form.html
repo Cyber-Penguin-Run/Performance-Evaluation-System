@@ -1,9 +1,10 @@
 {%extends 'authed_base.html' %}
 {% block content %}
 
-<form action='/admin/business' method = "POST">
-    <h2>Insert a family name</h2>
-    <p>family name <input type = "text" id="familyName" name="familyName"/></p>
+<form method = "POST">
+    <h2>Insert a new Family Name</h2>
+    <p>Family Name <input type = "text" id="familyName" name="familyName" value="{% if familyName %}
+{{ familyName }} {% endif %}"/></p>
     <p><input type = "submit" value = "Submit" /></p>
 </form>
 {%endblock content %}

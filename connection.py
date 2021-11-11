@@ -38,13 +38,11 @@ class Database:
             return familyID
         return familyName
 
-    def edit_family(self, oldFamilyName, newFamilyName):
-        new_family_ID = uuid.uuid4().hex
-        get_family_info = ('Select * from family where familyName = ?', oldFamilyName)
+    def edit_family(self, familyID, newFamilyName):
+        get_family_info = ("Select * from family where familyID = '%s'" % familyID)
         if get_family_info is not None:
             print('there is a family')
-            family_update = self.query("UPDATE family SET familyName = ?, familyID = ?"
-                                       , newFamilyName, new_family_ID)
+            family_update = ("UPDATE family SET familyName = ?" % newFamilyName)
             self.cnx.commit()
             return newFamilyName
         return newFamilyName
@@ -88,6 +86,17 @@ class Database:
         except Exception as e:
             print('error during deletion of todo', e)
             return False
+
+    def create_score(self):
+        pass
+
+    def delete_score(self):
+        pass
+
+    def update_score(self):
+        pass
+
+
 
 
     def getStates(self):

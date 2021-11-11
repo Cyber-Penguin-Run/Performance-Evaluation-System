@@ -1,12 +1,14 @@
-{%extends 'authed_base.html'%}
+{%extends 'authed_base.html' %}
 {% block content %}
-    <title>
-    Admin/staff
-    </title>
-    <header class="m-0 text-center" style="height: 200px; background-color:rgb(248 223 33)">
-        Where admins are to do editing for staff members page!
-    </header>
-    <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
 
-    </div>
-{% endblock %}
+<form method = "POST">
+    <h2>Insert a new staff member</h2>
+    <p>First Name <input type = "text" id="firstName" name="firstName" value="{% if firstName %}{% endif %}"/>
+    <p>Last Name <input type = "text" id="lastName" name="lastName" value="{% if lastName %}{% endif %}"/>
+    <p>Phone Number <input type = "text" id="phoneNumber" name="phoneNumber" value="{% if phoneNumber %}{% endif %}"/>
+    <p>Email <input type = "text" id="email" name="email" value="{% if email %}{% endif %}"/>
+
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
+
+{%endblock content %}
