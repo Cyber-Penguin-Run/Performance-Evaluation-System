@@ -284,3 +284,20 @@ class Database:
         self.cursor.execute(sql)
         return self.results_as_dict()
 
+    def create_session(self, new_session):
+        new_session["sessionID"] = uuid.uuid4().hex
+        session_insert = """INSERT INTO studentSessions(sessionID, programIDFK, sessionSubject, sessionDate, 
+                                sessionHours, sessionsAttended, studentIDFK, staffUsersIDFK) Values (%(sessionID)s,%(programIDFK)s,%(sessionSubject)s,%(sessionDate)s,%(sessionHours)s,%(sessionAttended)s,
+                                %(studentIDFK)s,%(staffUsersIDFK)s)"""% new_session
+        try:
+            self.cursor.execute(session_insert)
+            self.cursor.commit()
+            return True
+
+        except Exception as e:
+            print("Error inserting new session")
+            print(e)
+            return False
+
+
+
