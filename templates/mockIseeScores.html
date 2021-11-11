@@ -5,7 +5,7 @@
 </header>
     <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
     {% for row in isee_select %}
-        <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: 75px">
+        <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: fit-content;">
     <h5>
         Verbal: {{ row['verbalScore'] }}/{{ row['verbalMax'] }}
         Quantitative: {{ row['quantitativeScore'] }}/{{ row['quantitativeMax'] }}
@@ -15,6 +15,10 @@
         Isee Score: {{ row['iseeCompScore'] }}  {{ row['iseeTestDate'] }}
         Student Name: {{ row['lastName'] }},{{ row['firstName'] }}
         School: {{ row['school'] }}
+        <a class="btn-primary btn enrichery-primary me-3" type="button"
+           href="{{ url_for("testprep_delete",examID=row['iseeScoreID'], examType="isee") }}">Delete</a>
+        <a class="btn-primary btn enrichery-primary me-3" type="button"
+           href="{{ url_for("testprep_update",examID=row['iseeScoreID'], examType="isee") }}">Update</a>
     </h5>
         </div>
 

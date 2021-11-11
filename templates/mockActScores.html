@@ -5,7 +5,7 @@
 </header>
     <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
     {% for row in act_select %}
-        <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: 75px">
+        <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: fit-content;">
     <h5>
         English: {{ row['englishScore'] }}/{{ row['englishMax'] }}
         Math: {{ row['mathScore'] }}/{{ row['mathMax'] }}
@@ -13,6 +13,11 @@
         Science: {{ row['scienceScore'] }}/{{ row['scienceMax'] }}
         ACT Score: {{ row['actCompScore'] }}   Date Taken:{{ row['actTestDate'] }}<br>
         Student Name: {{ row['lastName'] }},{{ row['firstName'] }}
+        <a class="btn-primary btn enrichery-primary me-3" type="button"
+           href="{{ url_for("testprep_delete",examID=row['actScoreID'], examType="act") }}">Delete</a>
+        <a class="btn-primary btn enrichery-primary me-3" type="button"
+           href="{{ url_for('testprep_update',examID=row['actScoreID'], examType="act") }}">Update</a>
+
     </h5>
         </div>
 
