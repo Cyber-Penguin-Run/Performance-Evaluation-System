@@ -135,10 +135,58 @@ def change(studentID,auth_data = None):
 @secure_site
 def testprep_update(examType, examID, auth_data=None):
     if request.method == 'GET':
-        return render_template('/elements/mock_exam_form.html', auth_data=auth_data, nav_columns=nav_columns)
+        return render_template('/elements/update_mock_exam.html', auth_data=auth_data, nav_columns=nav_columns,
+                               examType=examType,examID=examID)
     if request.method == 'POST':
-        update = db.update_mock(examType, examID)
-        return render_template('error.html')
+        if examType =='sat':
+            writing = request.form['writingScore']
+            mathCalculator = request.form['mathCalcScore']
+            math = request.form['mathScore']
+            reading = request.form['readingScore']
+            satComp = request.form['satCompScore']
+            satType = request.form['satType']
+            satTestDate = request.form['satTestDate']
+            mock_info = {'writingScore':writing,'mathCalcScore':mathCalculator, 'mathScore':math,'readingScore':reading,
+                     'satCompScore':satComp,'satType':satType,'satTestDate':satTestDate}
+            db.update_mock(examType, examID,mock_info)
+
+        if examType =='act':
+            english = request.form['englishScore']
+            math = request.form['mathScore']
+            reading = request.form['readingScore']
+            science = request.form['scienceScore']
+            actComp = request.form['actCompScore']
+            actType = request.form['actType']
+            actTestDate = request.form['actTestDate']
+            mock_info = {'englishScore': english, 'mathScore': math, 'readingScore':reading,'scienceScore': science,
+                         'actCompScore': actComp,'actType': actType, 'actTestDate': actTestDate}
+            db.update_mock(examType, examID, mock_info)
+
+        if examType =='hspt':
+            verbal = request.form['verbalScore']
+            quantitativeMath = request.form['quantitativeScore']
+            reading = request.form['readingScore']
+            math = request.form['mathScore']
+            language = request.form['languageScore']
+            hsptComp = request.form['hsptCompScore']
+            hsptType = request.form['hsptType']
+            hsptTestDate = request.form['hsptTestDate']
+            mock_info = {'verbalScore': verbal, 'quantitativeScore': quantitativeMath, 'readingScore': reading, 'mathScore': math,
+                         'languageScore':language, 'hsptCompScore': hsptComp, 'hsptType': hsptType, 'hsptTestDate': hsptTestDate}
+            db.update_mock(examType, examID, mock_info)
+        if examType=='isee':
+            verbal = request.form['verbalScore']
+            quantitativeMath = request.form['quantitativeScore']
+            reading = request.form['readingScore']
+            math = request.form['mathScore']
+            iseeComp = request.form['iseeCompScore']
+            iseeType = request.form['iseeType']
+            iseeTestDate = request.form['iseeTestDate']
+            mock_info = {'verbalScore': verbal, 'quantitativeScore': quantitativeMath, 'readingScore': reading,
+                         'mathScore': math,'iseeCompScore': iseeComp, 'iseeType': iseeType,
+                         'iseeTestDate': iseeTestDate}
+            db.update_mock(examType, examID, mock_info)
+        return render_template('layout.html'), {"Refresh": "2; url=/testprep"}
     return render_template('/test_prep_dashboard.html', auth_data=auth_data, nav_columns=nav_columns,message='Error while deleting')
 
 @app.route("/testprep/delete/<examType>/<examID>", methods = ["POST", "GET", "PUT", "DELETE"])

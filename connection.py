@@ -144,17 +144,22 @@ class Database:
             print('error during deletion of todo', e)
             return False
 
-    def update_mock(self,mockType,mockID,mockInfo):
+    def update_mock(self,mockType,examID, mock_info):
         if mockType == 'sat':
-            mockInfo['satScoreID'] = mock_score_id
-            mock_insert = """INSERT INTO mockSatScores(satScoreID,studentIDFK,writingScore,writingMax,mathCalcScore,mathCalcMax,
-                                      mathScore,mathMax,readingScore,readingMax,satCompScore,satType,satTestDate) values
-                                      ('%(satScoreID)s','%(studentIDFK)s','%(writingScore)s','%(writingMax)s','%(mathCalcScore)s',
-                                      '%(mathCalcMax)s','%(mathScore)s', '%(mathMax)s','%(readingScore)s','%(readingMax)s',
-                                      '%(satCompScore)s','%(satType)s','%(satTestDate)s')""" % mockInfo
-
-
-
+            mock_update = "UPDATE mockSatScores SET " + ", ".join([f"{column} = '{value}'" for column, value in mock_info.items() if value != ""]) + " WHERE satScoreID = '%s'" % examID
+        elif mockType == 'act':
+            pass
+        elif mockType == 'hspt':
+            pass
+        elif mockType == 'isee':
+            pass
+        try:
+            self.cursor.execute(mock_update)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during deletion of todo', e)
+            return False
 
     def getStates(self):
         try:
