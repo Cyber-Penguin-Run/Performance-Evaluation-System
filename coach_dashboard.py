@@ -31,6 +31,7 @@ def coach_info(auth_data = None):
             print(Fname,Lname,NPhone,NEmail)
             return render_template('coach_info.html', auth_data=auth_data, nav_columns=nav_columns, states=states, coach=coach[0])
 
+
 @app.route("/coach/assignments", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def coach_assignments(auth_data = None):
