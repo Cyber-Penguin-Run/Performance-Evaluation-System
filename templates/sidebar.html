@@ -1,40 +1,39 @@
-
-
 <!--NUST GET THIS TO BE THE WHOLE PAGE HEIGHT@@@@@@@@@@@@@@@@@@@@!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 <div class="d-flex flex-column flex-shrink-0 p-3 text-white enrichery-bg-dark vh-100" style="min-width: 250px;">
     <div class="dropdown">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/mdo.png" alt="" width="50" height="50" class="rounded-circle me-2">
-        <strong>{{ auth_data['username'] }}</strong>
+            <img src="https://github.com/mdo.png" alt="" width="50" height="50" class="rounded-circle me-2">
+            <strong>{{ auth_data['username'] }}</strong>
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
             <li><a class="dropdown-item" href="#">New project...</a></li>
             <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/coach/info">Profile</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
             <li><a class="dropdown-item" href="/logout">Sign out</a></li>
         </ul>
     </div>
 
     <hr>
-    <ul class="nav nav-pills flex-column mb-auto" >
+    <ul class="nav nav-pills flex-column mb-auto">
         <li>
             <div class="nav-link text-center" aria-current="page">
-            <a type="button" class="btn btn-primary enrichery-primary w-100" href="/home">Home</a>
+                <a type="button" class="btn btn-primary enrichery-primary w-100" href="/home">Home</a>
             </div>
         </li>
-        
+
         {% for nav_column, nav_link in nav_columns.items() %}
 
         <li>
             <a href="{{url_for(nav_link)}}" class="nav-link text-white">
-            <svg class="bi me-2" width="16" height="16"></svg>
-            {{nav_column}}
+                <svg class="bi me-2" width="16" height="16"></svg> {{nav_column}}
             </a>
         </li>
 
         {% endfor %}
-        
+
     </ul>
     <hr>
 
