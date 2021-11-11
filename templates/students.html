@@ -1,22 +1,19 @@
-{%extends 'base.html'%}
-{% block content %}
-<table>
-  <tr>
-    <th>studentID</th>
-    <th>firstName</th>
-    <th>lastName</th>
-    <th>school</th>
-    <th>familyIDFK</th>
+<div class = "d-flex flex-wrap w-100 justify-content-center">
+    {% for row in students %}
 
-  </tr>
-       {% for row in student%}
-    <tr>
-      <td>{{row[0]}}</td>
-      <td>{{row[1]}}</td>
-      <td>{{row[2]}}</td>
-      <td>{{row[3]}}</td>
-      <td>{{row[4]}}</td>
-  </tr>
+      <a href = "{{url_for('mystudent_student_info', studentID = row['studentID'])}}" class="container btn text-start m-2 p-1 enrichery-bg-primary" style="width: 40%; min-width: 300px; max-width: 650px; border-radius: 10px">
+
+        <div class="row">
+          <h2>{{row['firstName'].capitalize() + " " + row['lastName'].capitalize() }}</h2>
+        </div>
+
+        <div class="row">
+          <div class="col d-flex">
+            <h6>{{row['school']}}</h6>
+          </div>   
+        </div>
+
+      </a>
     {% endfor %}
-</table>
-{%endblock content %}
+
+</div>
