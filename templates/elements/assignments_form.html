@@ -1,9 +1,26 @@
-<form method="POST">
-    <select id="assignmentType" name="assignmentType">
-        <option value="exam">Exam</option>
-        <option value="quiz">Quiz</option>
-    </select>
+<form class="d-flex flex-column form-control p-3 text-center" style="border-radius: 10px;" method="POST">
 
-    <input id="assignmentDate" name="assignmentDate" type="date">
-    <button>Submit</button>
+    <h3>Assignment</h3>
+
+    <div class="d-flex flex-column m-3">
+        <label><strong>Type:</strong></label>
+        <select id="assignmentType" name="assignmentType">
+            <option value = "">Type</option>
+            <option value="exam">Exam</option>
+            <option value="quiz">Quiz</option>
+            <option value = "homework">Homework</option>
+        </select>    </div>
+
+    <div class="d-flex flex-column m-3">
+        <label><strong>Date:</strong></label>
+        <input id="assignmentDate" name="assignmentDate" type="date">
+    </div>
+
+    <div class="d-flex flex-column m-3">
+        <label><strong>Grade:</strong></label>
+        <input id="assignmentGrade" name="assignmentGrade" type="number">    
+    </div>
+    
+
+    <button id="assignmentsBtn" name="addAssignment" value="addAssignment" type="submit" class = "btn btn-primary enrichery-primary m-3">Submit</button>
 </form>
