@@ -141,6 +141,7 @@ def students():
 
 
 # redirect to /assignments to display table
+<<<<<<< HEAD
 @app.route('/assignments')
 def assignments(auth_data=None):
     nav_columns = {"Overview": "admin_overview", "Staff": "admin_staff", "Families": "admin_families",
@@ -150,6 +151,8 @@ def assignments(auth_data=None):
     return render_template('assignments.html', assignments=assignment_result, auth_data=auth_data,
                            nav_columns=nav_columns)
 
+=======
+>>>>>>> coachDashboard
 
 # redirect to /sessions to display table
 @app.route('/sessions')
