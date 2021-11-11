@@ -24,14 +24,14 @@ def assignmentform(auth_data = None):
             if thing['studentIDFK'] == str(selected_student):
                 results.append(thing)
             
-        return render_template('assignments.html', assignmentform=results, auth_data=auth_data, nav_columns= nav_columns)
+        return render_template('assignments.html', assignment_form=results, auth_data=auth_data, nav_columns= nav_columns)
 
 
 @app.route('/assignments/all', methods=['GET'])
 @secure_site
 def assignments_all(auth_data = None):
     formsearch = db.query('SELECT * FROM assignments')
-    return render_template('assignments.html', assignmentform=formsearch, auth_data=auth_data, nav_columns= nav_columns)
+    return render_template('assignments.html', assignment_form=formsearch, auth_data=auth_data, nav_columns= nav_columns)
 
 
 @app.route('/assignments/Quizzes', methods=['GET'])
@@ -45,7 +45,7 @@ def get_quizzes(auth_data = None):
         if thing['assignmentType'] == "Quiz":
             results.append(thing)
             
-    return render_template('assignments.html', assignmentform=results, auth_data=auth_data, nav_columns= nav_columns)
+    return render_template('assignments.html', assignment_form=results, auth_data=auth_data, nav_columns= nav_columns)
 
 
 @app.route('/assignments/Exams', methods=['GET'])
@@ -59,7 +59,7 @@ def get_exams(auth_data = None):
         if thing['assignmentType'] == "Exam":
             results.append(thing)
             
-    return render_template('assignments.html', assignmentform=results, auth_data=auth_data, nav_columns= nav_columns)
+    return render_template('assignments.html', assignment_form=results, auth_data=auth_data, nav_columns= nav_columns)
 
 
 @app.route('/assignments/Homeworks', methods=['GET'])
@@ -73,7 +73,7 @@ def get_homeworks(auth_data = None):
         if thing['assignmentType'] == "Homework":
             results.append(thing)
             
-    return render_template('assignments.html', assignmentform=results, auth_data=auth_data, nav_columns= nav_columns)
+    return render_template('assignments.html', assignment_form=results, auth_data=auth_data, nav_columns= nav_columns)
 
 
 @app.route('/assignments/Papers', methods=['GET'])
@@ -87,4 +87,4 @@ def get_papers(auth_data = None):
         if thing['assignmentType'] == "Paper":
             results.append(thing)
             
-    return render_template('assignments.html', assignmentform=results, auth_data=auth_data, nav_columns= nav_columns)
+    return render_template('assignments.html', assignment_form=results, auth_data=auth_data, nav_columns= nav_columns)
