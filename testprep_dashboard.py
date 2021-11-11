@@ -3,7 +3,7 @@ from flask.helpers import make_response
 from connection import Database
 from __main__ import app, secure_site, db
 
-nav_columns = {'Mock ACT':'mockACT','Mock SAT':'mockSAT','Mock HSPT':'mockHSPT','Mock ISEE':'mockISEE','Insert Scores':'change'}
+nav_columns = {'Overview':'testprep','Mock ACT':'mockACT','Mock SAT':'mockSAT','Mock HSPT':'mockHSPT','Mock ISEE':'mockISEE','Insert Scores':'change'}
 
 @app.route("/testprep", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
@@ -47,3 +47,27 @@ def change(auth_data = None):
         isee_select = db.query('SELECT * FROM mockIseeScores left join student ON mockIseeScores.studentIDFK=student.studentID')
         return render_template('/elements/mock_exam_form.html', auth_data = auth_data, nav_columns=nav_columns,isee_select=isee_select)
 
+    if request.method == 'POST':
+        if 'actButton' in request.form.keys():
+            print(request.form)
+            english = request.form['englishScore']
+            math = request.form['mathScore']
+            reading = request.form['readingScore']
+            science = request.form['scienceScore']
+            actComp = request.form['actCompScore']
+            actType = request.form['actTestDate']
+            #db.create_mock('act',{})
+            #db.create_mock(english,math,reading,science,actComp,actType)
+        elif 'satButton' in request.form.keys():
+            print(request.form)
+            return render_template('/elements/mock_exam_form.html', auth_data=auth_data, nav_columns=nav_columns)
+        elif 'hsptButton' in request.form.keys():
+            print(request.form)
+            return render_template('/elements/mock_exam_form.html', auth_data=auth_data, nav_columns=nav_columns)
+        elif 'iseeButton' in request.form.keys():
+            print(request.form)
+            return render_template('/elements/mock_exam_form.html', auth_data=auth_data, nav_columns=nav_columns)
+        else:
+            return render_template('/elements/mock_exam_form.html', auth_data=auth_data, nav_columns=nav_columns)
+
+        return render_template('/elements/mock_exam_form.html', auth_data=auth_data, nav_columns=nav_columns)

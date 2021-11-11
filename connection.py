@@ -87,13 +87,17 @@ class Database:
             print('error during deletion of todo', e)
             return False
 
-    def create_score(self):
+    def create_mock(self,mockType,mockInfo):
+        if mockType == 'act':
+            act_table = self.query("Select * FROM mockActScores")
+            act_insert = ("INSERT INTO mockActScores(actScoreID,studentIDFK,englishScore,englishMax,mathScore,mathMax,"
+                          "readingScore,readingMax,scienceScore,scienceMax,actCompScore,actType,actTestDate)values(%s,%s,"
+                          "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % ())
+
+    def delete_mock(self):
         pass
 
-    def delete_score(self):
-        pass
-
-    def update_score(self):
+    def update_mock(self):
         pass
 
 
