@@ -265,10 +265,15 @@ class Database:
 
     def create_session(self, new_session):
         new_session["sessionID"] = uuid.uuid4().hex
+
+        if new_session['sessionAttended'] == "":
+            new_session['sessionAttended'] = 0
+
         session_insert = """INSERT INTO studentSessions(sessionID, programIDFK, sessionSubject, sessionDate, 
-                                sessionHours, sessionsAttended, studentIDFK, staffUsersIDFK) Values (%(sessionID)s,%(programIDFK)s,%(sessionSubject)s,%(sessionDate)s,%(sessionHours)s,%(sessionAttended)s,
-                                %(studentIDFK)s,%(staffUsersIDFK)s)"""% new_session
+                                sessionHours, sessionAttendedHours, studentIDFK, staffUsersIDFK) Values ('%(sessionID)s','%(programIDFK)s','%(sessionSubject)s','%(sessionDate)s','%(sessionHours)s','%(sessionAttended)s',
+                                '%(studentIDFK)s','%(staffUsersIDFK)s')"""% new_session
         try:
+            print(session_insert)
             self.cursor.execute(session_insert)
             self.cursor.commit()
             return True
@@ -314,10 +319,49 @@ class Database:
         assignment_query = assignment_query % (assignment_info['assignmentDate'], assignment_info['assignmentType'], assignmentID, staffID, studentID)
 
         try:
+            print(assignment_query)
             self.cursor.execute(assignment_query)
             self.cursor.commit()
         except Exception as e:
             print("Error creating assignment:")
+            print(e)
+
+    def delete_assignment(self, assignmentID):
+        delete_query = f"DELETE FROM assignments WHERE assignmentID = '{assignmentID}'"
+        try:
+            self.cursor.execute(delete_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error deleting assignment:")
+            print(e)
+
+    def delete_session(self, sessionID):
+        delete_query = f"DELETE FROM studentSessions WHERE sessionID = '{sessionID}'"
+        try:
+            self.cursor.execute(delete_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error deleting session:")
+            print(e)
+
+    def update_assignment(self, assignmentID, assignment_info):
+        update_query = "UPDATE assignments SET " + ", ".join([f"{key} = '{value}'" for key, value in assignment_info.items() if value != ""]) + f" WHERE assignmentID = '{assignmentID}'"
+
+        try:
+            self.cursor.execute(update_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error updating assignment: ")
+            print(e)
+
+    def update_session(self, sessionID, session_info):
+        update_query = "UPDATE studentSessions SET " + ", ".join([f"{key} = '{value}'" for key, value in session_info.items() if value != ""]) + f" WHERE sessionID = '{sessionID}'"
+
+        try:
+            self.cursor.execute(update_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error updating session: ")
             print(e)
 
     def get_student_sessions(self, studentID):
@@ -355,3 +399,8 @@ class Database:
                                     AND family.familyName LIKE '%{familyName}%'"""
 
         return self.query(families_query)
+
+    def get_student_programs(self, studentID):
+        programs_query = f"SELECT * FROM studentPrograms WHERE studentIDFK = '{studentID}'"
+
+        return self.query(programs_query)

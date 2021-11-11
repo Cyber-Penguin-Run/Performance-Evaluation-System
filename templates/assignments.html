@@ -1,9 +1,18 @@
 <div class='container-lg'>
 
     <body>
-        <h1>Assignments</h1>
+
+        <div class="d-flex">
+
+            <button onclick="showForm('#assignments_form')" class="btn btn-primary enrichery-primary px-4 align-self-center me-2" >Add</button>
+
+            <h1>Assignments</h1>
+
+        </div>
+        
 
 
+        
         <!---        <form id='form' role='search' name='stusearch' method='GET' action='/assignments/form'>
             <input aria-label='Search a students assignments' name='stusearch' type='search' id='studentsearch' placeholder='Search student...'>
             <button type='submit' class='btn btn-default'>Search</button>
@@ -26,8 +35,12 @@
                     <td>{{row['assignmentGrade']}}</td>
                     <td>{{row['assignmentType']}}</td>
                     <td class="d-flex">
-                        <button class="btn btn-primary enrichery-primary ms-auto me-2">Edit</button>
-                        <button class="btn btn-primary enrichery-primary me-2">Delete</button>
+                        <button onClick="updateForm('#assignments_form', '#assignmentsBtn', 'updateAssignment', '{{row['assignmentID']}}')" class="btn btn-primary enrichery-primary ms-auto me-2">Edit</button>
+
+                        <form method="POST" class="m-0 p-0">
+                            <button type = "submit" name="deleteAssignment" value="{{row['assignmentID']}}" class="btn btn-primary enrichery-primary me-2">Delete</button>
+                        </form>
+                    
                     </td>
                 </tr>
                 {% endfor %}
