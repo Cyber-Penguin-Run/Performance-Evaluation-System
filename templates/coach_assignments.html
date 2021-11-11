@@ -1,31 +1,66 @@
-{% extends "authed_base.html" %}
-{% block content %}
+{% extends "authed_base.html" %} {% block content %}
 
-<form class = "h-25 enrichery-bg-dark p-3 text-center">
-    <h1>Assignments</h1>
-
-</form>
-
-<table class='table'>
-    <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
-        <tr>
-            <th>Student</th>
-            <th>Assignment Date</th>
-            <th>Assignment Grade</th>
-            <th>Assignment Type</th>
-        </tr>
-
-        {% for row in assignments %}
-
-        <tr>
-            <td>{{row['firstName'] + " " + row['lastName']}}</td>
-            <td>{{row['assignmentDate']}}</td>
-            <td>{{row['assignmentGrade']}}</td>
-            <td>{{row['assignmentType']}}</td>
-        </tr>
-        {% endfor %}
+<div class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
+    <div class="row text-center h-50 p-1">
+        <h1 style="padding-bottom: 90px;">{assignment_form['assignmentType']}</h1>
     </div>
-</table>
+
+    <div class="row d-flex h-50">
+        <div class="col d-flex py-2 ms-auto mt-auto">
+            <!--The Drop down to search for assignments-->
+
+            <form id='form' name='stusearch' method='POST' action='coach/assignments/form'>
+
+                <select style="border-radius: 5px; height: 35px; width: 100px;" name='stusearch' id="callType">
+                    <option value ="Quizzes" action='coach/assignments/form'> Quizzes </option>
+                    <option value ="Exams" action='coach/assignments/form'> Exams </option>
+                    <option value ="Papers" action='coach/assignments/form'> Papers </option>
+                    <option value ="Homeworks" action='coach/assignments/form'> Homeowrks </option>                 
+                </select>
+            </form>
+        </div>
+
+        <!--Add button-->
+        <div class="col py-2 ms-auto d-flex mt-auto ">
+            <button id="addAssignmentBtn " name="submitBtn " value="addAssignment " class="btn btn-primary enrichery-primary ms-auto px-4 align-self-center ">Add</button>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+<body>
+    <h1>Student assignment information</h1>
+
+
+    <table class='table'>
+        <div class="d-flex flex-wrap justify-content-center w-100 mx-3 ">
+            <tr>
+                <th>Assignment ID</th>
+                <th>Assignment Date</th>
+                <th>Assignment Grade</th>
+                <th>Assignment Type</th>
+            </tr>
+
+            {% for row in assignment_form%}
+
+            <tr>
+                <td>{{row['assignmentID']}}</td>
+                <td>{{row['assignmentDate']}}</td>
+                <td>{{row['assignmentGrade']}}</td>
+                <td>{{row['assignmentType']}}</td>
+            </tr>
+            {% endfor %}
+        </div>
+    </table>
+
+</body>
+
+
 
 
 {% endblock content %}

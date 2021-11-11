@@ -138,12 +138,6 @@ def students():
         return render_template('error.html', studentName='John Doe')
 
 # redirect to /assignments to display table
-@app.route('/assignments')
-def assignments(auth_data = None):
-    nav_columns = {"Overview":"admin_overview", "Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business"}
-
-    assignment_result = db.query(sql='SELECT* FROM assignments')
-    return render_template('assignments.html', assignments=assignment_result, auth_data=auth_data, nav_columns=nav_columns)
 
 # redirect to /sessions to display table
 @app.route('/sessions')
