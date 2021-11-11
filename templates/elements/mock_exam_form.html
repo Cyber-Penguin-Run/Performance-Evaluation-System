@@ -1,53 +1,30 @@
 {%extends 'authed_base.html'%}
 {% block content %}
-       <script src=http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js></script>
-   <script>
-        $(document).ready(function() {
-            $("#callType").on('change', function(){
-                $('.form1').toggle();
-                $('.form2').toggle();
-                $('.form3').toggle();
-                $('.form4').toggle();
-            });
+    <script>
+        $("#cases").change(function () {
+            var case = $( "#cases option:selected" ).val();
+            if(case=="ACT")
+            {
+              //show 2 form fields here and show div
+               $("#ACT").show();
+            }
+            if(case=="SAT")
+            {
+              //show 2 form fields here and show div
+               $("#SA").show();
+            }
+            if(case=="general")
+            {
+              //show 2 form fields here and show div
+               $("#general").show();
+            }
         });
-   </script>
-   <style>
-       .form2 {
-           display: none;
-       }
-       .form3 {
-           display: none;
-       }
-       .form4 {
-           display: none;
-       }
-   </style>
+    </script>
+    <header class="m-0 enrichery-bg-dark" style="height: 200px">
+        This is a page for inserting test scores
+    </header>
+    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
 
-</head>
-<body>
-
-<select name="title" id="callType">
-    <option value ="Pro"> Professor </option>
-    <option value ="Lib"> Librarian </option>
-</select>
-
-<div class="form1">
-    <input type="text" name="text1" value="text1" />
-    <input type="text" name="text2" value="text2" />
-</div>
-
-<div class="form2">
-    <input type="text" name="text3" value="text3" />
-    <input type="text" name="text4" value="text4" />
-</div>
-
-<div class="form3">
-    <input type="text" name="text5" value="text5" />
-    <input type="text" name="text6" value="text6" />
-</div>
-<div class="form4">
-    <input type="text" name="text7" value="text7" />
-    <input type="text" name="text8" value="text8" />
-</div>
-    </body>
+    </div>
+    {% include 'elements/message_element.html' %}
 {% endblock %}
