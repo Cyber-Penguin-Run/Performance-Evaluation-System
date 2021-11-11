@@ -1,0 +1,29 @@
+{%extends "authed_base.html"%}
+{%block content%}
+
+
+<form method="POST" class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
+
+    <div class="row text-center h-50 p-1">
+        <h1>{{student_info['firstName'] + " " + student_info['lastName']}}</h1>
+    </div>
+
+    <div class="row d-flex h-50">
+        <div class="col py-2 ms-auto mt-auto">
+                <input class="align-middle" id="fullname" name="fullname" style="border-radius: 5px; height: 35px;" type="text" placeholder="Student Name" value="{%if request.form.get('fullname')%}{{request.form.get('fullname')}}{%endif%}">
+                <button id="searchBtn" name="submitBtn" value="searchAssignment" class="btn btn-primary enrichery-primary">Search</button>
+        </div>
+
+        <div class="col py-2 ms-auto d-flex mt-auto">
+            <button id="addAssignmentBtn" name="submitBtn" value="addAssignment" class="btn btn-primary enrichery-primary ms-auto px-4 align-self-center" >Add</button>
+        </div>
+    </div>
+</form>
+
+
+{%include "assignments.html"%}
+
+{% include "sessions.html" %}
+
+
+{%endblock content%}

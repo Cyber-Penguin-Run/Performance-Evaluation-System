@@ -312,3 +312,64 @@ class Database:
 
         return self.query(specific_coach)
 
+    def create_session(self, new_session):
+        new_session["sessionID"] = uuid.uuid4().hex
+        session_insert = """INSERT INTO studentSessions(sessionID, programIDFK, sessionSubject, sessionDate, 
+                                sessionHours, sessionsAttended, studentIDFK, staffUsersIDFK) Values (%(sessionID)s,%(programIDFK)s,%(sessionSubject)s,%(sessionDate)s,%(sessionHours)s,%(sessionAttended)s,
+                                %(studentIDFK)s,%(staffUsersIDFK)s)"""% new_session
+        try:
+            self.cursor.execute(session_insert)
+            self.cursor.commit()
+            return True
+
+        except Exception as e:
+            print("Error inserting new session")
+            print(e)
+            return False
+
+    def get_coach_students_fullname(self, coachID, fullname):
+
+        fullname_query = f"""SELECT s.firstName, s.lastName, s.school, s.studentID, s.familyIDFK, concat(s.firstName , ' ' , s.lastName) AS FullName
+                                FROM student AS s
+                                RIGHT JOIN studentSessions
+                                ON (s.studentID = studentSessions.studentIDFK)
+                                WHERE studentSessions.staffUsersIDFK LIKE '%{coachID}%'
+                                AND concat(s.firstName , ' ' , s.lastName) LIKE '%{fullname}%'"""
+
+        try:
+            self.cursor.execute(fullname_query)
+            results = self.results_as_dict()
+
+            return results
+        except Exception as e:
+            print("Error while retrieving coach fullname students:")
+            print(e)
+
+    def get_student_assignments(self, studentID):
+        assignments_query = """SELECT * FROM assignments WHERE assignments.studentIDFK = '%s'""" % studentID 
+        
+        return self.query(assignments_query)
+
+    def get_student(self, studentID):
+        student_query = "SELECT * FROM student WHERE student.studentID = '%s'" % studentID
+
+        return self.query(student_query)
+
+    def create_assignment(self, staffID, studentID, assignment_info):
+        assignment_query = "INSERT INTO assignments(assignmentDate, assignmentType, assignmentID, staffUsersIDFK, studentIDFK) VALUES ('%s', '%s', '%s', '%s', '%s')"
+
+        assignmentID = uuid.uuid4().hex
+
+        assignment_query = assignment_query % (assignment_info['assignmentDate'], assignment_info['assignmentType'], assignmentID, staffID, studentID)
+
+        try:
+            self.cursor.execute(assignment_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error creating assignment:")
+            print(e)
+
+    def get_student_sessions(self, studentID):
+        assignments_query = """SELECT * FROM studentSessions WHERE studentSessions.studentIDFK = '%s'""" % studentID 
+        
+        return self.query(assignments_query)
