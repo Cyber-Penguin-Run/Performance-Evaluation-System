@@ -12,6 +12,4 @@ six==1.16.0
 Werkzeug==2.0.1
 WTForms==2.3.3
 PyJWT==1.4.2
-pip~=21.1.1
-setuptools~=56.0.0
-pyodbc~=4.0.32
+pyodbc==4.0.32
