@@ -9,7 +9,8 @@ nav_columns = {"Coach Overview":"coach_home", "Personal Information":"coach_info
 @app.route("/coach/overview", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def coach_home(auth_data = None):
-    return render_template("coach_overview.html", auth_data = auth_data, nav_columns = nav_columns)
+    coach = db.get_coach_information(auth_data['user_id'])
+    return render_template("coach_overview.html", auth_data = auth_data, nav_columns = nav_columns, coach = coach[0])
 
 @app.route("/coach/info", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
@@ -21,15 +22,23 @@ def coach_info(auth_data = None):
             return render_template('coach_info.html', auth_data=auth_data, nav_columns=nav_columns, states=states, coach=coach[0])
 
     elif request.method == 'POST':
+        print(request.form)
+        Fname = request.form.get('firstname')
+        Lname = request.form.get('lastname')
+        address = request.form.get("address")
+        phone = request.form.get('phoneNumber')
+        email = request.form.get('email')
+        state = request.form.get("state")
+        country = request.form.get("country")
 
-            states = db.getStates()
-            coach = db.get_coach_information(auth_data['user_id'])
-            Fname = request.form.get('firstname')
-            Lname = request.form.get('lastname')
-            NPhone = request.form.get('NPhone')
-            NEmail = request.form.get('NEmail')
-            print(Fname,Lname,NPhone,NEmail)
-            return render_template('coach_info.html', auth_data=auth_data, nav_columns=nav_columns, states=states, coach=coach[0])
+        if db.update_coach_information(auth_data['user_id'], {"firstName": Fname, "lastName":Lname,
+        "userAddress":address, "phoneNumber":phone, "email":email, "stateIDFK":state}):
+            print("Successful update")
+
+        states = db.getStates()
+        coach = db.get_coach_information(auth_data['user_id'])
+
+        return render_template('coach_info.html', auth_data=auth_data, nav_columns=nav_columns, states=states, coach=coach[0])
 
 
 @app.route("/coach/assignments", methods = ["POST", "GET", "PUT", "DELETE"])

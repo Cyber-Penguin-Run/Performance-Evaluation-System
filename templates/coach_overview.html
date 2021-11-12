@@ -8,21 +8,15 @@
     <table class='table'>
         <div class=" flex-wrap justify-content-center w-100 mx-3 ">
             <tr>
-                <th>Company</th>
+                <th>Name</th>
                 <th>Contact</th>
                 <th>Country</th>
             </tr>
 
             <tr>
-                <td>Centro comercial Moctezuma</td>
-                <td>Francisco Chang</td>
-                <td>Mexico</td>
-            </tr>
-
-            <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
+                <td>{{ coach['firstName'] + " " + coach['lastName'] }}</td>
+                <td>{{coach['phoneNumber']}} - {{coach['email']}}</td>
+                <td>{{coach['countryName']}} - {{coach['stateName']}}</td>
             </tr>
 
 
@@ -31,4 +25,4 @@
     </table>
 
 </body>
-{% endblock content %}
+{% endblock content %} 

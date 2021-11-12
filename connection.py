@@ -54,8 +54,9 @@ class Database:
         return deleteFamilyName
 
     def delete_staff(self, staffID):
-        delete_query = f"DELETE from staff where userIDFK = '{staffID}'"
+        delete_query = f"DELETE FROM staff WHERE userIDFK = '{staffID}'"
         try:
+            print(delete_query)
             self.cursor.execute(delete_query)
             self.cnx.commit()
             return True
@@ -524,3 +525,19 @@ class Database:
         programs_query = f"SELECT * FROM studentPrograms WHERE studentIDFK = '{studentID}'"
 
         return self.query(programs_query)
+
+    def update_coach_information(self, coachID, coach_info):
+        update_staff = "UPDATE staff SET " + ", ".join([f"{key} = '{value}'" for key, value in coach_info.items() if value != "" and key in ["firstName", "lastName", "phoneNumber", "email"]]) + f" WHERE staff.userIDFK = '{coachID}'"
+
+        update_user = "UPDATE users SET " + ", ".join([f"{key} = '{value}'" for key, value in coach_info.items() if value != "" and key in ["userAddress", "stateIDFK"]]) + f" WHERE users.userID = '{coachID}'"
+
+        try:
+            print(update_staff)
+            print(update_user)
+            self.cursor.execute(update_staff)
+            self.cursor.execute(update_user)
+            self.cursor.commit()
+            return True
+        except Exception as e:
+            print("Error updating coach information: ")
+            print(e)

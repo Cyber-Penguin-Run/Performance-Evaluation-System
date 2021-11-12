@@ -14,9 +14,13 @@ def admin_staff(auth_data = None):
     if request.method == 'GET':
         return render_template('staff.html',auth_data=auth_data, nav_columns= nav_columns, staff_table=staff_table)
     if request.method == "POST":
-        if "deleteAssignment" in request.form.keys():
-            db.delete_staff(request.form.get("deleteStaff"))
-        return render_template('staff.html',auth_data=auth_data, nav_columns= nav_columns, staff_table=staff_table)
+        if "deleteStaff" in request.form.keys():
+            deleted = db.delete_staff(request.form.get("deleteStaff"))
+            staff_table = db.get_like_users({"username":""})
+            if deleted:
+                return render_template('staff.html',auth_data=auth_data, nav_columns= nav_columns, message="Staff member deleted.", staff_table=staff_table)
+            return render_template('staff.html',auth_data=auth_data, nav_columns= nav_columns, message="Staff was not deleted.", staff_table=staff_table)
+        
 
 @app.route("/admin/families", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
