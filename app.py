@@ -47,7 +47,7 @@ def secure_site(f):
 
 @app.route('/')
 def index():
-    return 'this is the index page for vangenuity tech services'
+    return redirect("/login")
 
 
 @app.route('/login', methods=['GET', 'POST'])
