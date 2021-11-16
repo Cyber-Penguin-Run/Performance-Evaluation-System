@@ -27,9 +27,31 @@
     $("#SummerWorkshop, #AcademicCoaching, #CollegeCoaching, #EducationFuture, #ExecFunction, #ExecFunctionMini").hide();
     $("#SmallGroups,#StudySpot,#TestPrep").hide();
 </script>
+    <header class="m-0 enrichery-bg-dark row text-center h-50" class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
+        This is the programs insertion and editing page.
+    </header>
 
-<body>
+    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
+    <select id="choose-form">
+    <option value = "">Please choose...</option>
+    <option value="SummerWorkshop"> Summer Workshop</option>
+    <option value="AcademicCoaching">Academic Coaching</option>
+    <option value="CollegeCoaching">College Coaching</option>
+    <option value="EducationFuture">Education Future</option>
+    <option value="ExecFunction"> Exec Function</option>
+    <option value="ExecFunctionMini">Exec Function Mini</option>
+    <option value="SmallGroups">Small Groups</option>
+    <option value="StudySpot">Study Spot</option>
+    <option value="TestPrep">Test Prep</option>
+    </select>
+    </div>
+    <div id="SummerWorkshop" >
+        <form method="POST">
+            <input type="date" name="SummerStart" placeholder="From Date">
+            <input type="date" name="SummerEnd" placeholder="End Date">
+            <input type=""
+        </form>
+    </div>
 
-</body>
-
+        {% include 'elements/message_element.html' %}
 {% endblock %}
