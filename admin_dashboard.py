@@ -2,7 +2,8 @@ from flask import Flask, json, render_template, url_for, request, redirect, json
 from flask.helpers import make_response
 from connection import Database
 import uuid
-from app import app, secure_site, db
+from __main__ import app, secure_site, db
+
 
 nav_columns = {"Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business"}
 
@@ -14,6 +15,12 @@ def admin_staff(auth_data = None):
     if request.method == 'GET':
         return render_template('staff.html',auth_data=auth_data, nav_columns= nav_columns, staff_table=staff_table)
     if request.method == "POST":
+        print(request.form)
+        if "searchBtn" in request.form.keys():
+            print("searching")
+            staff_table = db.get_staff_fullname(request.form.get("fullname"))
+            return render_template('staff.html',auth_data=auth_data, nav_columns= nav_columns, staff_table=staff_table)
+
         if "deleteStaff" in request.form.keys():
             deleted = db.delete_staff(request.form.get("deleteStaff"))
             staff_table = db.get_like_users({"username":""})

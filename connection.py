@@ -422,6 +422,23 @@ class Database:
             print("Error while retrieving coach fullname students:")
             print(e)
 
+    def get_staff_fullname(self, fullname):
+
+        fullname_query = f"""SELECT s.*, users.*, concat(s.firstName , ' ' , s.lastName) AS FullName
+                                FROM staff AS s
+                                RIGHT JOIN users
+                                ON (s.userIDFK = users.userID)
+                                WHERE concat(s.firstName , ' ' , s.lastName) LIKE '%{fullname}%'"""
+
+        try:
+            self.cursor.execute(fullname_query)
+            results = self.results_as_dict()
+
+            return results
+        except Exception as e:
+            print("Error while retrieving coach fullname students:")
+            print(e)
+
     def get_student_assignments(self, studentID):
         assignments_query = """SELECT * FROM assignments WHERE assignments.studentIDFK = '%s'""" % studentID 
         

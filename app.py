@@ -178,7 +178,7 @@ import admin_dashboard
 import todos_dashboard
 import testprep_dashboard
 import coach_dashboard
-import assignments
+
 
 if __name__ == '__main__':
     app.run(debug=True)

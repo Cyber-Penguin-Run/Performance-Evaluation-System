@@ -8,8 +8,8 @@
 
     <div class="row d-flex h-50">
         <div class="col py-2 ms-auto mt-auto">
-                <input class="align-middle" id="fullname" name="fullname" style="border-radius: 5px; height: 35px;" type="text" placeholder="Student Name" value="{%if request.form.get('fullname')%}{{request.form.get('fullname')}}{%endif%}">
-                <button class="btn btn-primary enrichery-primary">Search</button>
+                <input class="align-middle" id="fullname" name="fullname" style="border-radius: 5px; height: 35px;" type="text" placeholder="Staff Name" value="{%if request.form.get('fullname')%}{{request.form.get('fullname')}}{%endif%}">
+                <button id="searchBtn" name="searchBtn" type="submit" value="searchBtn" class="btn btn-primary enrichery-primary">Search</button>
         </div>
         <div class="col d-flex">
             <a href = "{{url_for('register')}}" class="btn btn-primary enrichery-primary align-self-center ms-auto">Add</a>
@@ -20,18 +20,28 @@
 
     <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
         {% for row in staff_table %}
-            <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: 75px">
-            <h2 class="ms-3">
-                {{ row['firstName'] }} {{ row['lastName'] }}
-            </h2>
+            <div class="d-flex flex-wrap mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: fit-content;">
 
-            <a class="btn-primary btn enrichery-primary ms-auto me-1" type="button" href="{{ url_for('todo_update',todoID=row['todoID']) }}">Update</a>
+                <div class="col">
+                    <h4 class="ms-3" style="width: 75%; min-width: 300px;">
+                        {{ row['firstName'] }} {{ row['lastName'] }}
+                    </h4>
+    
+                    <h5 class="ms-3">
+                        {{row['username']}}
+                    </h5>
+                </div>
+        
+                <div class="d-flex flex-row m-1 ms-auto">
+                    <a class="btn-primary btn enrichery-primary ms-auto me-1" type="button" href="{{ '#' }}">Update</a>
 
-            <form method="POST">
-                <button class="btn-primary btn enrichery-primary me-3" type="submit" id="deleteBtn" name="deleteStaff" value="{{row['userID']}}">Delete</button>
-            </form>
+                    <form method="POST">
+                        <button class="btn-primary btn enrichery-primary me-3" type="submit" id="deleteBtn" name="deleteStaff" value="{{row['userID']}}">Delete</button>
+                    </form>
+                </div>
+            
 
-        </div>
+            </div>
         {% endfor %}
 
         {% include "/elements/message_element.html" %}
