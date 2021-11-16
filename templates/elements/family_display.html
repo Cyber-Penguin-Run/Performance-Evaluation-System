@@ -6,19 +6,19 @@
     <div class="row d-flex">
         <h2>Family Information</h2>
         <label for="familyName" class="sr-only my-1"><strong>Family Name</strong></label>
-        <input class="mx-auto " style="width: 25%;" type="text" id="familyName" name="familyName" value = "{{family['familyName']}}" minlength="5" maxlength="24" placeholder="Family Name" required autofocus />    
+        <div class="mx-auto " style="width: 25%; background-color: beige;" type="text" id="familyName" name="familyName" minlength="5" maxlength="24" placeholder="Family Name" required autofocus >{{family['familyName']}}</div>    
     </div>
 
     <div class="row">
 
         <div class="col-6 d-flex flex-column">
             <label for="studentsNbr" class="sr-only my-1"><strong># of Students</strong></label>
-            <input class="mx-auto " style="width: 25%;" type="text" id="studentsNbr" name="studentsNbr"  value = "{{family['students']|length}}" minlength="5" maxlength="24" placeholder="Family Name" required autofocus />    
+            <div class="mx-auto " style="width: 25%; background-color: beige;" type="text" id="studentsNbr" name="studentsNbr" minlength="5" maxlength="24" placeholder="Family Name" required autofocus>{{family['students']|length}}</div>    
         </div>
         
         <div class="col-6 d-flex flex-column">
             <label for="familyName" class="sr-only my-1"><strong>Status</strong></label>
-            <select class="mx-auto " style="width: 25%;" type="text" id="familyName" name="familyName" minlength="5" maxlength="24" placeholder="Family Name" required autofocus></select>    
+            <div class="mx-auto " style="width: 25%; background-color: beige;" type="text" id="familyName" name="familyName" minlength="5" maxlength="24" placeholder="Family Name" required autofocus>Status</div>    
         </div>
 
     </div>
@@ -40,14 +40,6 @@
                     <tr>
                         <td>{{parent['firstName']}}</td>
                         <td>{{parent['lastName']}}</td>
-                        <td>
-                            <a>
-                                <img src="{{ url_for('static', filename='img/edit-icon.svg') }}"/>
-                            </a>
-                            <a>
-                                <img src="{{ url_for('static', filename='img/delete-icon.svg') }}"/>
-                            </a>
-                        </td>
                     </tr>
 
                 {%endfor%}
@@ -69,14 +61,6 @@
                     <tr>
                         <td>{{student['firstName']}}</td>
                         <td>{{student['lastName']}}</td>
-                        <td>
-                            <a>
-                                <img src="{{ url_for('static', filename='img/edit-icon.svg') }}"/>
-                            </a>
-                            <a>
-                                <img src="{{ url_for('static', filename='img/delete-icon.svg') }}"/>
-                            </a>
-                        </td>
                     </tr>
 
                 {%endfor%}
@@ -86,7 +70,7 @@
 
     </div>
 
-    <button class="btn btn-primary enrichery-primary" type = "submit" value = "Submit">Submit</button>
+    <button class="btn btn-primary enrichery-primary">Back</button>
 
     
 </form>

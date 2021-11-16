@@ -53,6 +53,17 @@ class Database:
         self.cnx.commit()
         return deleteFamilyName
 
+    def delete_staff(self, staffID):
+        delete_query = f"DELETE FROM staff WHERE userIDFK = '{staffID}'"
+        try:
+            print(delete_query)
+            self.cursor.execute(delete_query)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during delete staff', e)
+            return False
+
     def create_todo(self,staffID, description):
         todo_id = uuid.uuid4().hex
         if description is not None:
@@ -87,17 +98,79 @@ class Database:
             print('error during deletion of todo', e)
             return False
 
-    def create_score(self):
-        pass
+    def create_mock(self,mockType,mockInfo):
+        mock_score_id = uuid.uuid4().hex
+        if mockType == 'act':
+            mockInfo['actScoreID'] = mock_score_id
+            mock_insert = """INSERT INTO mockActScores(actScoreID,studentIDFK,englishScore,englishMax,mathScore,mathMax,
+                          readingScore,readingMax,scienceScore,scienceMax,actCompScore,actType,actTestDate) values
+                          ('%(actScoreID)s','%(studentIDFK)s','%(englishScore)s','%(englishMax)s','%(mathScore)s',
+                          '%(mathMax)s','%(readingScore)s','%(readingMax)s','%(scienceScore)s','%(scienceMax)s',
+                          '%(actCompScore)s','%(actType)s','%(actTestDate)s')""" % mockInfo
+        elif mockType == 'sat':
+            mockInfo['satScoreID'] = mock_score_id
+            mock_insert = """INSERT INTO mockSatScores(satScoreID,studentIDFK,writingScore,writingMax,mathCalcScore,mathCalcMax,
+                              mathScore,mathMax,readingScore,readingMax,satCompScore,satType,satTestDate) values
+                              ('%(satScoreID)s','%(studentIDFK)s','%(writingScore)s','%(writingMax)s','%(mathCalcScore)s',
+                              '%(mathCalcMax)s','%(mathScore)s', '%(mathMax)s','%(readingScore)s','%(readingMax)s',
+                              '%(satCompScore)s','%(satType)s','%(satTestDate)s')""" % mockInfo
+        elif mockType == 'hspt':
+            mockInfo['hsptScoreID'] = mock_score_id
+            mock_insert = """INSERT INTO mockhsptScores(actScoreID,studentIDFK,englishScore,englishMax,mathScore,mathMax,
+                              readingScore,readingMax,scienceScore,scienceMax,actCompScore,actType,actTestDate) values
+                              ('%(hsptScoreID)s','%(studentIDFK)s','%(englishScore)s','%(englishMax)s','%(mathScore)s',
+                              '%(mathMax)s','%(readingScore)s','%(readingMax)s','%(scienceScore)s','%(scienceMax)s',
+                              '%(actCompScore)s','%(actType)s','%(actTestDate)s')""" % mockInfo
+        if mockType == 'isee':
+            mockInfo['iseeScoreID'] = mock_score_id
+            mock_insert = """INSERT INTO mockActScores(actScoreID,studentIDFK,englishScore,englishMax,mathScore,mathMax,
+                              readingScore,readingMax,scienceScore,scienceMax,actCompScore,actType,actTestDate) values
+                              ('%(iseeScoreID)s','%(studentIDFK)s','%(englishScore)s','%(englishMax)s','%(mathScore)s',
+                              '%(mathMax)s','%(readingScore)s','%(readingMax)s','%(scienceScore)s','%(scienceMax)s',
+                              '%(actCompScore)s','%(actType)s','%(actTestDate)s')""" % mockInfo
+        try:
+            print("executing mock query")
+            print(mock_insert)
+            self.cursor.execute(mock_insert)
+            self.cursor.commit()
+            return True
+        except Exception as e:
+            print('error during insertion of act mock', e)
+            return False
 
-    def delete_score(self):
-        pass
+    def delete_mock(self,mockType,mockID):
+        if mockType == 'sat':
+            mock_delete = "DELETE FROM mockSatScores WHERE satScoreID = '%s'" % mockID
+        if mockType == 'act':
+            mock_delete = "DELETE FROM mockActScores WHERE actScoreID = '%s'" % mockID
+        if mockType == 'isee':
+            mock_delete = "DELETE FROM mockIseeScores WHERE iseeScoreID = '%s'" % mockID
+        if mockType == 'hspt':
+            mock_delete = "DELETE FROM mockHsptScores WHERE hsptScoreID = '%s'" % mockID
+        try:
+            self.cursor.execute(mock_delete)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during deletion of todo', e)
+            return False
 
-    def update_score(self):
-        pass
-
-
-
+    def update_mock(self,mockType,examID, mock_info):
+        if mockType == 'sat':
+            mock_update = "UPDATE mockSatScores SET " + ", ".join([f"{column} = '{value}'" for column, value in mock_info.items() if value != ""]) + " WHERE satScoreID = '%s'" % examID
+        elif mockType == 'act':
+            pass
+        elif mockType == 'hspt':
+            pass
+        elif mockType == 'isee':
+            pass
+        try:
+            self.cursor.execute(mock_update)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during deletion of todo', e)
+            return False
 
     def getStates(self):
         try:
@@ -146,8 +219,7 @@ class Database:
     def get_like_users(self, user_data):
         user_data = {key:user_data[key] for key in ["userID", "username", "userAddress"] if key in user_data}
 
-        user_query = "SELECT * FROM users WHERE " + " AND ".join([f"{key} LIKE '%{value}%'" for key, value in user_data.items()])
-        print(user_query)
+        user_query = "SELECT * FROM staff LEFT JOIN users ON (staff.userIDFK = users.userID) LEFT JOIN userPerms ON (users.userID = userPerms.userIDFK) WHERE " + " AND ".join([f"{key} LIKE '%{value}%'" for key, value in user_data.items()])
 
         try:
             self.cursor.execute(user_query)
@@ -284,12 +356,46 @@ class Database:
         self.cursor.execute(sql)
         return self.results_as_dict()
 
+
+    def get_coach_assignments(self, coachID):
+        coach_assignments_query = f"""SELECT assignments.assignmentID,
+                                            assignments.assignmentDate,
+                                            assignments.assignmentGrade,
+                                            assignments.assignmentType,
+                                            student.firstName,
+                                            student.lastName
+                                        FROM assignments
+                                        LEFT JOIN student
+                                        ON (student.studentID = assignments.studentIDFK)
+                                        WHERE assignments.staffUsersIDFK LIKE '%{coachID}%'"""
+        
+        return self.query(coach_assignments_query)
+
+    def get_coach_information(self, coachID):
+        specific_coach = f"""SELECT staff.*, 
+                                    users.userAddress,
+                                    states.stateName,
+                                    states.countryName
+                                    FROM staff 
+                                    LEFT JOIN users 
+                                    ON(staff.userIDFK = users.userID)
+                                    LEFT JOIN states
+                                    ON (users.stateIDFK = states.stateID)
+                                    WHERE staff.userIDFK LIKE '%{coachID}%'"""
+
+        return self.query(specific_coach)
+
     def create_session(self, new_session):
         new_session["sessionID"] = uuid.uuid4().hex
+
+        if new_session['sessionAttended'] == "":
+            new_session['sessionAttended'] = 0
+
         session_insert = """INSERT INTO studentSessions(sessionID, programIDFK, sessionSubject, sessionDate, 
-                                sessionHours, sessionsAttended, studentIDFK, staffUsersIDFK) Values (%(sessionID)s,%(programIDFK)s,%(sessionSubject)s,%(sessionDate)s,%(sessionHours)s,%(sessionAttended)s,
-                                %(studentIDFK)s,%(staffUsersIDFK)s)"""% new_session
+                                sessionHours, sessionAttendedHours, studentIDFK, staffUsersIDFK) Values ('%(sessionID)s','%(programIDFK)s','%(sessionSubject)s','%(sessionDate)s','%(sessionHours)s','%(sessionAttended)s',
+                                '%(studentIDFK)s','%(staffUsersIDFK)s')"""% new_session
         try:
+            print(session_insert)
             self.cursor.execute(session_insert)
             self.cursor.commit()
             return True
@@ -299,5 +405,140 @@ class Database:
             print(e)
             return False
 
+    def get_coach_students_fullname(self, coachID, fullname):
 
+        fullname_query = f"""SELECT s.firstName, s.lastName, s.school, s.studentID, s.familyIDFK, concat(s.firstName , ' ' , s.lastName) AS FullName
+                                FROM student AS s
+                                RIGHT JOIN studentSessions
+                                ON (s.studentID = studentSessions.studentIDFK)
+                                WHERE studentSessions.staffUsersIDFK LIKE '%{coachID}%'
+                                AND concat(s.firstName , ' ' , s.lastName) LIKE '%{fullname}%'"""
 
+        try:
+            self.cursor.execute(fullname_query)
+            results = self.results_as_dict()
+
+            return results
+        except Exception as e:
+            print("Error while retrieving coach fullname students:")
+            print(e)
+
+    def get_student_assignments(self, studentID):
+        assignments_query = """SELECT * FROM assignments WHERE assignments.studentIDFK = '%s'""" % studentID 
+        
+        return self.query(assignments_query)
+
+    def get_student(self, studentID):
+        student_query = "SELECT * FROM student WHERE student.studentID = '%s'" % studentID
+
+        return self.query(student_query)
+
+    def create_assignment(self, staffID, studentID, assignment_info):
+        assignment_query = "INSERT INTO assignments(assignmentDate, assignmentType, assignmentID, staffUsersIDFK, studentIDFK) VALUES ('%s', '%s', '%s', '%s', '%s')"
+
+        assignmentID = uuid.uuid4().hex
+
+        assignment_query = assignment_query % (assignment_info['assignmentDate'], assignment_info['assignmentType'], assignmentID, staffID, studentID)
+
+        try:
+            print(assignment_query)
+            self.cursor.execute(assignment_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error creating assignment:")
+            print(e)
+
+    def delete_assignment(self, assignmentID):
+        delete_query = f"DELETE FROM assignments WHERE assignmentID = '{assignmentID}'"
+        try:
+            self.cursor.execute(delete_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error deleting assignment:")
+            print(e)
+
+    def delete_session(self, sessionID):
+        delete_query = f"DELETE FROM studentSessions WHERE sessionID = '{sessionID}'"
+        try:
+            self.cursor.execute(delete_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error deleting session:")
+            print(e)
+
+    def update_assignment(self, assignmentID, assignment_info):
+        update_query = "UPDATE assignments SET " + ", ".join([f"{key} = '{value}'" for key, value in assignment_info.items() if value != ""]) + f" WHERE assignmentID = '{assignmentID}'"
+
+        try:
+            self.cursor.execute(update_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error updating assignment: ")
+            print(e)
+
+    def update_session(self, sessionID, session_info):
+        update_query = "UPDATE studentSessions SET " + ", ".join([f"{key} = '{value}'" for key, value in session_info.items() if value != ""]) + f" WHERE sessionID = '{sessionID}'"
+
+        try:
+            self.cursor.execute(update_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error updating session: ")
+            print(e)
+
+    def get_student_sessions(self, studentID):
+        assignments_query = """SELECT * FROM studentSessions WHERE studentSessions.studentIDFK = '%s'""" % studentID 
+        
+        return self.query(assignments_query)
+
+    def get_coach_families(self, coachID):
+        families_query = f"""SELECT * FROM studentSessions
+                                    LEFT JOIN student
+                                    ON (student.studentID = studentSessions.studentIDFK)
+                                    RIGHT JOIN family
+                                    ON (family.familyID = student.familyIDFK)
+                                    WHERE studentSessions.staffUsersIDFK LIKE '%{coachID}%'"""
+
+        return self.query(families_query)
+
+    def get_family(self, familyID):
+        family_query = f"SELECT * FROM family WHERE familyID = '{familyID}'"
+
+        family = self.query(family_query)[0]
+
+        family['parents'] = self.query(f"SELECT * FROM parent WHERE familyIDFK = '{familyID}'")
+        family['students'] = self.query(f"SELECT * FROM student WHERE familyIDFK = '{familyID}'")
+
+        return family
+
+    def get_coach_like_families(self, coachID, familyName):
+        families_query = f"""SELECT * FROM studentSessions
+                                    LEFT JOIN student
+                                    ON (student.studentID = studentSessions.studentIDFK)
+                                    RIGHT JOIN family
+                                    ON (family.familyID = student.familyIDFK)
+                                    WHERE studentSessions.staffUsersIDFK LIKE '%{coachID}%'
+                                    AND family.familyName LIKE '%{familyName}%'"""
+
+        return self.query(families_query)
+
+    def get_student_programs(self, studentID):
+        programs_query = f"SELECT * FROM studentPrograms WHERE studentIDFK = '{studentID}'"
+
+        return self.query(programs_query)
+
+    def update_coach_information(self, coachID, coach_info):
+        update_staff = "UPDATE staff SET " + ", ".join([f"{key} = '{value}'" for key, value in coach_info.items() if value != "" and key in ["firstName", "lastName", "phoneNumber", "email"]]) + f" WHERE staff.userIDFK = '{coachID}'"
+
+        update_user = "UPDATE users SET " + ", ".join([f"{key} = '{value}'" for key, value in coach_info.items() if value != "" and key in ["userAddress", "stateIDFK"]]) + f" WHERE users.userID = '{coachID}'"
+
+        try:
+            print(update_staff)
+            print(update_user)
+            self.cursor.execute(update_staff)
+            self.cursor.execute(update_user)
+            self.cursor.commit()
+            return True
+        except Exception as e:
+            print("Error updating coach information: ")
+            print(e)

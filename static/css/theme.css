@@ -39,6 +39,9 @@ main {
     overflow-y: scroll;
 }
 
+.enrichery-sidebar-collapse {
+    transform: translateX(-80%);
+}
 
 .enrichery-primary {
     font-weight: bold;
@@ -92,7 +95,9 @@ main {
 }
 
 .enrichery-bg-dark {
+    color: var(--main-light-color);
     background-color: var(--light-dark-color);
+    color:var(--main-light-color)
 }
 
 .enrichery-bg-primary {

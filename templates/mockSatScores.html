@@ -3,8 +3,9 @@
 <header class="m-0 text-center" style="height: 200px; background-color:rgb(248 223 33)">
         SAT Test Prep Tables and Information Section
 </header>
-    Scores actual/maximum <br>
+    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
     {% for row in sat_select %}
+        <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: fit-content;">
     <h5>
         Writing: {{ row['writingScore'] }}/{{ row['writingMax'] }}
         Math w/ Calc: {{ row['mathCalcScore'] }}/{{ row['mathCalcMax'] }}
@@ -13,9 +14,13 @@
         Student Name: {{ row['lastName'] }},{{ row['firstName'] }}
         SAT Score: {{ row['satCompScore'] }}    Date:{{ row['satTestDate'] }}<br>
         School: {{ row['school'] }}
-    </h5>
-    <br>
-    <br>
+        <a class="btn-primary btn enrichery-primary me-3" type="button"
+           href="{{ url_for("testprep_delete",examID=row['satScoreID'], examType="sat") }}">Delete</a>
+        <a class="btn-primary btn enrichery-primary me-3" type="button"
+           href="{{ url_for('testprep_update',examID=row['satScoreID'], examType="sat") }}">Update</a>
 
+    </h5>
+        </div>
     {% endfor %}
+    </div>
 {%endblock content %}

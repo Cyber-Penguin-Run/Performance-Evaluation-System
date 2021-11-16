@@ -1,31 +1,51 @@
 
-{%extends 'base.html'%}
-{% block content %}
 
-   <meta http-equiv="refresh" content="7; '" />
-  </head>
+<div class='container-lg'>
+
   <body>
-    <p> <a href="{{url_for('sessions_form')}}">Add a new session for student</a></p>
-    <p> <a href="http://127.0.0.1:5000/deleteSessions">Delete a session</a></p>
-    <p> <a href="http://127.0.0.1:5000/updateSessions">Update a session</a></p>
-  </body>
-<table>
+    <div class="d-flex">
 
-  <tr>
-    <th>sessionID</th>
-    <th>sessionSubject</th>
-    <th>sessionDate</th>
-    <th>sessionHours</th>
-    <th>sessionAttendedhours</th>
-  </tr>
-       {% for row in sessions%}
-    <tr>
-      <td>{{row['sessionID']}}</td>
-      <td>{{row['sessionSubject']}}</td>
-      <td>{{row['sessionDate']}}</td>
-      <td>{{row['sessionHours']}}</td>
-      <td>{{row['sessionAttendedhours']}}</td>
-  </tr>
-    {% endfor %}
-</table>
-{%endblock content %}
+        <button onclick="showForm('#sessions_form')" class="btn btn-primary enrichery-primary px-4 align-self-center me-2" >Add</button>
+
+        <h1>Sessions</h1>
+
+    </div>
+
+
+      <!---        <form id='form' role='search' name='stusearch' method='GET' action='/assignments/form'>
+          <input aria-label='Search a students assignments' name='stusearch' type='search' id='studentsearch' placeholder='Search student...'>
+          <button type='submit' class='btn btn-default'>Search</button>
+      </form>-->
+
+      <table class='table justify-content-between w-100'>
+          
+              <tr>
+                  <th>Session ID</th>
+                  <th>Subject</th>
+                  <th>Date</th>
+                  <th>Hours</th>
+                  <th>Attended</th>
+              </tr>
+
+              {% for row in student_info['sessions'] %}
+
+              <tr>
+                  <td>{{row['sessionID']}}</td>
+                  <td>{{row['sessionSubject']}}</td>
+                  <td>{{row['sessionDate']}}</td>
+                  <td>{{row['sessionHours']}}</td>
+                  <td>{{row['sessionAttendedhours']}}</td>
+                  <td class="d-flex">
+                    <button onClick="updateForm('#sessions_form', '#sessionsBtn', 'updateSession', '{{row['sessionID']}}')" class="btn btn-primary enrichery-primary ms-auto me-2">Edit</button>
+
+                    <form method="POST" class="m-0 p-0">
+                        <button type = "submit" name="deleteSession" value="{{row['sessionID']}}" class="btn btn-primary enrichery-primary me-2">Delete</button>
+                    </form>
+                  </td>
+              </tr>
+              {% endfor %}
+          
+      </table>
+  </body>
+  
+</div>

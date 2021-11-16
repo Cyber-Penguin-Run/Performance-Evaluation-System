@@ -47,7 +47,7 @@ def secure_site(f):
 
 @app.route('/')
 def index():
-    return 'this is the index page for vangenuity tech services'
+    return redirect("/login")
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -116,7 +116,7 @@ def register():
             new_user['familyID'] = family
 
         if db.create_user(new_user):
-            return "<h1>Success! you will be redirected soon!</h1>", {"Refresh": "4; url=/login"}
+            return "<h1>Success! you will be redirected soon!</h1>", {"Refresh": "2; url=/admin/staff"}
         else:
             return render_template('error.html'), {"Refresh": "4; url=/register"}
 
@@ -139,19 +139,6 @@ def students():
         # template text showcasing an error or something in else in the future. will return an error page or something.
         return render_template('error.html', studentName='John Doe')
 
-
-# redirect to /assignments to display table
-@app.route('/assignments')
-def assignments(auth_data=None):
-    nav_columns = {"All Assignments":"assignments_all", "Quizzes":"get_quizzes",
-                   "Exams": "get_exams", "Homeworks":"get_homeworks", "Papers": "get_papers"}
-
-
-    assignment_result = db.query(sql='SELECT* FROM assignments')
-    return render_template('assignments.html', assignment_form=assignment_result, auth_data=auth_data,
-                           nav_columns=nav_columns)
-
-
 # redirect to /sessions to display table
 @app.route('/sessions')
 def sessions():
@@ -166,7 +153,6 @@ def sessions_form():
         return render_template('/elements/sessions_form.html')
 
     elif request.method == 'POST':
-        session_ID = request.form['session_ID']
         program_IDFK = request.form['program_IDFK']
         session_subject = request.form['session_subject']
         session_date = request.form['session_date']

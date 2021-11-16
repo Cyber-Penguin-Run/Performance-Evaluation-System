@@ -1,0 +1,43 @@
+{%extends "authed_base.html"%}
+{%block content%}
+
+<script>
+
+        function showForm(formID) {
+
+            $(formID).show()
+
+        }
+
+        function updateForm(formID, buttonID, buttonAction, updateID) {
+            $(formID).show()
+            $(buttonID).attr("name", buttonAction)
+            $(buttonID).val(updateID)
+        }
+
+</script>
+
+<form method="POST" class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
+
+    <div class="row text-center h-50 p-1">
+        <h1>{{student_info['firstName'] + " " + student_info['lastName']}}</h1>
+    </div>
+
+    
+</form>
+
+
+{%include "assignments.html"%}
+
+{% include "sessions.html" %}
+
+<div id="assignments_form" class="position-absolute start-50" style="display: none; top:25%">
+    {% include "/elements/assignments_form.html" %}
+</div>
+
+
+<div id="sessions_form" class="position-absolute" style="display: none; top:30%; left: 40%;">
+    {% include "/elements/sessions_form.html" %}
+</div>
+
+{%endblock content%}
