@@ -49,7 +49,6 @@ def coach_assignments(auth_data = None):
         
     else:
         assignments = db.get_coach_assignments(auth_data['user_id'])
-
     selectedtype = "All Assignments"
     formsearch = db.query('SELECT * FROM assignments')
     return render_template("coach_assignments.html",selectedtype=selectedtype, assignment_form=formsearch, auth_data=auth_data, nav_columns=nav_columns, assignments_form=assignments)
