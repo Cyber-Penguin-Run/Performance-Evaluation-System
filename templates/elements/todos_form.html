@@ -1,10 +1,11 @@
 {%extends 'authed_base.html' %}
 {% block content %}
 
-<form method = "POST">
+<form method="POST" xmlns="http://www.w3.org/1999/html">
     <h2>Insert a new todo item</h2>
-    <p>description <input type = "text" id="todoDescription" name="todoDescription" value="{% if todoDescription %}
-{{ todoDescription }} {% endif %}"/></p>
+    <p>description <textarea id="todoDescription" name="todoDescription" rows="5" cols="50" value="{% if todoDescription %}
+{{ todoDescription }} {% endif %}"></textarea>
+    </p>
     <p><input type = "submit" value = "Submit" /></p>
 </form>
 {%endblock content %}

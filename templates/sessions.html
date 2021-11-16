@@ -3,7 +3,13 @@
 <div class='container-lg'>
 
   <body>
-      <h1>Sessions</h1>
+    <div class="d-flex">
+
+        <button onclick="showForm('#sessions_form')" class="btn btn-primary enrichery-primary px-4 align-self-center me-2" >Add</button>
+
+        <h1>Sessions</h1>
+
+    </div>
 
 
       <!---        <form id='form' role='search' name='stusearch' method='GET' action='/assignments/form'>
@@ -30,13 +36,16 @@
                   <td>{{row['sessionHours']}}</td>
                   <td>{{row['sessionAttendedhours']}}</td>
                   <td class="d-flex">
-                      <button class="btn btn-primary enrichery-primary ms-auto me-2">Edit</button>
-                      <button class="btn btn-primary enrichery-primary me-2">Delete</button>
+                    <button onClick="updateForm('#sessions_form', '#sessionsBtn', 'updateSession', '{{row['sessionID']}}')" class="btn btn-primary enrichery-primary ms-auto me-2">Edit</button>
+
+                    <form method="POST" class="m-0 p-0">
+                        <button type = "submit" name="deleteSession" value="{{row['sessionID']}}" class="btn btn-primary enrichery-primary me-2">Delete</button>
+                    </form>
                   </td>
               </tr>
               {% endfor %}
           
       </table>
-
   </body>
+  
 </div>

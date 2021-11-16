@@ -1,31 +1,64 @@
-{% extends "authed_base.html" %}
-{% block content %}
-
-<form class = "h-25 enrichery-bg-dark p-3 text-center">
-    <h1>Assignments</h1>
-
-</form>
-
-<table class='table'>
-    <div class="d-flex flex-wrap justify-content-center w-100 mx-3">
-        <tr>
-            <th>Student</th>
-            <th>Assignment Date</th>
-            <th>Assignment Grade</th>
-            <th>Assignment Type</th>
-        </tr>
-
-        {% for row in assignments %}
-
-        <tr>
-            <td>{{row['firstName'] + " " + row['lastName']}}</td>
-            <td>{{row['assignmentDate']}}</td>
-            <td>{{row['assignmentGrade']}}</td>
-            <td>{{row['assignmentType']}}</td>
-        </tr>
-        {% endfor %}
+{% extends "authed_base.html" %} {% block content %}
+<html>
+<div class="form-control row enrichery-bg-dark h-25 " style="border:0; border-radius: 0;">
+    <div class="row text-center h-50 p-1">
+        <h1 style="padding-bottom: 90px;">{{selectedtype}}</h1>
     </div>
-</table>
+
+    <div class="row h-50">
+        <div class="col d-flex py-2 ms-auto mt-auto">
+            <!--The Drop down to search for assignments-->
 
 
+            <select onchange="location = value;" style="border-radius: 5px; height: 40px; width: 170px;" name='stusearch' id="callType">
+                    <option value="" disabled selected>Assignment Type</option>  
+                    <option value ="/coach/assignments/all" > All  </option>                 
+                    <option value ="/coach/assignments/quizzes" > Quizzes </option>
+                    <option value ="/coach/assignments/exams" > Exams </option>
+                    <option value ="/coach/assignments/papers" > Papers </option>
+                    <option value ="/coach/assignments/homeworks"> Homeowrks </option>                 
+                </select>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<body>
+    <h1>Student assignment information</h1>
+
+
+    <table class='table'>
+        <div class=" flex-wrap justify-content-center w-100 mx-3 ">
+            <tr>
+                <th>Assignment ID</th>
+                <th>Assignment Date</th>
+                <th>Assignment Grade</th>
+                <th>Assignment Type</th>
+            </tr>
+
+            {% for row in assignment_form%}
+
+            <tr>
+                <td>{{row['assignmentID']}}</td>
+                <td>{{row['assignmentDate']}}</td>
+                <td>{{row['assignmentGrade']}}</td>
+                <td>{{row['assignmentType']}}</td>
+            </tr>
+            {% endfor %}
+        </div>
+    </table>
+
+</body>
+
+
+
+</html>
 {% endblock content %}

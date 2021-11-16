@@ -1,25 +1,28 @@
-{% extends "authed_base.html" %}
-{% block content %}
+{% extends "authed_base.html" %} {% block content %}
 
 <header class="m-0 h-25 enrichery-bg-dark text-center p-3">
-  <h1>Coach Overview</h1>
+    <h1>Coach Overview</h1>
 </header>
-<table>
-  <tr>
-    <th>Company</th>
-    <th>Contact</th>
-    <th>Country</th>
-  </tr>
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-  </tr>
-  <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-  </tr>
-</table>
 
-{% endblock content %}
+<body>
+    <table class='table'>
+        <div class=" flex-wrap justify-content-center w-100 mx-3 ">
+            <tr>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Country</th>
+            </tr>
+
+            <tr>
+                <td>{{ coach['firstName'] + " " + coach['lastName'] }}</td>
+                <td>{{coach['phoneNumber']}} - {{coach['email']}}</td>
+                <td>{{coach['countryName']}} - {{coach['stateName']}}</td>
+            </tr>
+
+
+
+        </div>
+    </table>
+
+</body>
+{% endblock content %} 

@@ -47,7 +47,7 @@ def secure_site(f):
 
 @app.route('/')
 def index():
-    return 'this is the index page for vangenuity tech services'
+    return redirect("/login")
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -116,7 +116,7 @@ def register():
             new_user['familyID'] = family
 
         if db.create_user(new_user):
-            return "<h1>Success! you will be redirected soon!</h1>", {"Refresh": "4; url=/login"}
+            return "<h1>Success! you will be redirected soon!</h1>", {"Refresh": "2; url=/admin/staff"}
         else:
             return render_template('error.html'), {"Refresh": "4; url=/register"}
 
@@ -138,18 +138,6 @@ def students():
     else:
         # template text showcasing an error or something in else in the future. will return an error page or something.
         return render_template('error.html', studentName='John Doe')
-
-
-# redirect to /assignments to display table
-@app.route('/assignments')
-def assignments(auth_data=None):
-    nav_columns = {"Overview": "admin_overview", "Staff": "admin_staff", "Families": "admin_families",
-                   "Business": "admin_business"}
-
-    assignment_result = db.query(sql='SELECT* FROM assignments')
-    return render_template('assignments.html', assignments=assignment_result, auth_data=auth_data,
-                           nav_columns=nav_columns)
-
 
 # redirect to /sessions to display table
 @app.route('/sessions')

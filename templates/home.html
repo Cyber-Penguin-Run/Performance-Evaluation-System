@@ -26,7 +26,7 @@
         <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/coach/overview">Coach Dashboard</a>
         {%endif%}
         {% if auth_data['userPerms']['myStudent'] or auth_data['userPerms']['isParent'] %}
-        <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/mystudent/overview">My Students</a>
+        <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/mystudent/students">My Students</a>
         {%endif%}
         {% if auth_data['userPerms']['todosDashboard'] %}
         <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/todos">To Do List</a>
@@ -35,7 +35,7 @@
         <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/testprep">Test Prep Dashboard</a>
         {%endif%}
         {% if auth_data['userPerms']['adminDashboard'] %}
-        <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/admin/overview">Admin Dashboard</a>
+        <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/admin/staff">Admin Dashboard</a>
         {%endif%}
         {% if auth_data['userPerms']['adminDashboard']%}
         <a type="button" class="btn btn-primary enrichery-primary p-1" style="width:20vw; height:20vw; border-radius:5%; margin:5%; min-width: 100px; min-height: 100px;" href="/programs/overview">Programs Dashboard</a>

@@ -1,6 +1,21 @@
 {%extends "authed_base.html"%}
 {%block content%}
 
+<script>
+
+        function showForm(formID) {
+
+            $(formID).show()
+
+        }
+
+        function updateForm(formID, buttonID, buttonAction, updateID) {
+            $(formID).show()
+            $(buttonID).attr("name", buttonAction)
+            $(buttonID).val(updateID)
+        }
+
+</script>
 
 <form method="POST" class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
 
@@ -8,16 +23,7 @@
         <h1>{{student_info['firstName'] + " " + student_info['lastName']}}</h1>
     </div>
 
-    <div class="row d-flex h-50">
-        <div class="col py-2 ms-auto mt-auto">
-                <input class="align-middle" id="fullname" name="fullname" style="border-radius: 5px; height: 35px;" type="text" placeholder="Student Name" value="{%if request.form.get('fullname')%}{{request.form.get('fullname')}}{%endif%}">
-                <button id="searchBtn" name="submitBtn" value="searchAssignment" class="btn btn-primary enrichery-primary">Search</button>
-        </div>
-
-        <div class="col py-2 ms-auto d-flex mt-auto">
-            <button id="addAssignmentBtn" name="submitBtn" value="addAssignment" class="btn btn-primary enrichery-primary ms-auto px-4 align-self-center" >Add</button>
-        </div>
-    </div>
+    
 </form>
 
 
@@ -25,5 +31,13 @@
 
 {% include "sessions.html" %}
 
+<div id="assignments_form" class="position-absolute start-50" style="display: none; top:25%">
+    {% include "/elements/assignments_form.html" %}
+</div>
+
+
+<div id="sessions_form" class="position-absolute" style="display: none; top:30%; left: 40%;">
+    {% include "/elements/sessions_form.html" %}
+</div>
 
 {%endblock content%}

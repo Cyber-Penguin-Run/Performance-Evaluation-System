@@ -1,29 +1,23 @@
-{%extends 'authed_base.html'%}
-{% block content %}
+{%extends 'authed_base.html'%} {% block content %}
 
 <script>
-    function addStates()
-    {
+    function addStates() {
         var country = document.getElementById("country").value;
-
-        var states = {{ states|tojson }}
-
-        statesString = "<option value = \"\">State</option>"
-
-        if (country in states) {
-
-            for (let i = 0; i < states[country].length; i++) {
-
-
-            statesString += "<option value = "+states[country][i][1] + ">"+states[country][i][0]+"</option>\n"
-
-            }
-
+        var states = {
+            states,
+            tojson
         }
+    }
 
+    statesString = "<option value = \"\">State</option>"
 
+    if (country in states) {
 
-        document.getElementById("state").innerHTML = statesString
+        for (let i = 0; i < states[country].length; i++) {
+            statesString += "<option value = " + states[country][i][1] + ">" + states[country][i][0] + "</option>\n"
+        }
+    }
+    document.getElementById("state").innerHTML = statesString
 
     }
 </script>
@@ -34,7 +28,7 @@
         for (const el of document.querySelectorAll("[placeholder][data-slots]")) {
             const pattern = el.getAttribute("placeholder"),
                 slots = new Set(el.dataset.slots || "_"),
-                prev = (j => Array.from(pattern, (c,i) => slots.has(c)? j=i+1: j))(0),
+                prev = (j => Array.from(pattern, (c, i) => slots.has(c) ? j = i + 1 : j))(0),
                 first = [...pattern].findIndex(c => slots.has(c)),
                 accept = new RegExp(el.dataset.accept || "\\d", "g"),
                 clean = input => {
@@ -46,9 +40,9 @@
                 format = () => {
                     const [i, j] = [el.selectionStart, el.selectionEnd].map(i => {
                         i = clean(el.value.slice(0, i)).findIndex(c => slots.has(c));
-                        return i<0? prev[prev.length-1]: back? prev[i-1] || first: i;
+                        return i < 0 ? prev[prev.length - 1] : back ? prev[i - 1] || first : i;
                     });
-                    el.value = clean(el.value).join``;
+                    el.value = clean(el.value).join ``;
                     el.setSelectionRange(i, j);
                     back = false;
                 };
@@ -56,7 +50,7 @@
             el.addEventListener("keydown", (e) => back = e.key === "Backspace");
             el.addEventListener("input", format);
             el.addEventListener("focus", format);
-            el.addEventListener("blur", () => el.value === pattern && (el.value=""));
+            el.addEventListener("blur", () => el.value === pattern && (el.value = ""));
         }
     });
 
@@ -64,60 +58,57 @@
     /* Toggle parent and staff*/
 
     $(document).ready(function() {
-    // hide the forms when page is ready
+        // hide the forms when page is ready
 
-    addStates()
+        addStates()
 
-    $("#state option:contains('{{coach['stateName']}}')").attr('selected', true);
+        $("#state option:contains('{{coach['stateName']}}')").attr('selected', true);
 
-});
+    });
+</script>
+
+<header class="m-0 h-25 enrichery-bg-dark text-center p-3">
+    <h1>Personal Info</h1>
+</header>
+
+<form style="max-width: 400px; margin: auto;" method="POST">
+    <h1 class="text-center h3 mb-3 font-weight-normal">Edit Information</h1>
+
+    <div class="d-flex mt-3">
+        <input type="text" name="firstname" minlength="1" maxlength="24" placeholder="First Name" onkeypress="CheckSpace(event)" class="form-control" value="{{coach['firstName']}}">
+        <input type="text" name="lastname" minlength="1" maxlength="24" placeholder="Last Name" onkeypress="CheckSpace(event)" class="form-control" value="{{coach['lastName']}}">
+    </div>
 
 
+    <input type="text" name="address" placeholder="Address" class="form-control mt-3" value="{{coach['userAddress']}}">
+    <div class="d-flex">
 
-    </script>
-
-    <header class="m-0 h-25 enrichery-bg-dark text-center p-3">
-        <h1>Coach Information</h1>
-    </header>
-
-    <form style="max-width: 400px; margin: auto;" method="POST"> 
-        <h1 class="text-center h3 mb-3 font-weight-normal">Edit Information</h1>
-
-        <div class="d-flex mt-3">
-            <input type="text" name="firstname" minlength="1" maxlength="24" placeholder="First Name" onkeypress="CheckSpace(event)" class="form-control" value = "{{coach['firstName']}}">
-            <input type="text" name="lastname" minlength="1"  maxlength="24" placeholder="Last Name" onkeypress="CheckSpace(event)" class="form-control" value = "{{coach['lastName']}}">
-        </div>
-    
-    
-        <input type="text" name="address" placeholder="Address" class="form-control mt-3" value = "{{coach['userAddress']}}">
-        <div class = "d-flex">
-    
-            <select class="form-control" name="country" id="country" onchange="addStates()">
+        <select class="form-control" name="country" id="country" onchange="addStates()">
                 <option value="">Country</option>
                 {% for item, value in states.items() %}
                     <option value = "{{item}}" {% if coach['countryName'].strip() == item %} selected="selected" {%endif%}>{{item}}</option>
                 {% endfor %}
             </select>
-    
-            <select class="form-control" name="state" id="state">
+
+        <select class="form-control" name="state" id="state">
                 <option value="">State</option>
             </select>
-    
-        </div>
-    
-        <hr>
-    
-        <label for="phoneNumber" class="sr-only my-1" ><strong>Phone Number</strong></label>
-        <input class="form-control" type="text" id="phoneNumber" name= "phoneNumber" placeholder="+code-            " data-slots="code " value="{{coach['phoneNumber']}}">
-    
-        <label for="emailAddress" class="sr-only my-1" ><strong>Email</strong></label>
-        <input class="form-control" type="email" id="emailAddress" name= "emailAddress" placeholder="example@domain.com" value="{{coach['email']}}">
-    
-        <hr>
-    
-        <div class="mt-3 text-center">
-            <button class="enrichery-primary btn btn-lg btn-primary btn-block">Save</button>
-        </div>
-        
-    </form>
+
+    </div>
+
+    <hr>
+
+    <label for="phoneNumber" class="sr-only my-1"><strong>Phone Number</strong></label>
+    <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" placeholder="+code-            " data-slots="code " value="{{coach['phoneNumber']}}">
+
+    <label " for="emailAddress " class="sr-only my-1 "><strong>Email</strong></label>
+    <input class="form-control " type="email " id="email " name='email' placeholder="example@domain.com " value="{{coach[ 'email']}} ">
+
+    <hr>
+
+    <div class="mt-3 text-center ">
+        <button class="enrichery-primary btn btn-lg btn-primary btn-block ">Save</button>
+    </div>
+
+</form>
 {% endblock %}

@@ -1,15 +1,44 @@
 {%extends 'base.html' %}
 {% block content %}
 
-<form class="form-control" action='/sessions.html' method = "GET">
-  <p>Session Subject <input type = "text" name = "session_subject" /></p>
-  <p>Session Date <input type = "date" name = "session_date" /></p>
-  <p>Session Hours <input type = "double" name = "session_hours" /></p>
-  <p>Session Attended Hours <input type = "double" name = "session_attendedhours" /></p>
-  <p>Student <input type = 'char' name = "student_IDFK" /></p>
-  <p>Staff Users IDFK <input type = 'char' name = "staff_usersIDFK" /></p>
-  <p>programIDFK <input type = "char" name = "program_IDFK" /></p>
-  <p><input type = "submit" value = "Submit" /></p>
+<form class="form-control text-center p-3" method = "POST">
+
+  <h2>New Session</h2>
+  
+  <div class="row m-3">
+    <div class="col d-flex flex-column">
+      <label><strong>Session Subject</strong></label>
+      <input type = "text" name = "session_subject" />
+    </div>
+    <div class="col d-flex flex-column">
+      <label><strong>Session Date</strong></label>
+      <input type = "date" name = "session_date" />
+    </div>
+  </div>
+
+  <div class="row m-3">
+    <div class="col d-flex flex-column">
+      <label><strong>Session Hours</strong></label>
+      <input type = "double" name = "session_hours" />
+    </div>
+    <div class="col d-flex flex-column">
+      <label><strong>Session Attended Hours</strong></label>
+      <input type = "double" name = "session_attendedhours" />
+    </div>
+  </div>
+
+  <div class="row m-3 d-flex">
+    <label><strong>Program</strong></label>
+    <select name="studentProgram" class="w-50 mx-auto">
+      <option value="">Select Program</option>
+      {% for program in student_info['programs'] %}
+        <option value="{{program['programID']}}">{{program['programType']}}</option>
+      {%endfor%}
+    </select>
+  </div>
+ 
+  <button class = "btn btn-primary enrichery-primary mt-3" type="submit" id="sessionsBtn" name="addSession" value="addSession">Submit</button>
+  
 </form>
 
 
