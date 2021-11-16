@@ -26,3 +26,4 @@ def coach_assignments(auth_data = None):
         assignments = db.get_coach_assignments(auth_data['user_id'])
 
     return render_template("coach_assignments.html", auth_data=auth_data, nav_columns=nav_columns, assignments=assignments)
+

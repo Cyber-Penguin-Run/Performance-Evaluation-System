@@ -1,34 +1,35 @@
-{%extends 'base.html'%}
+{%extends 'authed_base.html'%}
 {% block content %}
 
+    <script type="text/javascript">
+
+    $(document).ready(function() {
+        function swapForms() {
+            var choice = $("#choose-form").find(":selected").val()
+            //Hide -other- visible forms
+            $("#SummerWorkshop, #AcademicCoaching, #CollegeCoaching, #EducationFuture, #ExecFunction").hide();
+            $("#ExecFunctionMini, #SmallGroups, #StudySpot, #TestPrep").hide();
+            if (choice !== "") {
+                $("#" + choice).show();
+
+            }
+
+            console.log(choice)
+        }
+
+        swapForms()
+
+        $("#choose-form").change(swapForms)
+    })
+
+</script>
+<script type="text/javascript">
+    $("#SummerWorkshop, #AcademicCoaching, #CollegeCoaching, #EducationFuture, #ExecFunction, #ExecFunctionMini").hide();
+    $("#SmallGroups,#StudySpot,#TestPrep").hide();
+</script>
+
 <body>
-    <form>
-        
-    </form>
-
-    <table>
-        <tr>
-            <th>Assignment ID<th>
-            <th>Assignment Date</th>
-            <th>Assignment Grade</th>
-            <th>Assignment Type</th>
-        </tr>
-
-        {% for row in assignments %}
-        <tr>
-            <td>{{row['assignmentID']}}</td>
-            <td>{{row['assignmentDate']}}</td>
-            <td>{{row['assignmentGrade']}}</td>
-            <td>{{row['assignmentType']}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-
 
 </body>
 
-
-
-
-{%endblock content%}
+{% endblock %}
