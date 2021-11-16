@@ -1,18 +1,4 @@
-{%extends 'base.html'%}
+{%extends 'authed_base.html'%}
 {% block content %}
-<table>
-  <tr>
-    <th>programID</th>
-    <th>studentIDFK</th>
-    <th>programType</th>
-
-  </tr>
-       {% for row in studentPrograms%}
-    <tr>
-      <td>{{row[0]}}</td>
-      <td>{{row[1]}}</td>
-      <td>{{row[2]}}</td>
-  </tr>
-    {% endfor %}
-</table>
+stuff goes here
 {%endblock content %}

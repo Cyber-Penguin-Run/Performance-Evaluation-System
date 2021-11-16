@@ -15,66 +15,78 @@ nav_columns = {'College Workshop':'programs_college_summer_workshop','Academic C
 def programs_overview(auth_data = None):
     if request.method == 'GET':
         return render_template('studentPrograms.html',auth_data=auth_data, nav_columns= nav_columns)
-
+    if request.method == 'POST':
+        pass
 
 @app.route('/programs/CollegeSummerWorkshop', methods = ['GET','POST','PUT','DELETE'])
 @secure_site
 def programs_college_summer_workshop(auth_data=None):
     if request.method == 'GET':
-        return render_template('programs_form.html',auth_data=auth_data)
-
+        return render_template('studentPrograms.html',auth_data=auth_data)
+    if request.method == 'POST':
+        pass
 
 @app.route('/programs/Academic_Coaching', methods = ['GET','POST','PUT','DELETE'])
 @secure_site
 def programs_academic_coaching(auth_data=None):
     if request.method == 'GET':
-        return render_template('programs_form.html',auth_data=auth_data)
-
+        return render_template('studentPrograms.html',auth_data=auth_data)
+    if request.method == 'POST':
+        pass
 
 @app.route('/programs/College_Coaching', methods = ['GET','POST','PUT','DELETE'])
 @secure_site
 def programs_college_coaching(auth_data=None):
     if request.method == 'GET':
-        return render_template('programs_form.html',auth_data=auth_data)
-
+        return render_template('studentPrograms.html',auth_data=auth_data)
+    if request.method == 'POST':
+        pass
 
 @app.route('/programs/Education_Future', methods = ['GET','POST','PUT','DELETE'])
 @secure_site
 def programs_education_future(auth_data=None):
     if request.method == 'GET':
-        return render_template('programs_form.html',auth_data=auth_data)
-
+        return render_template('studentPrograms.html',auth_data=auth_data)
+    if request.method == 'POST':
+        pass
 
 @app.route('/programs/Exec_Function', methods = ['GET','POST','PUT','DELETE'])
 @secure_site
 def programs_exec_function(auth_data=None):
     if request.method == 'GET':
-        return render_template('programs_form.html',auth_data=auth_data)
-
+        return render_template('studentPrograms.html',auth_data=auth_data)
+    if request.method == 'POST':
+        pass
 
 @app.route('/programs/Exec_Function_Mini', methods = ['GET','POST','PUT','DELETE'])
 @secure_site
 def programs_exec_function_mini(auth_data=None):
     if request.method == 'GET':
-        return render_template('programs_form.html',auth_data=auth_data)
-
+        return render_template('studentPrograms.html',auth_data=auth_data)
+    if request.method == 'POST':
+        pass
 
 @app.route('/programs/Small_Groups', methods = ['GET','POST','PUT','DELETE'])
 @secure_site
 def programs_small_groups(auth_data=None):
     if request.method == 'GET':
-        return render_template('programs_form.html',auth_data=auth_data)
-
+        return render_template('studentPrograms.html',auth_data=auth_data)
+    if request.method == 'POST':
+        pass
 
 @app.route('/programs/Study_Spot', methods = ['GET','POST','PUT','DELETE'])
 @secure_site
 def programs_study_spot(auth_data=None):
     if request.method == 'GET':
-        return render_template('programs_form.html',auth_data=auth_data)
+        return render_template('studentPrograms.html',auth_data=auth_data)
+    if request.method == 'POST':
+        pass
 
 
 @app.route('/programs/Test_Prep', methods = ['GET','POST','PUT','DELETE'])
 @secure_site
 def programs_test_prep(auth_data=None):
     if request.method == 'GET':
-        return render_template('programs_form.html',auth_data=auth_data)
+        return render_template('studentPrograms.html',auth_data=auth_data)
+    if request.method == 'POST':
+        pass
