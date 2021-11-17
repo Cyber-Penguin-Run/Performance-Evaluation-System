@@ -70,3 +70,33 @@ def admin_families_update(familyID, auth_data = None):
         else:
             return render_template('family.html', auth_data=auth_data, nav_columns=nav_columns,
                                    message='error while updating')
+
+
+
+
+@app.route("/admin/families/add", methods = ["POST", "GET", "PUT", "DELETE"])
+@secure_site
+def admin_families_add(auth_data = None):
+    if request.method == 'GET':
+        family = db.get_family("")
+        states = db.getStates()
+        return render_template('/elements/family_form.html', auth_data=auth_data,
+                               nav_columns=nav_columns, family=family, states=states)
+
+    if request.method == "POST":
+        option = request.form.get("submitBtn")
+
+        if option == "createFamily":
+            familyID = db.create_family(request.form['familyName'])
+            if familyID:
+                family = db.get_family(familyID)
+                states = db.getStates()
+                return render_template('/elements/family_form.html', auth_data=auth_data,
+                                    nav_columns=nav_columns, family=family, states=states)
+
+
+        print(option)
+        family = db.get_family("")
+        states = db.getStates()
+        return render_template('/elements/family_form.html', auth_data=auth_data,
+                               nav_columns=nav_columns, family=family, states=states)

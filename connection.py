@@ -25,18 +25,24 @@ class Database:
         return [dict(zip([column[0] for column in self.cursor.description], row))
              for row in self.cursor.fetchall()]
 
+
     def create_family(self, familyName):
         familyID = uuid.uuid4().hex
-        print(familyID)
+
         if familyName is not None:
             family_insert = ("INSERT INTO family(familyID, familyName)"
                                        "Values (?,?)")
-            values = (familyID, familyName)
-            self.cursor.execute(family_insert,values)
-            self.cnx.commit()
-            #family_data = (familyID,familyName)
-            return familyID
-        return familyName
+            try:
+                values = (familyID, familyName)
+                self.cursor.execute(family_insert,values)
+                self.cnx.commit()
+                
+                return familyID
+            except Exception as e:
+                print("Error creating new family:")
+                print(e)
+                return None
+        return None
 
     def edit_family(self, familyID, newFamilyName):
         get_family_info = ("Select * from family where familyID = '%s'" % familyID)
@@ -520,12 +526,21 @@ class Database:
     def get_family(self, familyID):
         family_query = f"SELECT * FROM family WHERE familyID = '{familyID}'"
 
-        family = self.query(family_query)[0]
+
+        try:
+            family = self.query(family_query)[0]
+            family['exists'] = True
+        except IndexError:
+            family = {}
+            family['exists'] = False
 
         family['parents'] = self.query(f"SELECT * FROM parent WHERE familyIDFK = '{familyID}'")
         family['students'] = self.query(f"SELECT * FROM student WHERE familyIDFK = '{familyID}'")
 
+        print(family['parents'])
+
         return family
+        
 
     def get_coach_like_families(self, coachID, familyName):
         families_query = f"""SELECT * FROM studentSessions
