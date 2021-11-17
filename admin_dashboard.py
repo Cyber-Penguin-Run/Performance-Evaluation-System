@@ -5,7 +5,7 @@ import uuid
 from __main__ import app, secure_site, db
 
 nav_columns = {"Overview":"admin_overview", "Staff":"admin_staff", "Add Staff":"admin_staff_change",
-              "Families":"admin_families", "Business":"admin_business"}
+              "Families":"admin_families", "Business":"admin_business","Programs":"programs_overview"}
 
 
 @app.route("/admin/overview", methods = ["POST", "GET", "PUT", "DELETE"])
