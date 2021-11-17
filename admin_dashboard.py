@@ -53,12 +53,12 @@ def admin_business(auth_data = None):
 #skeleton function for admins to delete families
 @app.route("/admin/families/update/<familyID>", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
-def admin_families_update(familyID,auth_data = None):
+def admin_families_update(familyID, auth_data = None):
     if request.method == 'GET':
-        family = db.query("SELECT * FROM family WHERE familyID = '%s'" % familyID)
-        print(family[0])
+        family = db.get_family(familyID)
+        states = db.getStates()
         return render_template('/elements/family_form.html', auth_data=auth_data,
-                               nav_columns=nav_columns, familyName=family[0]['familyName'])
+                               nav_columns=nav_columns, family=family, states=states)
     if request.method == 'POST':
         print('updated')
         family = db.query("SELECT * FROM family WHERE familyID = '%s'" % familyID)
@@ -70,15 +70,3 @@ def admin_families_update(familyID,auth_data = None):
         else:
             return render_template('family.html', auth_data=auth_data, nav_columns=nav_columns,
                                    message='error while updating')
-
-
-
-#skeleton function for admins to delete families
-@app.route("/admin/families/delete/<familyID>", methods = ["POST", "GET", "PUT", "DELETE"])
-@secure_site
-def admin_families_delete(familyID,auth_data = None):
-    if request.method == 'GET':
-        family = db.query("SELECT * FROM family WHERE familyID = '%s'" % familyID)
-        print(family[0])
-        return render_template('/elements/family_form.html', auth_data=auth_data,
-                               nav_columns=nav_columns, familyName=family[0]['familyName'])

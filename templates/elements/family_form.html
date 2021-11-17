@@ -1,3 +1,54 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    // This code empowers all input tags having a placeholder and data-slots attribute
+    document.addEventListener('DOMContentLoaded', () => {
+        for (const el of document.querySelectorAll("[placeholder][data-slots]")) {
+            const pattern = el.getAttribute("placeholder"),
+                slots = new Set(el.dataset.slots || "_"),
+                prev = (j => Array.from(pattern, (c,i) => slots.has(c)? j=i+1: j))(0),
+                first = [...pattern].findIndex(c => slots.has(c)),
+                accept = new RegExp(el.dataset.accept || "\\d", "g"),
+                clean = input => {
+                    input = input.match(accept) || [];
+                    return Array.from(pattern, c =>
+                        input[0] === c || slots.has(c) ? input.shift() || c : c
+                    );
+                },
+                format = () => {
+                    const [i, j] = [el.selectionStart, el.selectionEnd].map(i => {
+                        i = clean(el.value.slice(0, i)).findIndex(c => slots.has(c));
+                        return i<0? prev[prev.length-1]: back? prev[i-1] || first: i;
+                    });
+                    el.value = clean(el.value).join``;
+                    el.setSelectionRange(i, j);
+                    back = false;
+                };
+            let back = false;
+            el.addEventListener("keydown", (e) => back = e.key === "Backspace");
+            el.addEventListener("input", format);
+            el.addEventListener("focus", format);
+            el.addEventListener("blur", () => el.value === pattern && (el.value=""));
+        }
+    });
+
+
+    function showForm(form_name) {
+            $(form_name).show()
+        }
+
+    $(document).ready(() => {
+
+        var students = []
+        var parents = []
+
+
+    })
+
+    </script>
+
+
+
 {%extends 'authed_base.html' %}
 {% block content %}
 
@@ -24,63 +75,57 @@
     </div>
 
     
-    <div class="row w-75 mx-auto my-3" style="border-radius: 10px; background-color: beige;">
+    <div class="d-flex flex-wrap w-75 mx-auto my-3 justify-content-around" style="border-radius: 10px; background-color: beige">
 
-        <div class="col-6">
+        <div class="mx-1" style="width:45%; min-width: 300px;">
             <h4>Parents</h4>
 
-            <table class="table">
-                <tr>
-                    <th>FirstName</th>
-                    <th>LastName</th>
-                </tr>
+
 
                 {% for parent in family['parents'] %}
 
-                    <tr>
-                        <td>{{parent['firstName']}}</td>
-                        <td>{{parent['lastName']}}</td>
-                        <td>
+                    <div class="card d-flex flex-row p-2">
+                        <strong>{{parent['firstName']}} {{parent['lastName']}}</strong>
+                        <div class="ms-auto">
                             <a>
                                 <img src="{{ url_for('static', filename='img/edit-icon.svg') }}"/>
                             </a>
                             <a>
                                 <img src="{{ url_for('static', filename='img/delete-icon.svg') }}"/>
                             </a>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
 
                 {%endfor%}
 
-            </table>
+
+
+                <button onclick="showForm('#parent_form')" class="btn btn-outline-success rounded-circle m-2"><strong>+</strong></button>
+
+
         </div>
 
-        <div class="col-6">
+        <div class="mx-1" style="width: 45%; min-width: 300px;">
             <h4>Students</h4>
 
-            <table class="table">
-                <tr>
-                    <th>FirstName</th>
-                    <th>LastName</th>
-                </tr>
 
                 {% for student in family['students'] %}
 
-                    <tr>
-                        <td>{{student['firstName']}}</td>
-                        <td>{{student['lastName']}}</td>
-                        <td>
+                    <div class="card d-flex flex-row p-2">
+                        <strong>{{student['firstName']}} {{student['lastName']}}</strong>
+                        <div class="ms-auto">
                             <a>
                                 <img src="{{ url_for('static', filename='img/edit-icon.svg') }}"/>
                             </a>
                             <a>
                                 <img src="{{ url_for('static', filename='img/delete-icon.svg') }}"/>
                             </a>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
 
                 {%endfor%}
-            </table>
+
+                <button onclick="showForm('#student_form')" class="btn btn-outline-success rounded-circle m-2"><strong>+</strong></button>
 
         </div>
 
@@ -90,4 +135,45 @@
 
     
 </form>
+
+
+
+<!--FORMS-->
+
+
+
+<div id="parent_form" class="enrichery-center-form-wrapper" style="display: none;">
+    {% with hasFamily=True %}
+        {%include "elements/parents_form.html"%}
+    {% endwith %}
+</div>
+
+
+
+
+<div id="student_form" class="enrichery-center-form-wrapper", style="display: none;">
+
+    {% with hasFamily=True %}
+        {%include "elements/students_form.html"%}
+    {% endwith %}
+
+</div>
+
+
+
+
 {%endblock content %}
+
+
+
+
+<!--     PARENT FORM     -->
+
+
+
+
+
+
+
+
+

@@ -11,14 +11,14 @@
                 <input class="align-middle" id="fullname" name="fullname" style="border-radius: 5px; height: 35px;" type="text" placeholder="Staff Name" value="{%if request.form.get('fullname')%}{{request.form.get('fullname')}}{%endif%}">
                 <button id="searchBtn" name="searchBtn" type="submit" value="searchBtn" class="btn btn-primary enrichery-primary">Search</button>
         </div>
-        <div class="col d-flex">
+        <div class="col py-2 ms-auto mt-auto d-flex">
             <a href = "{{url_for('register')}}" class="btn btn-primary enrichery-primary align-self-center ms-auto">Add</a>
         </div>
     </div>
 </form>
 
 
-    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
+    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 px-2">
         {% for row in staff_table %}
             <div class="d-flex flex-wrap mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: fit-content;">
 
