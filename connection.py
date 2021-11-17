@@ -60,14 +60,42 @@ class Database:
         return deleteFamilyName
 
     def delete_staff(self, staffID):
-        delete_query = f"DELETE FROM staff WHERE userIDFK = '{staffID}'"
+        delete_query = f"DELETE FROM parent WHERE userIDFK = '{staffID}'"
+        user_delete = f"DELETE FROM users WHERE userID = '{staffID}'"
+        userperm_delete = f"DELETE FROM userPerms WHERE userIDFK = '{staffID}'"
+        try:
+            self.cursor.execute(delete_query)
+            self.cursor.execute(userperm_delete)
+            self.cursor.execute(user_delete)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during delete staff', e)
+            return False
+
+    def delete_parent(self, parentID):
+        delete_query = f"DELETE FROM parent WHERE userIDFK = '{parentID}'"
+        user_delete = f"DELETE FROM users WHERE userID = '{parentID}'"
+        userperm_delete = f"DELETE FROM userPerms WHERE userIDFK = '{parentID}'"
+        try:
+            self.cursor.execute(delete_query)
+            self.cursor.execute(userperm_delete)
+            self.cursor.execute(user_delete)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during delete parent', e)
+            return False
+
+    def delete_student(self, studentID):
+        delete_query = f"DELETE FROM student WHERE studentID = '{studentID}'"
         try:
             print(delete_query)
             self.cursor.execute(delete_query)
             self.cnx.commit()
             return True
         except Exception as e:
-            print('error during delete staff', e)
+            print('error during delete student', e)
             return False
 
     def create_todo(self,staffID, description):
@@ -573,3 +601,21 @@ class Database:
         except Exception as e:
             print("Error updating coach information: ")
             print(e)
+
+    def create_student(self, student_info):
+        student_info["studentID"] = uuid.uuid4().hex
+
+        keys = student_info.keys()
+
+        student_insert = f"""INSERT INTO student({', '.join(keys)}) Values ({', '.join([f"'{student_info[key]}'" for key in keys ])})"""
+
+        try:
+            print(student_insert)
+            self.cursor.execute(student_insert)
+            self.cursor.commit()
+            return True
+
+        except Exception as e:
+            print("Error inserting new session")
+            print(e)
+            return False

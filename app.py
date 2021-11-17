@@ -92,7 +92,6 @@ def register():
     elif request.method == "POST":
 
         try:
-            print(request.form)
             username = request.form['username']
             username = username.lower()
             password = request.form['password']

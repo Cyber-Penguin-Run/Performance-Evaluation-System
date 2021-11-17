@@ -9,10 +9,10 @@
     <input type="text" id="studentFirstname" name="studentFirstname" placeholder="First Name" class="form-control" required autofocus>
 
     <label for="studentLastname" class="sr-only my-1" ><strong>Last Nane</strong></label>
-    <input type="text" id="studentLastname" name="studentLastname" placeholder="Last Name" class="form-control">
+    <input type="text" id="studentLastname" name="studentLastname" placeholder="Last Name" class="form-control" required>
 
     <label for="studentSchool" class="sr-only my-1" ><strong>School</strong></label>
-    <input type="text" id="studentSchool" name="studentSchool" placeholder="School Name" class="form-control">
+    <input type="text" id="studentSchool" name="studentSchool" placeholder="School Name" class="form-control" required>
     
     <div {% if hasFamily %} hidden {%endif%}>
         <label for="studentFamily" class="sr-only my-1" ><strong>Family</strong></label>
@@ -28,11 +28,15 @@
     
         </div>
     </div>
+    
+    {% if hasFamily %} 
+        <input type="text" name="familyID" value="{{ family['familyID']}}" hidden>
+    {% endif %}
 
     <hr>
 
     <div class="mt-3 text-center">
-        <button class="enrichery-primary btn btn-lg btn-primary btn-block">Add</button>
+        <button type="submit" id="submitBtn" name="submitBtn" value="createStudent" class="enrichery-primary btn btn-lg btn-primary btn-block">Add</button>
     </div>
 
 

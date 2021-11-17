@@ -1,5 +1,7 @@
+import re
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
+from app import students
 from connection import Database
 import uuid
 from __main__ import app, secure_site, db
@@ -60,16 +62,78 @@ def admin_families_update(familyID, auth_data = None):
         return render_template('/elements/family_form.html', auth_data=auth_data,
                                nav_columns=nav_columns, family=family, states=states)
     if request.method == 'POST':
-        print('updated')
-        family = db.query("SELECT * FROM family WHERE familyID = '%s'" % familyID)
-        familyName = request.form.get('familyName')
-        isupdated = db.edit_family(familyID, familyName)
-        if isupdated:
-            return render_template('family.html', auth_data=auth_data, nav_columns=nav_columns,
-                                   message='updated successfully')
+        print(request.form)
+        option = request.form.get("submitBtn")
+
+        if option == "createStudent":
+            student_family = request.form.get("familyID")
+            student_firstname = request.form.get("studentFirstname")
+            student_lastname = request.form.get("studentLastname")
+            student_school = request.form.get("studentSchool")
+
+            if db.create_student({"firstName":student_firstname, "lastName":student_lastname, "school":student_school, "familyIDFK":student_family}):
+                family = db.get_family(familyID)
+                states = db.getStates()
+                return render_template('/elements/family_form.html', auth_data=auth_data,
+                                    nav_columns=nav_columns, family=family, states=states)
+
+        if option == "deleteStudent":
+            if db.delete_student(request.form.get("studentID")):
+                family = db.get_family(familyID)
+                states = db.getStates()
+                return render_template('/elements/family_form.html', auth_data=auth_data,
+                                    nav_columns=nav_columns, family=family, states=states)
+
+        if option == "deleteParent":
+            if db.delete_parent(request.form.get("parentID")):
+                family = db.get_family(familyID)
+                states = db.getStates()
+                return render_template('/elements/family_form.html', auth_data=auth_data,
+                                    nav_columns=nav_columns, family=family, states=states)
+
+
+        if option == "createParent":
+            try:
+                username = request.form['username']
+                username = username.lower()
+                password = request.form['password']
+                address = request.form['address']
+                state = request.form['state']
+                firstname = request.form['firstname']
+                lastname = request.form['lastname']
+                phone = request.form['phoneNumber']
+                email = request.form['emailAddress']
+                user_role = "parent"
+            except KeyError as e:
+                print("Missing arguments for register.")
+                return render_template('error.html'), {"Refresh": "4; url=/register"}
+
+            new_user = {"username": username, "userPassword": password, "userAddress": address, "stateIDFK": state,
+                        "firstName": firstname, "lastName": lastname, "phoneNumber": phone.strip(), "email": email,
+                        "userRole": user_role}
+
+            if user_role == "parent":
+                family = request.form.get("familyID")
+                new_user['familyID'] = family
+
+            if db.create_user(new_user):
+                    family = db.get_family(familyID)
+                    states = db.getStates()
+                    return render_template('/elements/family_form.html', auth_data=auth_data,
+                                        nav_columns=nav_columns, family=family, states=states)
+        
+
         else:
-            return render_template('family.html', auth_data=auth_data, nav_columns=nav_columns,
-                                   message='error while updating')
+            print('updated')
+            family = db.query("SELECT * FROM family WHERE familyID = '%s'" % familyID)
+            familyName = request.form.get('familyName')
+            isupdated = db.edit_family(familyID, familyName)
+            if isupdated:
+                return render_template('family.html', auth_data=auth_data, nav_columns=nav_columns,
+                                    message='updated successfully')
+            else:
+                return render_template('family.html', auth_data=auth_data, nav_columns=nav_columns,
+                                    message='error while updating')
 
 
 

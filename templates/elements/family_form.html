@@ -2,35 +2,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     // This code empowers all input tags having a placeholder and data-slots attribute
-    document.addEventListener('DOMContentLoaded', () => {
-        for (const el of document.querySelectorAll("[placeholder][data-slots]")) {
-            const pattern = el.getAttribute("placeholder"),
-                slots = new Set(el.dataset.slots || "_"),
-                prev = (j => Array.from(pattern, (c,i) => slots.has(c)? j=i+1: j))(0),
-                first = [...pattern].findIndex(c => slots.has(c)),
-                accept = new RegExp(el.dataset.accept || "\\d", "g"),
-                clean = input => {
-                    input = input.match(accept) || [];
-                    return Array.from(pattern, c =>
-                        input[0] === c || slots.has(c) ? input.shift() || c : c
-                    );
-                },
-                format = () => {
-                    const [i, j] = [el.selectionStart, el.selectionEnd].map(i => {
-                        i = clean(el.value.slice(0, i)).findIndex(c => slots.has(c));
-                        return i<0? prev[prev.length-1]: back? prev[i-1] || first: i;
-                    });
-                    el.value = clean(el.value).join``;
-                    el.setSelectionRange(i, j);
-                    back = false;
-                };
-            let back = false;
-            el.addEventListener("keydown", (e) => back = e.key === "Backspace");
-            el.addEventListener("input", format);
-            el.addEventListener("focus", format);
-            el.addEventListener("blur", () => el.value === pattern && (el.value=""));
-        }
-    });
 
 
     function showForm(form_name) {
@@ -84,15 +55,19 @@
     
                     {% for parent in family['parents'] %}
     
-                        <div class="card d-flex flex-row p-2">
+                        <div class="card d-flex flex-row p-2 my-1">
                             <strong>{{parent['firstName']}} {{parent['lastName']}}</strong>
                             <div class="ms-auto">
+<!---
                                 <a>
                                     <img src="{{ url_for('static', filename='img/edit-icon.svg') }}"/>
                                 </a>
-                                <a>
+-->
+
+                                <button class="btn btn-outline-danger p-0" type="submit" id="submitBtn" name="submitBtn" value="deleteParent">
+                                    <input type="text" id="parentID" name="parentID" value="{{parent['userIDFK']}}" hidden>
                                     <img src="{{ url_for('static', filename='img/delete-icon.svg') }}"/>
-                                </a>
+                                </button>
                             </div>
                         </div>
     
@@ -111,15 +86,20 @@
     
                 {% for student in family['students'] %}
     
-                    <div class="card d-flex flex-row p-2">
+                    <div class="card d-flex flex-row p-2 my-1">
                         <strong>{{student['firstName']}} {{student['lastName']}}</strong>
                         <div class="ms-auto">
+
+<!---
                             <a>
                                 <img src="{{ url_for('static', filename='img/edit-icon.svg') }}"/>
                             </a>
-                            <a>
+-->
+
+                            <button class="btn btn-outline-danger p-0" type="submit" id="submitBtn" name="submitBtn" value="deleteStudent">
+                                <input type="text" id="studentID" name="studentID" value="{{student['studentID']}}" hidden>
                                 <img src="{{ url_for('static', filename='img/delete-icon.svg') }}"/>
-                            </a>
+                            </button>
                         </div>
                     </div>
     
