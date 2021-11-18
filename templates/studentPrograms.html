@@ -1,18 +1,28 @@
-{%extends 'base.html'%}
+{%extends 'authed_base.html'%}
 {% block content %}
-<table>
-  <tr>
-    <th>programID</th>
-    <th>studentIDFK</th>
-    <th>programType</th>
+<header class="m-0 enrichery-bg-dark row text-center h-25" class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
+    This page is the Student Programs Dashboard. All Programs are accessible from this page.
+</header>
+    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
+        <div class = "d-flex flex-wrap w-100 justify-content-center">
+    {% for row in getPrograms %}
 
-  </tr>
-       {% for row in studentPrograms%}
-    <tr>
-      <td>{{row[0]}}</td>
-      <td>{{row[1]}}</td>
-      <td>{{row[2]}}</td>
-  </tr>
+      <a href = "{{url_for('programs_create', studentID = row['studentIDFK'])}}"
+         class="container btn text-start m-2 p-1 enrichery-bg-primary" style="width: 40%; min-width: 300px; max-width: 650px; border-radius: 10px">
+
+        <div class="row">
+          <h2>{{row['programType']}}</h2>
+        </div>
+
+        <div class="row">
+          <div class="col d-flex">
+            <h6>{{row['programID']}}</h6>
+          </div>
+        </div>
+
+      </a>
     {% endfor %}
-</table>
+
+</div>
+    </div>
 {%endblock content %}

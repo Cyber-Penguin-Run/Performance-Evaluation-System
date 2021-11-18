@@ -1,10 +1,13 @@
 {%extends 'authed_base.html' %}
 {% block content %}
-
-<form method = "POST">
+<header class="m-0 enrichery-bg-dark row text-center h-50" class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
+        This is a page for inserting test scores
+    </header>
+<form method="POST" xmlns="http://www.w3.org/1999/html">
     <h2>Insert a new todo item</h2>
-    <p>description <input type = "text" id="todoDescription" name="todoDescription" value="{% if todoDescription %}
-{{ todoDescription }} {% endif %}"/></p>
+    <p>description</p>
+    <textarea id="todoDescription" name="todoDescription" rows="4" cols="50" value="{% if todoDescription %}
+{{ todoDescription }} {% endif %}"/></textarea>
     <p><input type = "submit" value = "Submit" /></p>
 </form>
 {%endblock content %}

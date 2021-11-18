@@ -2,7 +2,7 @@ import re
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
 from connection import Database
-from app import app, secure_site, db
+from __main__ import app, secure_site, db
 
 nav_columns = {"Coach Overview":"coach_home", "Personal Information":"coach_info", "Assignments":"coach_assignments"}
 
@@ -49,7 +49,6 @@ def coach_assignments(auth_data = None):
         
     else:
         assignments = db.get_coach_assignments(auth_data['user_id'])
-
     selectedtype = "All Assignments"
     formsearch = db.query('SELECT * FROM assignments')
     return render_template("coach_assignments.html",selectedtype=selectedtype, assignment_form=formsearch, auth_data=auth_data, nav_columns=nav_columns, assignments_form=assignments)
