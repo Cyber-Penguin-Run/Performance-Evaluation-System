@@ -29,7 +29,7 @@ def secure_site(f):
         token = request.cookies.get('token')
 
         if not token:
-            return "No token provided."
+            return redirect(url_for("login"))
 
         try:
             auth_data = jwt.decode(token, app.config['JWT_KEY'], algorithms=["HS256"])
@@ -38,7 +38,7 @@ def secure_site(f):
 
         except Exception as e:
             print(e)
-            return "Token invalid."
+            return redirect(url_for("login"))
 
         return f(*args, **kwargs, auth_data=auth_data)
 
