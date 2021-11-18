@@ -31,7 +31,7 @@
         This is the programs insertion and editing page.
     </header>
 
-    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
+    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3" style="width:fit-content; height: fit-content">
     <select id="choose-form">
     <option value = "">Please choose...</option>
     <option value="SummerWorkshop"> Summer Workshop</option>
@@ -49,9 +49,116 @@
         <form method="POST">
             <input type="date" name="SummerStart" placeholder="From Date">
             <input type="date" name="SummerEnd" placeholder="End Date">
-            <input type=""
+            <input type="radio" name="TestTakenYes" id="TestTakenYes" value="Yes">
+            <input type="radio" name="TestTakenNo" id="TestTakenNo" value="No">
+            <input type="number" name="GPA" id="GPA" placeholder="GPA">
+            <texatarea name="notes" id="Notes" placeholder="Notes" rows="4" cols="50"/>
+            <input type="submit" id="SummerButton" name="SummerButton">
         </form>
     </div>
-
+    <div id="AcademicCoaching">
+        <form method="POST">
+            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
+            <texatarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"/>
+            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
+            <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
+            <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
+            <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
+            <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
+            <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
+            <input type="submit" id="academicCoachButton" name="academicCoachButton">
+        </form>
+    </div>
+    <div id="CollegeCoaching">
+        <form method="POST">
+            <input type="date" name="FromDate" placeholder="From Date">
+            <input type="date" name="EndDate" placeholder="End Date">
+            <input type="radio" name="TestTakenYes" id="TestTakenYes" value="Yes">
+            <input type="radio" name="TestTakenNo" id="TestTakenNo" value="No">
+            <input type="number" name="GPA" id="GPA" placeholder="GPA">
+            <texatarea name="notes" id="Notes" placeholder="Notes" rows="4" cols="50"/>
+            <input type="submit" id="collegeCoachButton" name="collegeCoachButton">
+        </form>
+    </div>
+    <div id="EducationFuture">
+        <form method="POST">
+            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
+            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
+            <texatarea name="notes" id="Notes" placeholder="Notes" rows="4" cols="50"/>
+            <input type="submit" id="EducationFutureButton" name="EducationFutureButton">
+        </form>
+    </div>
+    <div id="ExecFunction">
+        <form method="POST">
+            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
+            <texatarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"/>
+            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
+            <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
+            <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
+            <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
+            <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
+            <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
+            <input type="submit" id="execFunctionButton" name="execFunctionButton">
+        </form>
+    </div>
+    <div id="ExecFunctionMini">
+        <form method="POST">
+            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
+            <texatarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"/>
+            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
+            <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
+            <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
+            <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
+            <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
+            <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
+            <input type="submit" id="execFunctionMiniButton" name="execFunctionMiniButton">
+        </form>
+    </div>
+    <div id="SmallGroups">
+        <form method="POST">
+            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
+            <texatarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"/>
+            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
+            <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
+            <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
+            <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
+            <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
+            <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
+            <input type="submit" id="smallGroupsButton" name="smallGroupsButton">
+        </form>
+    </div>
+    <div id="StudySpot">
+        <form method="POST">
+            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
+            <texatarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"/>
+            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
+            <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
+            <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
+            <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
+            <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
+            <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
+            <input type="submit" id="studySpotButton" name="studySpotButton">
+        </form>
+    </div>
+    <div id="TestPrep">
+        <form method="POST">
+            <input type="date" id="testDate" name="testDate">
+            <input type="text" id="Testtype" name="Testtype">
+            Has test been taken previously?
+            <input type="radio" name="PrevTestYes" id="PrevTestYes" value="Yes">
+            <input type="radio" name="PrevTakenNo" id="PrevTestNo" value="No">
+            Has previous course been taken?
+            <input type="radio" name="PrevCourseYes" id="PrevCourseYes" value="Yes">
+            <input type="radio" name="PrevCourseNo" id="PrevCourseNo" value="No">
+            Have accommodations?
+            <input type="radio" name="accommodationsYes" id="accommodationsYes" value="Yes">
+            <input type="radio" name="accommodationsNo" id="accommodationsNo" value="No">
+            <input type="number" name="Matheval" id="Matheval" placeholder="Math Evaluation">
+            <input type="number" name="Scienceevl" id="Scienceevl" placeholder="Science Evaluation">
+            <input type="number" name="Englisheval" id="Englisheval" placeholder="English Evaluation">
+            <input type="number" name="Histeval" id="Histeval" placeholder="History Evaluation">
+            <input type="submit" id="testPrepButton" name="testPrepButton">
+        </form>
+    </div>
         {% include 'elements/message_element.html' %}
 {% endblock %}

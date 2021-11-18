@@ -1,18 +1,17 @@
-{%extends 'base.html'%}
+{%extends 'authed_base.html'%}
 {% block content %}
-<table>
-  <tr>
-    <th>programID</th>
-    <th>studentIDFK</th>
-    <th>programType</th>
-
-  </tr>
-       {% for row in studentPrograms%}
-    <tr>
-      <td>{{row[0]}}</td>
-      <td>{{row[1]}}</td>
-      <td>{{row[2]}}</td>
-  </tr>
-    {% endfor %}
-</table>
+<header class="m-0 enrichery-bg-dark row text-center h-25" class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
+    This page is the Student Programs Dashboard. All Programs are accessible from this page.
+</header>
+    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
+        {% for row in getPrograms %}
+            <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; width:fit-content; height: fit-content">
+            <h2>
+                {{ row['programID'] }} {{ row['studentIDFK'] }} {{ row['programType'] }}
+            </h2>
+            <a class="btn-primary btn enrichery-primary ms-auto me-1" type="button" href="{{ url_for('todo_update',todoID=row['todoID']) }}">Update</a>
+            <a class="btn-primary btn enrichery-primary me-3" type="button" href="{{ url_for('todo_delete',todoID=row['todoID']) }}">Delete</a>
+            </div>
+        {% endfor %}
+    </div>
 {%endblock content %}
