@@ -119,6 +119,14 @@ class Database:
             print('error during delete student', e)
             return False
 
+    def get_todos(self, staffID):
+        todo_query = f"""SELECT * FROM todos
+                            LEFT JOIN staff
+                            ON (todos.staffUsersID = staff.userIDFK)
+                            WHERE staff.userIDFK LIKE '%{staffID}%'"""
+
+        return self.query(todo_query)
+
     def create_todo(self,staffID, description):
         todo_id = uuid.uuid4().hex
         if description is not None:

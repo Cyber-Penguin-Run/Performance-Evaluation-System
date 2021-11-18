@@ -1,19 +1,20 @@
-<div class = "d-flex flex-wrap w-100 justify-content-center">
-    {% for row in families %}
+<div class="d-flex flex-wrap justify-content-center text-wrap w-100 px-2">
+  {% for row in families %}
 
-      <a href = "{{url_for('mystudent_family_info', familyID = row['familyID'])}}" class="container btn text-start m-2 p-1 enrichery-bg-primary" style="width: 40%; min-width: 300px; max-width: 650px; border-radius: 10px">
+      <a href = "{{url_for('mystudent_family_info', familyID = row['familyID'])}}" class="card shadow mt-2 me-2 d-flex flex-column overflow-hidden" style="width:45%; border-radius:5px; height: fit-content; text-decoration: none; color:black">
 
-        <div class="row">
-          <h2>{{row['familyName'].capitalize() }}</h2>
-        </div>
+          <div style="background-color: {%if row['familyStatus'] == 'active'%} {{'limegreen'}} {%elif row['familyStatus']=='inactive'%}{{'red'}}{%elif row['familyStatus']=='potential'%}{{'blue'}}{%endif%}; height: 10px; opacity: 0.5;">
 
-        <div class="row">
-          <div class="col d-flex">
-            <h6>{{ "Status" }}</h6>
-          </div>   
-        </div>
+          </div>
 
-      </a>
-    {% endfor %}
+          <div class="my-3">
+              <h4 class="ms-3 me-auto" style="width: 75%; min-width: 300px;">
+                  {{ row['familyName'].capitalize() }}
+              </h4>
+          </div>
+      
 
+        </a>
+  {% endfor %}
 </div>
+{% include 'elements/message_element.html' %}
