@@ -121,6 +121,25 @@ html,body {
     align-items: center;
 }
 
+.enrichery-message {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    max-width: 300px;
+    height: fit-content;
+
+    display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    
+    justify-content: center;
+    align-items: center;
+}
+
 .enrichery-bg-blur {
     position: absolute;
     top: 50%;

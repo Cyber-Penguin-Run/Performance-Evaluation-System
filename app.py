@@ -85,7 +85,12 @@ def logout():
 
 
 @app.route('/register', methods=["GET", "POST"])
-def register():
+@secure_site
+def register(auth_data = None):
+    print(auth_data)
+    if auth_data['userPerms']['adminDashboard'] == False:
+        return redirect(url_for("home_message", message="You do not have adecuate permissions for page you tried to access."))
+
     if request.method == "GET":
         states = db.getStates()
         families = db.get_like_families({"familyName": ""})
@@ -125,6 +130,12 @@ def register():
 @secure_site
 def home(auth_data=None):
     return render_template("home.html", auth_data=auth_data)
+
+# Home with message
+@app.route('/home/<message>')
+@secure_site
+def home_message(message, auth_data=None):
+    return render_template("home.html", auth_data=auth_data, message=message)
 
 
 # students page with diff request methods.
