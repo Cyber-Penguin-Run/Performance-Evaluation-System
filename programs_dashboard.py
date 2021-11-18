@@ -12,5 +12,23 @@ class Programs():
                    'Small Groups': 'programs_small_groups', 'Study Spot': 'programs_study_spot',
                    'Program Test Prep': 'programs_test_prep'
                    }
-    def create_program(self):
-        pass
+    def create_program(self,programType, programInfo):
+        if programType =='SummerWorkshop':
+            program_insert = """INSERT INTO programCollegeSummerWorkshop(fromDate,endDate,testTaken,gpa,notes,programIDFK)
+            values ('%(fromDate)s','%(endDate)s','%(testTaken)s','%(notes)s','%(programIDFK)s')"""
+
+        if programType =='AcademicCoaching':
+            program_insert = """INSERT INTO programAcademicCoaching(programIDFK,hoursWeek,notes,concernArea,englishGrade,
+            historyGrade,mathGrade,scienceGrade,foreignLanguageGrade) 
+            values ('%(programID)s','%(hours)s','%(notes)s','%(concernArea)s','%(english)s', '%(english)s', '%(english)s',
+            )"""
+
+        try:
+            print("executing program query")
+            print(program_insert)
+            self.cursor.execute(program_insert)
+            self.cursor.commit()
+            return True
+        except Exception as e:
+            print('error during insertion of program', e)
+            return False

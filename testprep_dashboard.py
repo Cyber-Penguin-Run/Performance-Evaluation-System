@@ -2,7 +2,7 @@ from flask import Flask, json, render_template, url_for, request, redirect, json
 from flask.helpers import make_response
 from connection import Database
 import uuid
-from app import app, secure_site, db
+from __main__ import app, secure_site, db
 
 nav_columns = {'Add Mock':'testprep','Mock ACT':'mockACT','Mock SAT':'mockSAT','Mock HSPT':'mockHSPT','Mock ISEE':'mockISEE'}
 
