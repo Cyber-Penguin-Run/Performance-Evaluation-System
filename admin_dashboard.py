@@ -108,11 +108,21 @@ def programs_overview(auth_data = None):
     if request.method == 'POST':
         pass
 
+@app.route("/programs/create", methods = ["POST", "GET", "PUT", "DELETE"])
+@secure_site
+def programs_create(auth_data = None):
+    if request.method == 'GET':
+        return render_template('/elements/programs_form.html',auth_data=auth_data, nav_columns=Programs.nav_columns)
+    if request.method == 'POST':
+        pass
+
 @app.route('/programs/CollegeSummerWorkshop', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @secure_site
 def programs_college_summer_workshop(auth_data=None):
     if request.method == 'GET':
-        return render_template('studentPrograms.html', auth_data=auth_data, nav_columns=Programs.nav_columns)
+        getPrograms = db.query("SELECT * FROM programCollegeSummerWorkshop")
+        return render_template('/programs/SummerWorkshop.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
+                               getPrograms=getPrograms)
     if request.method == 'POST':
         pass
 
@@ -120,7 +130,9 @@ def programs_college_summer_workshop(auth_data=None):
 @secure_site
 def programs_academic_coaching(auth_data=None):
     if request.method == 'GET':
-        return render_template('studentPrograms.html', auth_data=auth_data, nav_columns=Programs.nav_columns)
+        getPrograms = db.query("SELECT * FROM programAcademicCoaching")
+        return render_template('/programs/AcademicCoaching.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
+                               getPrograms=getPrograms)
     if request.method == 'POST':
         pass
 
@@ -128,7 +140,9 @@ def programs_academic_coaching(auth_data=None):
 @secure_site
 def programs_college_coaching(auth_data=None):
     if request.method == 'GET':
-        return render_template('studentPrograms.html', auth_data=auth_data, nav_columns=Programs.nav_columns)
+        getPrograms = db.query("SELECT * FROM programCollegeCoaching")
+        return render_template('/programs/CollegeCoaching.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
+                               getPrograms=getPrograms)
     if request.method == 'POST':
         pass
 
@@ -136,7 +150,9 @@ def programs_college_coaching(auth_data=None):
 @secure_site
 def programs_education_future(auth_data=None):
     if request.method == 'GET':
-        return render_template('studentPrograms.html', auth_data=auth_data, nav_columns=Programs.nav_columns)
+        getPrograms = db.query("SELECT * FROM programEducationFuture")
+        return render_template('/programs/EducationFuture.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
+                               getPrograms=getPrograms)
     if request.method == 'POST':
         pass
 
@@ -144,7 +160,9 @@ def programs_education_future(auth_data=None):
 @secure_site
 def programs_exec_function(auth_data=None):
     if request.method == 'GET':
-        return render_template('studentPrograms.html', auth_data=auth_data, nav_columns=Programs.nav_columns)
+        getPrograms = db.query("SELECT * FROM programExecFunction")
+        return render_template('/programs/ExecutiveFunction.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
+                               getPrograms=getPrograms)
     if request.method == 'POST':
         pass
 
@@ -152,7 +170,9 @@ def programs_exec_function(auth_data=None):
 @secure_site
 def programs_exec_function_mini(auth_data=None):
     if request.method == 'GET':
-        return render_template('studentPrograms.html', auth_data=auth_data, nav_columns=Programs.nav_columns)
+        getPrograms = db.query("SELECT * FROM programExecFunctionMini")
+        return render_template('/programs/ExecutiveFunctionMini.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
+                               getPrograms=getPrograms)
     if request.method == 'POST':
         pass
 
@@ -160,7 +180,9 @@ def programs_exec_function_mini(auth_data=None):
 @secure_site
 def programs_small_groups(auth_data=None):
     if request.method == 'GET':
-        return render_template('studentPrograms.html', auth_data=auth_data, nav_columns=Programs.nav_columns)
+        getPrograms = db.query("SELECT * FROM programSmallGroups")
+        return render_template('/programs/SmallGroups.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
+                               getPrograms=getPrograms)
     if request.method == 'POST':
         pass
 
@@ -168,7 +190,9 @@ def programs_small_groups(auth_data=None):
 @secure_site
 def programs_study_spot(auth_data=None):
     if request.method == 'GET':
-        return render_template('studentPrograms.html', auth_data=auth_data, nav_columns=Programs.nav_columns)
+        getPrograms = db.query("SELECT * FROM programStudySpot")
+        return render_template('/programs/StudySpot.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
+                               getPrograms=getPrograms)
     if request.method == 'POST':
         pass
 
@@ -176,6 +200,8 @@ def programs_study_spot(auth_data=None):
 @secure_site
 def programs_test_prep(auth_data=None):
     if request.method == 'GET':
-        return render_template('studentPrograms.html', auth_data=auth_data, nav_columns=Programs.nav_columns)
+        getPrograms = db.query("SELECT * FROM programTestPrep")
+        return render_template('/programs/TestPrep.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
+                               getPrograms=getPrograms)
     if request.method == 'POST':
         pass

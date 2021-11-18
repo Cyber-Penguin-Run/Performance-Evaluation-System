@@ -5,7 +5,7 @@
 </header>
     <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
         {% for row in getPrograms %}
-            <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: fit-content">
+            <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; width:fit-content; height: fit-content">
             <h2>
                 {{ row['programID'] }} {{ row['studentIDFK'] }} {{ row['programType'] }}
             </h2>

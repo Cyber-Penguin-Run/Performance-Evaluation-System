@@ -1,0 +1,18 @@
+{%extends 'authed_base.html'%}
+{% block content %}
+<header class="m-0 text-center" style="height: 200px; background-color:rgb(248 223 33)">
+    Future Education
+</header>
+    <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
+    {% for row in getPrograms %}
+        <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: fit-content;">
+    <h5>
+        Hours: {{ row['hoursWeek'] }} Program: {{ row['programIDFK'] }}<br>
+        notes:{{ row['notes'] }}<br>
+        area of interest: {{ row['areaInterest'] }}
+    </h5>
+        </div>
+
+    {% endfor %}
+    </div>
+{%endblock content %}
