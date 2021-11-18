@@ -36,7 +36,7 @@
     <table class='table'>
         <div class=" flex-wrap justify-content-center w-100 mx-3 ">
             <tr>
-                <th>Assignment ID</th>
+                <th>Assignment Student</th>
                 <th>Assignment Date</th>
                 <th>Assignment Grade</th>
                 <th>Assignment Type</th>
@@ -45,7 +45,7 @@
             {% for row in assignments%}
 
             <tr>
-                <td>{{row['assignmentID']}}</td>
+                <td>{{row['firstName']}} {{row['lastName']}}</td>
                 <td>{{row['assignmentDate']}}</td>
                 <td>{{row['assignmentGrade']}}</td>
                 <td>{{row['assignmentType'].capitalize()}}</td>
