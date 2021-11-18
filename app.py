@@ -64,9 +64,10 @@ def login():
             print('user exists')
             if userExists["userPassword"] == password:
                 print('login successful.')
+                print(userExists)
                 auth_token = jwt.encode({"user_id": userExists['userID'], "username": userExists["username"],
                                          "exp": datetime.utcnow() + timedelta(days=1)}, app.config['JWT_KEY'])
-
+                print(auth_token)
                 response = make_response(redirect("/home"))
                 response.set_cookie("token", auth_token)
 

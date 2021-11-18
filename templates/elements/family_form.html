@@ -33,11 +33,11 @@
         </div>
         
         <div class="col-6 d-flex flex-column">
-            <label for="familyName" class="sr-only my-1"><strong>Status</strong></label>
-            <select class="mx-auto " style="width: 25%;" type="text" id="familyName" name="familyName" placeholder="Family Name" required autofocus>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-            <option value="potential">Potential</option>
+            <label for="familyStatus" class="sr-only my-1"><strong>Status</strong></label>
+            <select class="mx-auto " style="width: 25%;" type="text" id="familyStatus" name="familyStatus" placeholder="Family Name" required autofocus>
+            <option value="active" {%if family['familyStatus'] == 'active'%}selected="selected"{%endif%}>Active</option>
+            <option value="inactive" {%if family['familyStatus'] == 'inactive'%}selected="selected"{%endif%}>Inactive</option>
+            <option value="potential" {%if family['familyStatus'] == 'potential'%}selected="selected"{%endif%}>Potential</option>
             </select>    
         </div>
 

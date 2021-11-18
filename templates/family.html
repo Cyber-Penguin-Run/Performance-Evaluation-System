@@ -8,7 +8,7 @@
 
         <div class="row d-flex h-50">
             <div class="col py-2 ms-auto mt-auto">
-                    <input class="align-middle" id="fullname" name="fullname" style="border-radius: 5px; height: 35px;" type="text" placeholder="Staff Name" value="{%if request.form.get('fullname')%}{{request.form.get('fullname')}}{%endif%}">
+                    <input class="align-middle" id="fullname" name="fullname" style="border-radius: 5px; height: 35px;" type="text" placeholder="Family Name" value="{%if request.form.get('fullname')%}{{request.form.get('fullname')}}{%endif%}">
                     <button id="searchBtn" name="searchBtn" type="submit" value="searchBtn" class="btn btn-primary enrichery-primary">Search</button>
             </div>
             <div class="col py-2 ms-auto mt-auto d-flex">
@@ -22,18 +22,24 @@
     <div class="d-flex flex-wrap justify-content-center text-wrap w-100 px-2">
         {% for row in family_table %}
 
-             <div class="d-flex flex-wrap mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; height: fit-content;">
+            <div class="card shadow mt-2 me-2 d-flex flex-column overflow-hidden" style="width:45%; border-radius:5px; height: fit-content;">
 
-                <h4 class="ms-3" style="width: 75%; min-width: 300px;">
-                    {{ row['familyName'] }}
-                </h4>
-        
-                <div class="d-flex flex-row m-1 ms-auto">
-                    <a class="btn-primary btn enrichery-primary ms-auto me-1" type="button" href="{{ url_for('admin_families_update',familyID=row['familyID']) }}">Update</a>
+                <div style="background-color: {%if row['familyStatus'] == 'active'%} {{'limegreen'}} {%elif row['familyStatus']=='inactive'%}{{'red'}}{%elif row['familyStatus']=='potential'%}{{'blue'}}{%endif%}; height: 10px; opacity: 0.5;">
 
-                    <form method="POST">
-                        <button class="btn-primary btn enrichery-primary me-3" type="submit" id="deleteBtn" name="deleteFamily" value="{{row['familyID']}}">Delete</button>
-                    </form>
+                </div>
+
+                <div>
+                    <h4 class="ms-3 me-auto" style="width: 75%; min-width: 300px;">
+                        {{ row['familyName'] }}
+                    </h4>
+            
+                    <div class="d-flex flex-row m-1 ms-auto">
+                        <a class="btn-primary btn enrichery-primary ms-auto me-1" type="button" href="{{ url_for('admin_families_update',familyID=row['familyID']) }}">Update</a>
+    
+                        <form method="POST">
+                            <button class="btn-primary btn enrichery-primary me-3" type="submit" id="deleteBtn" name="deleteFamily" value="{{row['familyID']}}">Delete</button>
+                        </form>
+                    </div>
                 </div>
             
 

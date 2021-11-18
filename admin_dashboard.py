@@ -4,7 +4,7 @@ from flask.helpers import make_response
 from app import students
 from connection import Database
 import uuid
-from __main__ import app, secure_site, db
+from app import app, secure_site, db
 
 
 nav_columns = {"Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business"}
@@ -38,17 +38,22 @@ def admin_families(auth_data = None):
     if request.method == 'GET':
         return render_template("family.html",auth_data=auth_data, nav_columns=nav_columns,family_table=family_table)
 
-@app.route("/admin/business", methods = ["POST", "GET"])
-@secure_site
-def admin_business(auth_data = None):
-    if request.method == 'GET':
-        return render_template("/elements/family_form.html",auth_data=auth_data, nav_columns=nav_columns)
-    elif request.method == 'POST':
-        familyName = request.form['familyName']
-        db.create_family(familyName)
-        return render_template('layout.html'), {"Refresh": "2; url=/admin/families"}
-    return render_template('/elements/family_form.html', auth_data=auth_data, nav_columns=nav_columns)
+    if request.method == "POST":
 
+        if "searchBtn" in request.form.keys():
+            print("searching")
+            family_table = db.get_families_fullname(request.form.get("fullname"))
+            return render_template('family.html',auth_data=auth_data, nav_columns=nav_columns, family_table=family_table)
+
+        if "deleteFamily" in request.form.keys():
+            deleted = db.delete_family(request.form.get("deleteFamily"))
+            family_table = db.query('Select * FROM family')
+            if deleted:
+                return render_template('family.html', auth_data=auth_data, nav_columns=nav_columns, family_table=family_table,
+                                    message='family deleted successfully.')
+            else:
+                return render_template('family.html', auth_data=auth_data, nav_columns=nav_columns, family_table=family_table,
+                                    message='Error trying to delete family.')
 
 
 
@@ -123,17 +128,15 @@ def admin_families_update(familyID, auth_data = None):
                                         nav_columns=nav_columns, family=family, states=states)
         
 
-        else:
-            print('updated')
+        if option == "updateFamily":
             family = db.query("SELECT * FROM family WHERE familyID = '%s'" % familyID)
             familyName = request.form.get('familyName')
-            isupdated = db.edit_family(familyID, familyName)
+            familyStatus = request.form.get('familyStatus')
+            isupdated = db.edit_family(familyID, familyName, familyStatus)
             if isupdated:
-                return render_template('family.html', auth_data=auth_data, nav_columns=nav_columns,
-                                    message='updated successfully')
+                return redirect(url_for("admin_families", auth_data=auth_data))
             else:
-                return render_template('family.html', auth_data=auth_data, nav_columns=nav_columns,
-                                    message='error while updating')
+                return redirect(url_for("admin_families", auth_data=auth_data))
 
 
 
@@ -151,7 +154,7 @@ def admin_families_add(auth_data = None):
         option = request.form.get("submitBtn")
 
         if option == "createFamily":
-            familyID = db.create_family(request.form['familyName'])
+            familyID = db.create_family(request.form['familyName'], request.form['familyStatus'])
             if familyID:
                 family = db.get_family(familyID)
                 states = db.getStates()
@@ -164,3 +167,14 @@ def admin_families_add(auth_data = None):
         states = db.getStates()
         return render_template('/elements/family_form.html', auth_data=auth_data,
                                nav_columns=nav_columns, family=family, states=states)
+
+
+
+
+
+@app.route("/admin/business", methods = ["POST", "GET"])
+@secure_site
+def admin_business(auth_data = None):
+    family_table = db.query('Select * FROM family ORDER BY familyStatus')
+    if request.method == 'GET':
+        return render_template("family.html",auth_data=auth_data, nav_columns=nav_columns,family_table=family_table)

@@ -26,14 +26,14 @@ class Database:
              for row in self.cursor.fetchall()]
 
 
-    def create_family(self, familyName):
+    def create_family(self, familyName, familyStatus):
         familyID = uuid.uuid4().hex
 
         if familyName is not None:
-            family_insert = ("INSERT INTO family(familyID, familyName)"
-                                       "Values (?,?)")
+            family_insert = ("INSERT INTO family(familyID, familyName, familyStatus)"
+                                       "Values (?, ?, ?)")
             try:
-                values = (familyID, familyName)
+                values = (familyID, familyName, familyStatus)
                 self.cursor.execute(family_insert,values)
                 self.cnx.commit()
                 
@@ -44,20 +44,41 @@ class Database:
                 return None
         return None
 
-    def edit_family(self, familyID, newFamilyName):
+    def edit_family(self, familyID, newFamilyName, familyStatus):
         get_family_info = ("Select * from family where familyID = '%s'" % familyID)
         if get_family_info is not None:
-            print('there is a family')
-            family_update = ("UPDATE family SET familyName = ?" % newFamilyName)
+            family_update = "UPDATE family SET familyName = '%s', familyStatus='%s' WHERE familyID = '%s'" % (newFamilyName, familyStatus, familyID)
+            self.cursor.execute(family_update)
             self.cnx.commit()
             return newFamilyName
         return newFamilyName
 
-    def delete_family(self, deleteFamilyName):
-        get_family_info = ('DELETE * from family where familyName = ?', deleteFamilyName)
-        self.cursor.execute(get_family_info)
-        self.cnx.commit()
-        return deleteFamilyName
+    def delete_family(self, familyID):
+        find_orphans = f"SELECT studentID FROM student WHERE familyIDFK = '{familyID}'"
+        find_parents = f"SELECT userIDFK from parent WHERE familyIDFK = '{familyID}'"
+        delete_family = f"DELETE FROM family where familyID = '{familyID}'"
+        try:
+            orphans = self.query(find_orphans)
+            parents = self.query(find_parents)
+
+            if len(orphans) > 0:
+                create_orphans = "UPDATE student SET familyIDFK = NULL WHERE studentID IN (%s)" % ", ".join([f"'{orphan['studentID']}'" for orphan in orphans])
+                print(create_orphans)
+                self.cursor.execute(create_orphans)
+
+            if len(parents) > 0:
+                kill_parents = "UPDATE parent SET familyIDFK = NULL WHERE userIDFK IN (%s)" % ", ".join([f"'{parent['userIDFK']}'" for parent in parents])
+                print(kill_parents)
+                self.cursor.execute(kill_parents)
+
+            self.cursor.execute(delete_family)
+            self.cnx.commit()
+            return True
+
+        except Exception as e:
+            print("Error deleting family: ")
+            print(e)
+            return False
 
     def delete_staff(self, staffID):
         delete_query = f"DELETE FROM parent WHERE userIDFK = '{staffID}'"
@@ -471,6 +492,22 @@ class Database:
             return results
         except Exception as e:
             print("Error while retrieving coach fullname students:")
+            print(e)
+
+
+    def get_families_fullname(self, fullname):
+
+        fullname_query = f"""SELECT f.*
+                                FROM family AS f
+                                WHERE f.familyName LIKE '%{fullname}%'"""
+
+        try:
+            self.cursor.execute(fullname_query)
+            results = self.results_as_dict()
+
+            return results
+        except Exception as e:
+            print("Error while retrieving families:")
             print(e)
 
     def get_student_assignments(self, studentID):
