@@ -53,6 +53,17 @@ class Database:
         self.cnx.commit()
         return deleteFamilyName
 
+    def delete_staff(self, staffID):
+        delete_query = f"DELETE FROM staff WHERE userIDFK = '{staffID}'"
+        try:
+            print(delete_query)
+            self.cursor.execute(delete_query)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during delete staff', e)
+            return False
+
     def create_todo(self,staffID, description):
         todo_id = uuid.uuid4().hex
         if description is not None:
@@ -208,8 +219,7 @@ class Database:
     def get_like_users(self, user_data):
         user_data = {key:user_data[key] for key in ["userID", "username", "userAddress"] if key in user_data}
 
-        user_query = "SELECT * FROM users WHERE " + " AND ".join([f"{key} LIKE '%{value}%'" for key, value in user_data.items()])
-        print(user_query)
+        user_query = "SELECT * FROM staff LEFT JOIN users ON (staff.userIDFK = users.userID) LEFT JOIN userPerms ON (users.userID = userPerms.userIDFK) WHERE " + " AND ".join([f"{key} LIKE '%{value}%'" for key, value in user_data.items()])
 
         try:
             self.cursor.execute(user_query)
@@ -346,6 +356,7 @@ class Database:
         self.cursor.execute(sql)
         return self.results_as_dict()
 
+
     def get_coach_assignments(self, coachID):
         coach_assignments_query = f"""SELECT assignments.assignmentID,
                                             assignments.assignmentDate,
@@ -376,10 +387,15 @@ class Database:
 
     def create_session(self, new_session):
         new_session["sessionID"] = uuid.uuid4().hex
+
+        if new_session['sessionAttended'] == "":
+            new_session['sessionAttended'] = 0
+
         session_insert = """INSERT INTO studentSessions(sessionID, programIDFK, sessionSubject, sessionDate, 
-                                sessionHours, sessionsAttended, studentIDFK, staffUsersIDFK) Values (%(sessionID)s,%(programIDFK)s,%(sessionSubject)s,%(sessionDate)s,%(sessionHours)s,%(sessionAttended)s,
-                                %(studentIDFK)s,%(staffUsersIDFK)s)"""% new_session
+                                sessionHours, sessionAttendedHours, studentIDFK, staffUsersIDFK) Values ('%(sessionID)s','%(programIDFK)s','%(sessionSubject)s','%(sessionDate)s','%(sessionHours)s','%(sessionAttended)s',
+                                '%(studentIDFK)s','%(staffUsersIDFK)s')"""% new_session
         try:
+            print(session_insert)
             self.cursor.execute(session_insert)
             self.cursor.commit()
             return True
@@ -425,13 +441,104 @@ class Database:
         assignment_query = assignment_query % (assignment_info['assignmentDate'], assignment_info['assignmentType'], assignmentID, staffID, studentID)
 
         try:
+            print(assignment_query)
             self.cursor.execute(assignment_query)
             self.cursor.commit()
         except Exception as e:
             print("Error creating assignment:")
             print(e)
 
+    def delete_assignment(self, assignmentID):
+        delete_query = f"DELETE FROM assignments WHERE assignmentID = '{assignmentID}'"
+        try:
+            self.cursor.execute(delete_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error deleting assignment:")
+            print(e)
+
+    def delete_session(self, sessionID):
+        delete_query = f"DELETE FROM studentSessions WHERE sessionID = '{sessionID}'"
+        try:
+            self.cursor.execute(delete_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error deleting session:")
+            print(e)
+
+    def update_assignment(self, assignmentID, assignment_info):
+        update_query = "UPDATE assignments SET " + ", ".join([f"{key} = '{value}'" for key, value in assignment_info.items() if value != ""]) + f" WHERE assignmentID = '{assignmentID}'"
+
+        try:
+            self.cursor.execute(update_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error updating assignment: ")
+            print(e)
+
+    def update_session(self, sessionID, session_info):
+        update_query = "UPDATE studentSessions SET " + ", ".join([f"{key} = '{value}'" for key, value in session_info.items() if value != ""]) + f" WHERE sessionID = '{sessionID}'"
+
+        try:
+            self.cursor.execute(update_query)
+            self.cursor.commit()
+        except Exception as e:
+            print("Error updating session: ")
+            print(e)
+
     def get_student_sessions(self, studentID):
         assignments_query = """SELECT * FROM studentSessions WHERE studentSessions.studentIDFK = '%s'""" % studentID 
         
         return self.query(assignments_query)
+
+    def get_coach_families(self, coachID):
+        families_query = f"""SELECT * FROM studentSessions
+                                    LEFT JOIN student
+                                    ON (student.studentID = studentSessions.studentIDFK)
+                                    RIGHT JOIN family
+                                    ON (family.familyID = student.familyIDFK)
+                                    WHERE studentSessions.staffUsersIDFK LIKE '%{coachID}%'"""
+
+        return self.query(families_query)
+
+    def get_family(self, familyID):
+        family_query = f"SELECT * FROM family WHERE familyID = '{familyID}'"
+
+        family = self.query(family_query)[0]
+
+        family['parents'] = self.query(f"SELECT * FROM parent WHERE familyIDFK = '{familyID}'")
+        family['students'] = self.query(f"SELECT * FROM student WHERE familyIDFK = '{familyID}'")
+
+        return family
+
+    def get_coach_like_families(self, coachID, familyName):
+        families_query = f"""SELECT * FROM studentSessions
+                                    LEFT JOIN student
+                                    ON (student.studentID = studentSessions.studentIDFK)
+                                    RIGHT JOIN family
+                                    ON (family.familyID = student.familyIDFK)
+                                    WHERE studentSessions.staffUsersIDFK LIKE '%{coachID}%'
+                                    AND family.familyName LIKE '%{familyName}%'"""
+
+        return self.query(families_query)
+
+    def get_student_programs(self, studentID):
+        programs_query = f"SELECT * FROM studentPrograms WHERE studentIDFK = '{studentID}'"
+
+        return self.query(programs_query)
+
+    def update_coach_information(self, coachID, coach_info):
+        update_staff = "UPDATE staff SET " + ", ".join([f"{key} = '{value}'" for key, value in coach_info.items() if value != "" and key in ["firstName", "lastName", "phoneNumber", "email"]]) + f" WHERE staff.userIDFK = '{coachID}'"
+
+        update_user = "UPDATE users SET " + ", ".join([f"{key} = '{value}'" for key, value in coach_info.items() if value != "" and key in ["userAddress", "stateIDFK"]]) + f" WHERE users.userID = '{coachID}'"
+
+        try:
+            print(update_staff)
+            print(update_user)
+            self.cursor.execute(update_staff)
+            self.cursor.execute(update_user)
+            self.cursor.commit()
+            return True
+        except Exception as e:
+            print("Error updating coach information: ")
+            print(e)

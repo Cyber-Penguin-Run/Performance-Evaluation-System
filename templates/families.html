@@ -1,0 +1,19 @@
+<div class = "d-flex flex-wrap w-100 justify-content-center">
+    {% for row in families %}
+
+      <a href = "{{url_for('mystudent_family_info', familyID = row['familyID'])}}" class="container btn text-start m-2 p-1 enrichery-bg-primary" style="width: 40%; min-width: 300px; max-width: 650px; border-radius: 10px">
+
+        <div class="row">
+          <h2>{{row['familyName'].capitalize() }}</h2>
+        </div>
+
+        <div class="row">
+          <div class="col d-flex">
+            <h6>{{ "Status" }}</h6>
+          </div>   
+        </div>
+
+      </a>
+    {% endfor %}
+
+</div>
