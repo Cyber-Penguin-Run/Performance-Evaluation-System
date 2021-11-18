@@ -8,7 +8,6 @@ from __main__ import app, secure_site, db
 nav_columns = {"Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business"}
 
 
-
 @app.route("/admin/staff", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def admin_staff(auth_data = None):

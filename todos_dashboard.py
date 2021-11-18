@@ -1,6 +1,3 @@
-import random
-import uuid
-
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
 from connection import Database
@@ -12,7 +9,7 @@ nav_columns = {"Todos":"todos","All Staff Todos":"todos_all","Change Todo List":
 @app.route("/todos", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def todos(auth_data = None):
-    todos_table = db.query("Select * FROM todos WHERE staffUsersID = '%s'" % auth_data['user_id'])
+    todos_table = db.get_todos(auth_data['user_id'])
     return render_template('todos.html', auth_data = auth_data, nav_columns=nav_columns, todos_table=todos_table)
 
 @app.route("/todos_form", methods = ["POST", "GET", "PUT", "DELETE"])
@@ -32,7 +29,7 @@ def todos_form(auth_data = None):
 def todo_delete(todoID,auth_data = None):
     print('deleted')
     isdeleted = db.delete_todo(todoID)
-    todos_table = db.query("Select * FROM todos WHERE staffUsersID = '%s'" % auth_data['user_id'])
+    todos_table = db.get_todos(auth_data['user_id'])
     if isdeleted:
         return render_template('todos.html',auth_data=auth_data, nav_columns=nav_columns,
                                message='deleted successfully',todos_table=todos_table)
@@ -52,7 +49,7 @@ def todo_update(todoID,auth_data = None):
         print('updated')
         description = request.form.get('todoDescription')
         isupdated = db.update_todo(description,todoID)
-        todos_table = db.query("Select * FROM todos WHERE staffUsersID = '%s'" % auth_data['user_id'])
+        todos_table = db.get_todos(auth_data['user_id'])
         if isupdated:
             return render_template('todos.html', auth_data=auth_data, nav_columns=nav_columns,
                                    message='updated successfully', todos_table=todos_table)
@@ -63,5 +60,5 @@ def todo_update(todoID,auth_data = None):
 @app.route("/todos/all", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
 def todos_all(auth_data = None):
-    todos_table = db.query("Select * FROM todos")
+    todos_table = db.get_todos("")
     return render_template('todos.html', auth_data = auth_data, nav_columns=nav_columns, todos_table=todos_table)

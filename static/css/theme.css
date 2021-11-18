@@ -131,3 +131,12 @@ html,body {
     height: 100%;
     backdrop-filter: blur(2px);
 }
+
+.hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }

@@ -1,13 +1,18 @@
 {%extends 'authed_base.html' %}
 {% block content %}
-<header class="m-0 enrichery-bg-dark row text-center h-50" class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
-        This is a page for inserting test scores
-    </header>
-<form method="POST" xmlns="http://www.w3.org/1999/html">
+<div class="form-control row enrichery-bg-dark h-25 m-0" style="border:0; border-radius: 0;">
+
+    <div class="row text-center h-50">
+        <h1>Todos</h1>
+    </div>
+
+</div>
+
+<form class="d-flex flex-column w-100 align-items-center" method="POST" xmlns="http://www.w3.org/1999/html">
     <h2>Insert a new todo item</h2>
-    <p>description</p>
+    <h5 class="m-0">description</h5>
     <textarea id="todoDescription" name="todoDescription" rows="4" cols="50" value="{% if todoDescription %}
 {{ todoDescription }} {% endif %}"/></textarea>
-    <p><input type = "submit" value = "Submit" /></p>
+    <input class="btn btn-primary enrichery-primary m-3" type = "submit" value = "Submit" />
 </form>
 {%endblock content %}

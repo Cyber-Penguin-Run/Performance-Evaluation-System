@@ -1,13 +1,15 @@
 <div class = "d-flex flex-wrap w-100 justify-content-center">
     {% for row in students %}
 
-      <a href = "{{url_for('mystudent_student_info', studentID = row['studentID'])}}" class="container btn text-start m-2 p-1 enrichery-bg-primary" style="width: 40%; min-width: 300px; max-width: 650px; border-radius: 10px">
+      <a href = "{{url_for('mystudent_student_info', studentID = row['studentID'])}}" class="card shadow mt-2 me-2 d-flex flex-column overflow-hidden px-3" style="width:45%; border-radius:5px; height: fit-content; text-decoration: none; color: black;">
 
         <div class="row">
-          <h2>{{row['firstName'].capitalize() + " " + row['lastName'].capitalize() }}</h2>
+          <h2 class="m-0">{{row['firstName'].capitalize() + " " + row['lastName'].capitalize() }}</h2>
         </div>
 
-        <div class="row">
+        <hr class="enrichery-bg-primary m-0" style="height: 1px; opacity: 0.5;">
+
+        <div class="row mt-3">
           <div class="col d-flex">
             <h6>{{row['school']}}</h6>
           </div>   
