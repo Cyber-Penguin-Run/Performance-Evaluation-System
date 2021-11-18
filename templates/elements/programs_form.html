@@ -46,104 +46,178 @@
     </select>
     </div>
     <div id="SummerWorkshop" >
-        <form method="POST">
-            <input type="date" name="SummerStart" placeholder="From Date">
-            <input type="date" name="SummerEnd" placeholder="End Date">
-            <input type="radio" name="TestTakenYes" id="TestTakenYes" value="Yes">
-            <input type="radio" name="TestTakenNo" id="TestTakenNo" value="No">
-            <input type="number" name="GPA" id="GPA" placeholder="GPA">
-            <texatarea name="notes" id="Notes" placeholder="Notes" rows="4" cols="50"/>
-            <input type="submit" id="SummerButton" name="SummerButton">
+        <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
+            <div class="row w-25 mx-auto">
+            <label class="mt-3"><strong>Summer start</strong></label>
+                <input type="date" name="SummerStart" placeholder="From Date">
+            <label class="mt-3"><strong>Summer end</strong></label>
+                <input type="date" name="SummerEnd" placeholder="End Date">
+            <label class="mt-3"><strong>Taken test?</strong></label>
+                <input type="radio" name="TestTakenYes" id="TestTakenYes" value="Yes">
+                <input type="radio" name="TestTakenNo" id="TestTakenNo" value="No">
+            <label class="mt-3"><strong>GPA?</strong></label>
+                <input type="number" name="GPA" id="GPA" placeholder="GPA">
+            <label class="mt-3"><strong>Notes</strong></label>
+                <textarea name="Notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
+                <input type="submit" id="SummerButton" name="SummerButton">
+            </div>
         </form>
     </div>
     <div id="AcademicCoaching">
-        <form method="POST">
-            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
-            <texatarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"/>
-            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
-            <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
-            <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
-            <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
-            <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
-            <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
-            <input type="submit" id="academicCoachButton" name="academicCoachButton">
+        <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
+            <div class="row w-25 mx-auto">
+            <label class="mt-3"><strong>Weekly Hours</strong></label>
+                <input  type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours"/><br>
+            <label class="mt-3"><strong>English Grade</strong></label>
+                <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade"/><br>
+            <label class="mt-3"><strong>History Grade</strong></label>
+                <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade"/><br>
+            <label class="mt-3"><strong>Math Grade</strong></label>
+                <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade"/><br>
+            <label class="mt-3"><strong>Science Grade</strong></label>
+                <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade"/><br>
+            <label class="mt-3"><strong>Foreign Language Grade</strong></label>
+                <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade"/><br>
+            </div>
+            <div class="row w-50 mx-auto">
+                <label class="mt-3"><strong>Area of concern</strong></label>
+                    <textarea class="my-3" name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
+                <label class="mt-3"><strong>Notes</strong></label>
+                    <textarea class="my-3" name="notes" id="Notes" placeholder="notes" rows="4" cols="50"></textarea>
+            </div>
+            <input class="btn btn-primary enrichery-primary w-25 mx-auto" type="submit" id="academicCoachButton" name="academicCoachButton"/>
         </form>
     </div>
     <div id="CollegeCoaching">
-        <form method="POST">
-            <input type="date" name="FromDate" placeholder="From Date">
-            <input type="date" name="EndDate" placeholder="End Date">
-            <input type="radio" name="TestTakenYes" id="TestTakenYes" value="Yes">
-            <input type="radio" name="TestTakenNo" id="TestTakenNo" value="No">
-            <input type="number" name="GPA" id="GPA" placeholder="GPA">
-            <texatarea name="notes" id="Notes" placeholder="Notes" rows="4" cols="50"/>
-            <input type="submit" id="collegeCoachButton" name="collegeCoachButton">
+        <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
+            <div class="row w-25 mx-auto">
+            <label class="mt-3"><strong>From</strong></label>
+                <input class="my-3" type="date" name="FromDate" placeholder="From Date">
+            <label class="mt-3"><strong>To</strong></label>
+                <input class="my-3" type="date" name="EndDate" placeholder="End Date">
+            <label class="mt-3"><strong>Taken test?</strong></label>
+                <input class="my-3" type="radio" name="TestTakenYes" id="TestTakenYes" value="Yes">
+                <input class="my-3" type="radio" name="TestTakenNo" id="TestTakenNo" value="No">
+            <label class="mt-3"><strong>GPA</strong></label>
+                <input class="my-3" type="number" name="GPA" id="GPA" placeholder="GPA">
+            <label class="mt-3"><strong>Notes</strong></label>
+                <textarea name="notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
+            </div>
+            <input class="btn btn-primary enrichery-primary w-25 mx-auto" type="submit" id="collegeCoachButton" name="collegeCoachButton">
         </form>
     </div>
     <div id="EducationFuture">
-        <form method="POST">
-            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
-            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
-            <texatarea name="notes" id="Notes" placeholder="Notes" rows="4" cols="50"/>
-            <input type="submit" id="EducationFutureButton" name="EducationFutureButton">
+        <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
+            <div class="row w-25 mx-auto">
+            <label class="mt-3"><strong>Weekly Hours</strong></label>
+                <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
+            <label class="mt-3"><strong>Area of concern</strong></label>
+                <textarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
+            <label class="mt-3"><strong>Notes</strong></label>
+                <textarea name="notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
+            <input class="btn btn-primary enrichery-primary w-25 mx-auto" type="submit" id="EducationFutureButton" name="EducationFutureButton">
+            </div>
         </form>
     </div>
     <div id="ExecFunction">
-        <form method="POST">
-            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
-            <texatarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"/>
-            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
-            <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
-            <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
-            <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
-            <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
-            <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
-            <input type="submit" id="execFunctionButton" name="execFunctionButton">
+        <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
+            <div class="row w-25 mx-auto">
+            <label class="mt-3"><strong>Weekly Hours</strong></label>
+                <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
+            <label class="mt-3"><strong>Notes</strong></label>
+                <textarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"></textarea>
+            <label class="mt-3"><strong>Area of concern</strong></label>
+                <textarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
+            <label class="mt-3"><strong>English grade</strong></label>
+                <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
+            <label class="mt-3"><strong>History grade</strong></label>
+                <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
+            <label class="mt-3"><strong>Math grade</strong></label>
+                <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
+            <label class="mt-3"><strong>Science grade</strong></label>
+                <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
+            <label class="mt-3"><strong>Foreign Language grade</strong></label>
+                <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
+            <input class="btn btn-primary enrichery-primary w-25 mx-auto" type="submit" id="execFunctionButton" name="execFunctionButton">
+            </div>
         </form>
     </div>
     <div id="ExecFunctionMini">
-        <form method="POST">
-            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
-            <texatarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"/>
-            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
-            <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
-            <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
-            <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
-            <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
-            <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
-            <input type="submit" id="execFunctionMiniButton" name="execFunctionMiniButton">
+        <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
+            <div class="row w-25 mx-auto">
+            <label class="mt-3"><strong>Weekly Hours</strong></label>
+                <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
+            <label class="mt-3"><strong>Notes</strong></label>
+                <textarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"></textarea>
+            <label class="mt-3"><strong>Area of concern</strong></label>
+                <textarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
+            <label class="mt-3"><strong>English grade</strong></label>
+                <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
+            <label class="mt-3"><strong>History grade</strong></label>
+                <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
+            <label class="mt-3"><strong>Math grade</strong></label>
+                <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
+            <label class="mt-3"><strong>Science grade</strong></label>
+                <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
+            <label class="mt-3"><strong>Foreign Language grade</strong></label>
+                <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
+            <input class="btn btn-primary enrichery-primary w-25 mx-auto" type="submit" id="execFunctionMiniButton" name="execFunctionMiniButton">
+            </div>
         </form>
     </div>
     <div id="SmallGroups">
-        <form method="POST">
-            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
-            <texatarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"/>
-            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
-            <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
-            <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
-            <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
-            <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
-            <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
-            <input type="submit" id="smallGroupsButton" name="smallGroupsButton">
+        <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
+            <div class="row w-25 mx-auto">
+            <label class="mt-3"><strong>Weekly Hours</strong></label>
+                <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
+            <label class="mt-3"><strong>Notes</strong></label>
+                <textarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"></textarea>
+            <label class="mt-3"><strong>Area of concern</strong></label>
+                <textarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
+            <label class="mt-3"><strong>English grade</strong></label>
+                <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
+            <label class="mt-3"><strong>History grade</strong></label>
+                <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
+            <label class="mt-3"><strong>Math grade</strong></label>
+                <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
+            <label class="mt-3"><strong>Science grade</strong></label>
+                <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
+            <label class="mt-3"><strong>Foreign Language grade</strong></label>
+                <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
+            <input class="btn btn-primary enrichery-primary w-25 mx-auto" type="submit" id="smallGroupsButton" name="smallGroupsButton">
+            </div>
         </form>
     </div>
     <div id="StudySpot">
-        <form method="POST">
-            <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
-            <texatarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"/>
-            <texatarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"/>
-            <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
-            <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
-            <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
-            <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
-            <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
-            <input type="submit" id="studySpotButton" name="studySpotButton">
+        <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
+            <div class="row w-25 mx-auto">
+            <label class="mt-3"><strong>Weekly Hours</strong></label>
+                <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
+            <label class="mt-3"><strong>Notes</strong></label>
+                <textarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"></textarea>
+            <label class="mt-3"><strong>Area of concern</strong></label>
+                <textarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
+            <label class="mt-3"><strong>English grade</strong></label>
+                <input type="number" name="englishGrade" id="englishGrade" placeholder="English Grade">
+            <label class="mt-3"><strong>History grade</strong></label>
+                <input type="number" name="historyGrade" id="historyGrade" placeholder="History Grade">
+            <label class="mt-3"><strong>Math grade</strong></label>
+                <input type="number" name="mathGrade" id="mathGrade" placeholder="Math Grade">
+            <label class="mt-3"><strong>Science grade</strong></label>
+                <input type="number" name="scienceGrade" id="scienceGrade" placeholder="Science Grade">
+            <label class="mt-3"><strong>Foreign Language grade</strong></label>
+                <input type="number" name="foreignLanguageGrade" id="foreignLanguageGrade" placeholder="Foreign Language Grade">
+            <input class="btn btn-primary enrichery-primary w-25 mx-auto" type="submit" id="studySpotButton" name="studySpotButton">
+            </div>
         </form>
     </div>
     <div id="TestPrep">
-        <form method="POST">
-            <input type="date" id="testDate" name="testDate">
-            <input type="text" id="Testtype" name="Testtype">
+        <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
+            <div class="row w-25 mx-auto">
+            <label class="mt-3"><strong>Test date</strong></label>
+                <input type="date" id="testDate" name="testDate">
+            <label class="mt-3"><strong>Test type</strong></label>
+                <input type="text" id="Testtype" name="Testtype">
             Has test been taken previously?
             <input type="radio" name="PrevTestYes" id="PrevTestYes" value="Yes">
             <input type="radio" name="PrevTakenNo" id="PrevTestNo" value="No">
@@ -153,11 +227,16 @@
             Have accommodations?
             <input type="radio" name="accommodationsYes" id="accommodationsYes" value="Yes">
             <input type="radio" name="accommodationsNo" id="accommodationsNo" value="No">
-            <input type="number" name="Matheval" id="Matheval" placeholder="Math Evaluation">
-            <input type="number" name="Scienceevl" id="Scienceevl" placeholder="Science Evaluation">
-            <input type="number" name="Englisheval" id="Englisheval" placeholder="English Evaluation">
-            <input type="number" name="Histeval" id="Histeval" placeholder="History Evaluation">
-            <input type="submit" id="testPrepButton" name="testPrepButton">
+            <label class="mt-3"><strong>Math grade</strong></label>
+                <input type="number" name="Matheval" id="Matheval" placeholder="Math Evaluation">
+            <label class="mt-3"><strong>Science grade</strong></label>
+                <input type="number" name="Scienceevl" id="Scienceevl" placeholder="Science Evaluation">
+            <label class="mt-3"><strong>English grade</strong></label>
+                <input type="number" name="Englisheval" id="Englisheval" placeholder="English Evaluation">
+            <label class="mt-3"><strong>History grade</strong></label>
+                <input type="number" name="Histeval" id="Histeval" placeholder="History Evaluation">
+            <input class="btn btn-primary enrichery-primary w-25 mx-auto" type="submit" id="testPrepButton" name="testPrepButton">
+            </div>
         </form>
     </div>
         {% include 'elements/message_element.html' %}

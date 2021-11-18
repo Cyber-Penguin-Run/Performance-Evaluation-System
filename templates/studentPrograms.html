@@ -4,14 +4,25 @@
     This page is the Student Programs Dashboard. All Programs are accessible from this page.
 </header>
     <div class="d-flex flex-wrap justify-content-center text-wrap w-100 mx-3">
-        {% for row in getPrograms %}
-            <div class="mt-2 me-2 d-flex align-items-center enrichery-bg-primary" style="width:45%; border-radius:5px; width:fit-content; height: fit-content">
-            <h2>
-                {{ row['programID'] }} {{ row['studentIDFK'] }} {{ row['programType'] }}
-            </h2>
-            <a class="btn-primary btn enrichery-primary ms-auto me-1" type="button" href="{{ url_for('todo_update',todoID=row['todoID']) }}">Update</a>
-            <a class="btn-primary btn enrichery-primary me-3" type="button" href="{{ url_for('todo_delete',todoID=row['todoID']) }}">Delete</a>
-            </div>
-        {% endfor %}
+        <div class = "d-flex flex-wrap w-100 justify-content-center">
+    {% for row in getPrograms %}
+
+      <a href = "{{url_for('programs_create', studentID = row['studentIDFK'])}}"
+         class="container btn text-start m-2 p-1 enrichery-bg-primary" style="width: 40%; min-width: 300px; max-width: 650px; border-radius: 10px">
+
+        <div class="row">
+          <h2>{{row['programType']}}</h2>
+        </div>
+
+        <div class="row">
+          <div class="col d-flex">
+            <h6>{{row['programID']}}</h6>
+          </div>
+        </div>
+
+      </a>
+    {% endfor %}
+
+</div>
     </div>
 {%endblock content %}

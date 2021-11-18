@@ -116,7 +116,7 @@ class Database:
                               '%(satCompScore)s','%(satType)s','%(satTestDate)s')""" % mockInfo
         elif mockType == 'hspt':
             mockInfo['hsptScoreID'] = mock_score_id
-            mock_insert = """INSERT INTO mockhsptScores(actScoreID,studentIDFK,englishScore,englishMax,mathScore,mathMax,
+            mock_insert = """INSERT INTO mockhsptScores(hsptScoreID,studentIDFK,englishScore,englishMax,mathScore,mathMax,
                               readingScore,readingMax,scienceScore,scienceMax,actCompScore,actType,actTestDate) values
                               ('%(hsptScoreID)s','%(studentIDFK)s','%(englishScore)s','%(englishMax)s','%(mathScore)s',
                               '%(mathMax)s','%(readingScore)s','%(readingMax)s','%(scienceScore)s','%(scienceMax)s',
