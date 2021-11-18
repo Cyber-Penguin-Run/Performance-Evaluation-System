@@ -25,43 +25,98 @@ class Database:
         return [dict(zip([column[0] for column in self.cursor.description], row))
              for row in self.cursor.fetchall()]
 
-    def create_family(self, familyName):
-        familyID = uuid.uuid4().hex
-        print(familyID)
-        if familyName is not None:
-            family_insert = ("INSERT INTO family(familyID, familyName)"
-                                       "Values (?,?)")
-            values = (familyID, familyName)
-            self.cursor.execute(family_insert,values)
-            self.cnx.commit()
-            #family_data = (familyID,familyName)
-            return familyID
-        return familyName
 
-    def edit_family(self, familyID, newFamilyName):
+    def create_family(self, familyName, familyStatus):
+        familyID = uuid.uuid4().hex
+
+        if familyName is not None:
+            family_insert = ("INSERT INTO family(familyID, familyName, familyStatus)"
+                                       "Values (?, ?, ?)")
+            try:
+                values = (familyID, familyName, familyStatus)
+                self.cursor.execute(family_insert,values)
+                self.cnx.commit()
+                
+                return familyID
+            except Exception as e:
+                print("Error creating new family:")
+                print(e)
+                return None
+        return None
+
+    def edit_family(self, familyID, newFamilyName, familyStatus):
         get_family_info = ("Select * from family where familyID = '%s'" % familyID)
         if get_family_info is not None:
-            print('there is a family')
-            family_update = ("UPDATE family SET familyName = ?" % newFamilyName)
+            family_update = "UPDATE family SET familyName = '%s', familyStatus='%s' WHERE familyID = '%s'" % (newFamilyName, familyStatus, familyID)
+            self.cursor.execute(family_update)
             self.cnx.commit()
             return newFamilyName
         return newFamilyName
 
-    def delete_family(self, deleteFamilyName):
-        get_family_info = ('DELETE * from family where familyName = ?', deleteFamilyName)
-        self.cursor.execute(get_family_info)
-        self.cnx.commit()
-        return deleteFamilyName
+    def delete_family(self, familyID):
+        find_orphans = f"SELECT studentID FROM student WHERE familyIDFK = '{familyID}'"
+        find_parents = f"SELECT userIDFK from parent WHERE familyIDFK = '{familyID}'"
+        delete_family = f"DELETE FROM family where familyID = '{familyID}'"
+        try:
+            orphans = self.query(find_orphans)
+            parents = self.query(find_parents)
+
+            if len(orphans) > 0:
+                create_orphans = "UPDATE student SET familyIDFK = NULL WHERE studentID IN (%s)" % ", ".join([f"'{orphan['studentID']}'" for orphan in orphans])
+                print(create_orphans)
+                self.cursor.execute(create_orphans)
+
+            if len(parents) > 0:
+                kill_parents = "UPDATE parent SET familyIDFK = NULL WHERE userIDFK IN (%s)" % ", ".join([f"'{parent['userIDFK']}'" for parent in parents])
+                print(kill_parents)
+                self.cursor.execute(kill_parents)
+
+            self.cursor.execute(delete_family)
+            self.cnx.commit()
+            return True
+
+        except Exception as e:
+            print("Error deleting family: ")
+            print(e)
+            return False
 
     def delete_staff(self, staffID):
-        delete_query = f"DELETE FROM staff WHERE userIDFK = '{staffID}'"
+        delete_query = f"DELETE FROM parent WHERE userIDFK = '{staffID}'"
+        user_delete = f"DELETE FROM users WHERE userID = '{staffID}'"
+        userperm_delete = f"DELETE FROM userPerms WHERE userIDFK = '{staffID}'"
+        try:
+            self.cursor.execute(delete_query)
+            self.cursor.execute(userperm_delete)
+            self.cursor.execute(user_delete)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during delete staff', e)
+            return False
+
+    def delete_parent(self, parentID):
+        delete_query = f"DELETE FROM parent WHERE userIDFK = '{parentID}'"
+        user_delete = f"DELETE FROM users WHERE userID = '{parentID}'"
+        userperm_delete = f"DELETE FROM userPerms WHERE userIDFK = '{parentID}'"
+        try:
+            self.cursor.execute(delete_query)
+            self.cursor.execute(userperm_delete)
+            self.cursor.execute(user_delete)
+            self.cnx.commit()
+            return True
+        except Exception as e:
+            print('error during delete parent', e)
+            return False
+
+    def delete_student(self, studentID):
+        delete_query = f"DELETE FROM student WHERE studentID = '{studentID}'"
         try:
             print(delete_query)
             self.cursor.execute(delete_query)
             self.cnx.commit()
             return True
         except Exception as e:
-            print('error during delete staff', e)
+            print('error during delete student', e)
             return False
 
     def create_todo(self,staffID, description):
@@ -423,6 +478,39 @@ class Database:
             print("Error while retrieving coach fullname students:")
             print(e)
 
+    def get_staff_fullname(self, fullname):
+
+        fullname_query = f"""SELECT s.*, users.*, concat(s.firstName , ' ' , s.lastName) AS FullName
+                                FROM staff AS s
+                                RIGHT JOIN users
+                                ON (s.userIDFK = users.userID)
+                                WHERE concat(s.firstName , ' ' , s.lastName) LIKE '%{fullname}%'"""
+
+        try:
+            self.cursor.execute(fullname_query)
+            results = self.results_as_dict()
+
+            return results
+        except Exception as e:
+            print("Error while retrieving coach fullname students:")
+            print(e)
+
+
+    def get_families_fullname(self, fullname):
+
+        fullname_query = f"""SELECT f.*
+                                FROM family AS f
+                                WHERE f.familyName LIKE '%{fullname}%'"""
+
+        try:
+            self.cursor.execute(fullname_query)
+            results = self.results_as_dict()
+
+            return results
+        except Exception as e:
+            print("Error while retrieving families:")
+            print(e)
+
     def get_student_assignments(self, studentID):
         assignments_query = """SELECT * FROM assignments WHERE assignments.studentIDFK = '%s'""" % studentID 
         
@@ -504,12 +592,21 @@ class Database:
     def get_family(self, familyID):
         family_query = f"SELECT * FROM family WHERE familyID = '{familyID}'"
 
-        family = self.query(family_query)[0]
+
+        try:
+            family = self.query(family_query)[0]
+            family['exists'] = True
+        except IndexError:
+            family = {}
+            family['exists'] = False
 
         family['parents'] = self.query(f"SELECT * FROM parent WHERE familyIDFK = '{familyID}'")
         family['students'] = self.query(f"SELECT * FROM student WHERE familyIDFK = '{familyID}'")
 
+        print(family['parents'])
+
         return family
+        
 
     def get_coach_like_families(self, coachID, familyName):
         families_query = f"""SELECT * FROM studentSessions
@@ -542,3 +639,21 @@ class Database:
         except Exception as e:
             print("Error updating coach information: ")
             print(e)
+
+    def create_student(self, student_info):
+        student_info["studentID"] = uuid.uuid4().hex
+
+        keys = student_info.keys()
+
+        student_insert = f"""INSERT INTO student({', '.join(keys)}) Values ({', '.join([f"'{student_info[key]}'" for key in keys ])})"""
+
+        try:
+            print(student_insert)
+            self.cursor.execute(student_insert)
+            self.cursor.commit()
+            return True
+
+        except Exception as e:
+            print("Error inserting new session")
+            print(e)
+            return False

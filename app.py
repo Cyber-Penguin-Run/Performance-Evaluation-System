@@ -64,9 +64,10 @@ def login():
             print('user exists')
             if userExists["userPassword"] == password:
                 print('login successful.')
+                print(userExists)
                 auth_token = jwt.encode({"user_id": userExists['userID'], "username": userExists["username"],
                                          "exp": datetime.utcnow() + timedelta(days=1)}, app.config['JWT_KEY'])
-
+                print(auth_token)
                 response = make_response(redirect("/home"))
                 response.set_cookie("token", auth_token)
 
@@ -92,7 +93,6 @@ def register():
     elif request.method == "POST":
 
         try:
-            print(request.form)
             username = request.form['username']
             username = username.lower()
             password = request.form['password']
@@ -175,7 +175,7 @@ import admin_dashboard
 import todos_dashboard
 import testprep_dashboard
 import coach_dashboard
-import assignments
+
 
 if __name__ == '__main__':
     app.run(debug=True)

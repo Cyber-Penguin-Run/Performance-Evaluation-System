@@ -1,3 +1,19 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    // This code empowers all input tags having a placeholder and data-slots attribute
+
+
+    function showForm(form_name) {
+            $('#bg_blur').show()
+            $(form_name).show()
+        }
+
+
+    </script>
+
+
+
 {%extends 'authed_base.html' %}
 {% block content %}
 
@@ -6,88 +22,142 @@
     <div class="row d-flex">
         <h2>Family Information</h2>
         <label for="familyName" class="sr-only my-1"><strong>Family Name</strong></label>
-        <input class="mx-auto " style="width: 25%;" type="text" id="familyName" name="familyName" value = "{{family['familyName']}}" minlength="5" maxlength="24" placeholder="Family Name" required autofocus />    
+        <input class="mx-auto " style="width: 25%;" type="text" id="familyName" name="familyName" value = "{{family['familyName']}}" minlength="2" maxlength="24" placeholder="Family Name" required autofocus />    
     </div>
 
     <div class="row">
 
         <div class="col-6 d-flex flex-column">
             <label for="studentsNbr" class="sr-only my-1"><strong># of Students</strong></label>
-            <input class="mx-auto " style="width: 25%;" type="text" id="studentsNbr" name="studentsNbr"  value = "{{family['students']|length}}" minlength="5" maxlength="24" placeholder="Family Name" required autofocus />    
+            <input class="mx-auto " style="width: 25%;" type="text" id="studentsNbr" name="studentsNbr"  value = "{{family['students']|length}}" placeholder="Family Name" required autofocus />    
         </div>
         
         <div class="col-6 d-flex flex-column">
-            <label for="familyName" class="sr-only my-1"><strong>Status</strong></label>
-            <select class="mx-auto " style="width: 25%;" type="text" id="familyName" name="familyName" minlength="5" maxlength="24" placeholder="Family Name" required autofocus></select>    
+            <label for="familyStatus" class="sr-only my-1"><strong>Status</strong></label>
+            <select class="mx-auto " style="width: 25%;" type="text" id="familyStatus" name="familyStatus" placeholder="Family Name" required autofocus>
+            <option value="active" {%if family['familyStatus'] == 'active'%}selected="selected"{%endif%}>Active</option>
+            <option value="inactive" {%if family['familyStatus'] == 'inactive'%}selected="selected"{%endif%}>Inactive</option>
+            <option value="potential" {%if family['familyStatus'] == 'potential'%}selected="selected"{%endif%}>Potential</option>
+            </select>    
         </div>
 
     </div>
 
+
+    <!--CREATED FAMILY ONLY-->
+    <div id="members_table" {%if not family['exists'] %} style="display: none;" {%endif%}>
+        <div class="d-flex flex-wrap w-75 mx-auto my-3 justify-content-around" style="border-radius: 10px; background-color: beige">
+
+            <div class="mx-1" style="width:45%; min-width: 300px;">
+                <h4>Parents</h4>
     
-    <div class="row w-75 mx-auto my-3" style="border-radius: 10px; background-color: beige;">
+    
+    
+                    {% for parent in family['parents'] %}
+    
+                        <div class="card d-flex flex-row p-2 my-1">
+                            <strong>{{parent['firstName']}} {{parent['lastName']}}</strong>
+                            <div class="ms-auto">
+<!---
+                                <a>
+                                    <img src="{{ url_for('static', filename='img/edit-icon.svg') }}"/>
+                                </a>
+-->
 
-        <div class="col-6">
-            <h4>Parents</h4>
-
-            <table class="table">
-                <tr>
-                    <th>FirstName</th>
-                    <th>LastName</th>
-                </tr>
-
-                {% for parent in family['parents'] %}
-
-                    <tr>
-                        <td>{{parent['firstName']}}</td>
-                        <td>{{parent['lastName']}}</td>
-                        <td>
-                            <a>
-                                <img src="{{ url_for('static', filename='img/edit-icon.svg') }}"/>
-                            </a>
-                            <a>
-                                <img src="{{ url_for('static', filename='img/delete-icon.svg') }}"/>
-                            </a>
-                        </td>
-                    </tr>
-
-                {%endfor%}
-
-            </table>
-        </div>
-
-        <div class="col-6">
-            <h4>Students</h4>
-
-            <table class="table">
-                <tr>
-                    <th>FirstName</th>
-                    <th>LastName</th>
-                </tr>
-
+                                <button class="btn btn-outline-danger p-0" type="submit" id="submitBtn" name="submitBtn" value="deleteParent">
+                                    <input type="text" id="parentID" name="parentID" value="{{parent['userIDFK']}}" hidden>
+                                    <img src="{{ url_for('static', filename='img/delete-icon.svg') }}"/>
+                                </button>
+                            </div>
+                        </div>
+    
+                    {%endfor%}
+    
+    
+    
+                    <button type="button" onclick="showForm('#parent_form')" class="btn btn-outline-success rounded-circle m-2"><strong>+</strong></button>
+    
+    
+            </div>
+    
+            <div class="mx-1" style="width: 45%; min-width: 300px;">
+                <h4>Students</h4>
+    
+    
                 {% for student in family['students'] %}
+    
+                    <div class="card d-flex flex-row p-2 my-1">
+                        <strong>{{student['firstName']}} {{student['lastName']}}</strong>
+                        <div class="ms-auto">
 
-                    <tr>
-                        <td>{{student['firstName']}}</td>
-                        <td>{{student['lastName']}}</td>
-                        <td>
+<!---
                             <a>
                                 <img src="{{ url_for('static', filename='img/edit-icon.svg') }}"/>
                             </a>
-                            <a>
+-->
+
+                            <button class="btn btn-outline-danger p-0" type="submit" id="submitBtn" name="submitBtn" value="deleteStudent">
+                                <input type="text" id="studentID" name="studentID" value="{{student['studentID']}}" hidden>
                                 <img src="{{ url_for('static', filename='img/delete-icon.svg') }}"/>
-                            </a>
-                        </td>
-                    </tr>
-
+                            </button>
+                        </div>
+                    </div>
+    
                 {%endfor%}
-            </table>
-
+    
+                <button type="button" onclick="showForm('#student_form')" class="btn btn-outline-success rounded-circle m-2"><strong>+</strong></button>
+    
+            </div>
+    
         </div>
-
     </div>
 
-    <button class="btn btn-primary enrichery-primary" type = "submit" value = "Submit">Submit</button>
+
+    <button class="btn btn-primary enrichery-primary" type = "submit" id="submitBtn" name="submitBtn" {%if not family['exists'] %} value = "createFamily" {%else%} value = "updateFamily" {%endif%}>Submit</button>
 
     
 </form>
+
+
+
+<!--FORMS-->
+
+<div id="bg_blur" class="enrichery-bg-blur" style="display: none;"></div>
+
+
+
+<div id="parent_form" class="enrichery-center-form-wrapper" style="display: none;">
+    {% with hasFamily=True %}
+        {%include "elements/parents_form.html"%}
+    {% endwith %}
+</div>
+
+
+
+
+<div id="student_form" class="enrichery-center-form-wrapper", style="display: none;">
+
+    {% with hasFamily=True %}
+        {%include "elements/students_form.html"%}
+    {% endwith %}
+
+</div>
+
+
+
+
 {%endblock content %}
+
+
+
+
+<!--     PARENT FORM     -->
+
+
+
+
+
+
+
+
+
