@@ -129,6 +129,23 @@ def programs_create(programID = None,auth_data = None):
                                                                                    'foreignLanguageGrade':foreignLanguage}):
                 return render_template('/programs/programs_form.html',auth_data=auth_data,nav_columns=Programs.nav_columns,message='successful insert')
 
+        if 'collegeCoachButton' in request.form.keys():
+            print(request.form)
+            hours = request.form['hoursWeek']
+            notes = request.form['Notes']
+            concernArea = request.form['concernArea']
+            english = request.form['englishGrade']
+            history = request.form['historyGrade']
+            math = request.form['mathGrade']
+            science = request.form['scienceGrade']
+            foreignLanguage = request.form['foreignLanguageGrade']
+            if Programs.create_program(programType='CollegeCoaching',programInfo={'programIDFK':programID,'hoursWeek':hours,
+                                                                                   'notes':notes, 'concernArea':concernArea,
+                                                                                   'englishGrade':english,'historyGrade':history,
+                                                                                   'mathGrade':math,'scienceGrade':science,
+                                                                                   'foreignLanguageGrade':foreignLanguage}):
+                return render_template('/programs/programs_form.html',auth_data=auth_data,nav_columns=Programs.nav_columns,message='successful insert')
+
 
 @app.route('/programs/CollegeSummerWorkshop', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @secure_site
