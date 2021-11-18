@@ -46,9 +46,21 @@ def coach_info(auth_data = None):
 def coach_assignments(auth_data = None):
     if auth_data['userPerms']['adminDashboard']:
         assignments = db.get_coach_assignments("")
-        
+        print(assignments) 
     else:
         assignments = db.get_coach_assignments(auth_data['user_id'])
-    selectedtype = "All Assignments"
-    formsearch = db.query('SELECT * FROM assignments')
-    return render_template("coach_assignments.html",selectedtype=selectedtype, assignment_form=formsearch, auth_data=auth_data, nav_columns=nav_columns, assignments_form=assignments)
+
+    assignmentTypes = [assignment['assignmentType'] for assignment in db.query("SELECT DISTINCT assignmentType FROM assignments") if len(assignment['assignmentType']) > 0]
+
+    return render_template("coach_assignments.html", auth_data=auth_data, nav_columns=nav_columns, assignments=assignments, assignmentTypes=assignmentTypes)
+
+
+@app.route('/coach/assignments/<selectedType>', methods=['GET'])
+@secure_site
+def filter_assignments(selectedType, auth_data = None):
+
+    assignments = db.query(f"SELECT * FROM assignments WHERE assignmentType = '{selectedType}'") 
+
+    assignmentTypes = [assignment['assignmentType'] for assignment in db.query("SELECT DISTINCT assignmentType FROM assignments") if len(assignment['assignmentType']) > 0]
+
+    return render_template("coach_assignments.html", auth_data=auth_data, nav_columns=nav_columns, assignments=assignments, assignmentTypes=assignmentTypes)

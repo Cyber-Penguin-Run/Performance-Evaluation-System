@@ -4,25 +4,41 @@
     <h1>Coach Overview</h1>
 </header>
 
-<body>
-    <table class='table'>
-        <div class=" flex-wrap justify-content-center w-100 mx-3 ">
-            <tr>
-                <th>Name</th>
-                <th>Contact</th>
-                <th>Country</th>
-            </tr>
+<body> 
 
-            <tr>
-                <td>{{ coach['firstName'] + " " + coach['lastName'] }}</td>
-                <td>{{coach['phoneNumber']}} - {{coach['email']}}</td>
-                <td>{{coach['countryName']}} - {{coach['stateName']}}</td>
-            </tr>
+    <div class="card d-flex flex-column align-content-center text-center w-50 m-3 mx-auto">
+
+        <h2 class="mt-3">
+            {{ coach['firstName'] + " " + coach['lastName'] }}
+        </h2>
 
 
+        <hr class="my-5">
 
-        </div>
-    </table>
+
+        <h4>Contact Information</h4>
+        <p><strong>Phone:</strong>
+            {{coach['phoneNumber']}}
+        </p>
+        <p><strong>Email:</strong>
+            {{coach['email']}}
+        </p>     
+
+        <hr class="my-5">  
+
+        <h4>Address Information</h4>
+        <p><strong>Address:</strong>
+            {{coach['userAddress']}}
+        </p>
+        <p><strong>Country:</strong>
+            {{coach['countryName']}} - 
+            <strong>State:</strong>
+            {{coach['stateName']}}
+        </p>     
+
+    </div>
+    
+
 
 </body>
 {% endblock content %} 
