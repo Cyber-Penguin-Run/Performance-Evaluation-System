@@ -8,7 +8,7 @@ from programs_dashboard import Programs
 from __main__ import app, secure_site, db
 
 
-nav_columns = {"Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business"}
+nav_columns = {"Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business","Programs":"programs_overview"}
 
 
 
@@ -234,6 +234,30 @@ def programs_create(programID = None,auth_data = None):
 
         if 'collegeCoachButton' in request.form.keys():
             print(request.form)
+            start = request.form['FromDate']
+            end = request.form['EndDate']
+            if request.form['TestTakenYes']:
+                testTaken = 1
+            elif request.form['TestTakenNo']:
+                testTaken = 0
+            gpa = request.form['GPA']
+            notes = request.form['Notes']
+            if Programs.create_program(programType='CollegeCoaching',programInfo={'fromDate':start,'endDate':end,
+                                                                                 'testTaken':testTaken,'gpa':gpa,
+                                                                                 'notes':notes,'programIDFK':programID
+                                                                                 }):
+                return render_template('/programs/programs_form.html',auth_data=auth_data,nav_columns=Programs.nav_columns,message='successful insert')
+        if 'EducationFutureButton' in request.form.keys():
+            print(request.form)
+            hours = request.form['hoursWeek']
+            concern = request.form['concernArea']
+            notes = request.form['Notes']
+            if Programs.create_program(programType='EducationFuture', programInfo={'hoursWeek':hours, 'areaInterest':concern,
+                                                                                   'notes':notes}):
+                return render_template('/programs/programs_form.html',auth_data=auth_data,nav_columns=Programs.nav_columns,message='successful insert')
+
+        if 'execFunctionButton' in request.form.keys():
+            print(request.form)
             hours = request.form['hoursWeek']
             notes = request.form['Notes']
             concernArea = request.form['concernArea']
@@ -242,7 +266,7 @@ def programs_create(programID = None,auth_data = None):
             math = request.form['mathGrade']
             science = request.form['scienceGrade']
             foreignLanguage = request.form['foreignLanguageGrade']
-            if Programs.create_program(programType='CollegeCoaching',programInfo={'programIDFK':programID,'hoursWeek':hours,
+            if Programs.create_program(programType='AcademicCoaching',programInfo={'programIDFK':programID,'hoursWeek':hours,
                                                                                    'notes':notes, 'concernArea':concernArea,
                                                                                    'englishGrade':english,'historyGrade':history,
                                                                                    'mathGrade':math,'scienceGrade':science,
