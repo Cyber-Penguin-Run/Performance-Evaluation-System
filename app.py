@@ -139,9 +139,6 @@ def students():
         # template text showcasing an error or something in else in the future. will return an error page or something.
         return render_template('error.html', studentName='John Doe')
 
-
-# redirect to /assignments to display table
-
 # redirect to /sessions to display table
 @app.route('/sessions')
 def sessions():

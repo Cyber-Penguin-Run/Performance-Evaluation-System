@@ -356,6 +356,7 @@ class Database:
         self.cursor.execute(sql)
         return self.results_as_dict()
 
+
     def get_coach_assignments(self, coachID):
         coach_assignments_query = f"""SELECT assignments.assignmentID,
                                             assignments.assignmentDate,

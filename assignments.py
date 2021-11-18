@@ -4,7 +4,8 @@ from connection import Database
 import uuid
 from app import app, secure_site, db
 
-nav_columns = {"Coach Overview":"coach_home", "Personal Information":"coach_info", "Assignments":"coach_assignments"}
+nav_columns = {"All Assignments":"assignments_all", "Quizzes":"get_quizzes", "Exams": "get_exams", "Homeworks":"get_homeworks", "Papers": "get_papers"}
+
 
 
 @app.route('/coach/assignments')
@@ -29,8 +30,7 @@ def assignmentform(auth_data = None):
         results = []  
         for thing in formsearch:
             if thing['studentIDFK'] == str(selected_student):
-                results.append(thing)
-            
+                results.append(thing)            
         return render_template('coach_assignments.html', selectedtype=selectedtype, assignment_form=results, auth_data=auth_data, nav_columns= nav_columns)
 
 
@@ -49,12 +49,10 @@ def get_quizzes(auth_data = None):
 
     formsearch = db.query('SELECT * FROM assignments')
     selectedtype = "Quizzes"
-
     results = []  
     for thing in formsearch:
         if thing['assignmentType'] == "Quiz":
             results.append(thing)
-            
     return render_template('coach_assignments.html', selectedtype=selectedtype, assignment_form=results, auth_data=auth_data, nav_columns= nav_columns)
 
 
@@ -62,29 +60,22 @@ def get_quizzes(auth_data = None):
 @secure_site
 def get_exams(auth_data = None):
     selectedtype = "Exams"
-
     formsearch = db.query('SELECT * FROM assignments')
-
     results = []  
     for thing in formsearch:
         if thing['assignmentType'] == "Exam":
             results.append(thing)
-            
     return render_template('coach_assignments.html', selectedtype=selectedtype, assignment_form=results, auth_data=auth_data, nav_columns= nav_columns)
-
 
 @app.route('/coach/assignments/homeworks', methods=['GET'])
 @secure_site
 def get_homeworks(auth_data = None):
     selectedtype = "Homeworks"
-
     formsearch = db.query('SELECT * FROM assignments')
-
     results = []  
     for thing in formsearch:
         if thing['assignmentType'] == "Homework":
             results.append(thing)
-            
     return render_template('coach_assignments.html', selectedtype=selectedtype, assignment_form=results, auth_data=auth_data, nav_columns= nav_columns)
 
 
@@ -92,12 +83,10 @@ def get_homeworks(auth_data = None):
 @secure_site
 def get_papers(auth_data = None):
     selectedtype = "Papers"
-
     formsearch = db.query('SELECT * FROM assignments')
     print(formsearch)
     results = []  
     for thing in formsearch:
         if thing['assignmentType'] == "Paper":
             results.append(thing)
-            
     return render_template('coach_assignments.html',selectedtype=selectedtype,  assignment_form=results, auth_data=auth_data, nav_columns= nav_columns)
