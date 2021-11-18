@@ -1,9 +1,6 @@
-import re
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
-from app import students
 from connection import Database
-import uuid
 from programs_dashboard import Programs
 from __main__ import app, secure_site, db
 
