@@ -201,11 +201,9 @@ def programs_students(auth_data = None):
 
     if request.method == "POST":
         fullname = request.form.get("fullname")
-        print(fullname)
-        if auth_data['userPerms']['adminDashboard']:
-            students = db.get_coach_students_fullname("", fullname)
-        else:
-            students = db.get_coach_students(auth_data['user_id'], fullname)
+
+        students = db.get_students_fullname(fullname)
+
         return render_template("/programs/programStudents.html", auth_data=auth_data, nav_columns=Programs.nav_columns,
                                students=students)
 
