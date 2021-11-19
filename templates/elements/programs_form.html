@@ -48,6 +48,7 @@
     <div id="SummerWorkshop" >
         <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
             <div class="row w-25 mx-auto">
+                <input type="text" name="studentID" value="{{ studentID }}" hidden/>
             <label class="mt-3"><strong>Summer start</strong></label>
                 <input type="date" name="SummerStart" placeholder="From Date">
             <label class="mt-3"><strong>Summer end</strong></label>
@@ -66,6 +67,7 @@
     <div id="AcademicCoaching">
         <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
             <div class="row w-25 mx-auto">
+                <input type="text" name="studentID" value="{{ studentID }}" hidden/>
             <label class="mt-3"><strong>Weekly Hours</strong></label>
                 <input  type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours"/><br>
             <label class="mt-3"><strong>English Grade</strong></label>
@@ -83,7 +85,7 @@
                 <label class="mt-3"><strong>Area of concern</strong></label>
                     <textarea class="my-3" name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
                 <label class="mt-3"><strong>Notes</strong></label>
-                    <textarea class="my-3" name="notes" id="Notes" placeholder="notes" rows="4" cols="50"></textarea>
+                    <textarea class="my-3" name="Notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
             </div>
             <input class="btn btn-primary enrichery-primary w-25 mx-auto" type="submit" id="academicCoachButton" name="academicCoachButton"/>
         </form>
@@ -91,6 +93,7 @@
     <div id="CollegeCoaching">
         <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
             <div class="row w-25 mx-auto">
+                <input type="text" name="studentID" value="{{ studentID }}" hidden/>
             <label class="mt-3"><strong>From</strong></label>
                 <input class="my-3" type="date" name="FromDate" placeholder="From Date">
             <label class="mt-3"><strong>To</strong></label>
@@ -101,7 +104,7 @@
             <label class="mt-3"><strong>GPA</strong></label>
                 <input class="my-3" type="number" name="GPA" id="GPA" placeholder="GPA">
             <label class="mt-3"><strong>Notes</strong></label>
-                <textarea name="notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
+                <textarea name="Notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
             </div>
             <input class="btn btn-primary enrichery-primary w-25 mx-auto" type="submit" id="collegeCoachButton" name="collegeCoachButton">
         </form>
@@ -109,12 +112,13 @@
     <div id="EducationFuture">
         <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
             <div class="row w-25 mx-auto">
+                <input type="text" name="studentID" value="{{ studentID }}" hidden/>
             <label class="mt-3"><strong>Weekly Hours</strong></label>
                 <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
             <label class="mt-3"><strong>Area of concern</strong></label>
                 <textarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
             <label class="mt-3"><strong>Notes</strong></label>
-                <textarea name="notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
+                <textarea name="Notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
             <input class="btn btn-primary enrichery-primary w-25 mx-auto" type="submit" id="EducationFutureButton" name="EducationFutureButton">
             </div>
         </form>
@@ -122,10 +126,11 @@
     <div id="ExecFunction">
         <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
             <div class="row w-25 mx-auto">
+                <input type="text" name="studentID" value="{{ studentID }}" hidden/>
             <label class="mt-3"><strong>Weekly Hours</strong></label>
                 <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
             <label class="mt-3"><strong>Notes</strong></label>
-                <textarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"></textarea>
+                <textarea name="Notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
             <label class="mt-3"><strong>Area of concern</strong></label>
                 <textarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
             <label class="mt-3"><strong>English grade</strong></label>
@@ -145,10 +150,11 @@
     <div id="ExecFunctionMini">
         <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
             <div class="row w-25 mx-auto">
+                <input type="text" name="studentID" value="{{ studentID }}" hidden/>
             <label class="mt-3"><strong>Weekly Hours</strong></label>
                 <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
             <label class="mt-3"><strong>Notes</strong></label>
-                <textarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"></textarea>
+                <textarea name="Notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
             <label class="mt-3"><strong>Area of concern</strong></label>
                 <textarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
             <label class="mt-3"><strong>English grade</strong></label>
@@ -168,10 +174,11 @@
     <div id="SmallGroups">
         <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
             <div class="row w-25 mx-auto">
+                <input type="text" name="studentID" value="{{ studentID }}" hidden/>
             <label class="mt-3"><strong>Weekly Hours</strong></label>
                 <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
             <label class="mt-3"><strong>Notes</strong></label>
-                <textarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"></textarea>
+                <textarea name="Notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
             <label class="mt-3"><strong>Area of concern</strong></label>
                 <textarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
             <label class="mt-3"><strong>English grade</strong></label>
@@ -191,10 +198,11 @@
     <div id="StudySpot">
         <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
             <div class="row w-25 mx-auto">
+                <input type="text" name="studentID" value="{{ studentID }}" hidden/>
             <label class="mt-3"><strong>Weekly Hours</strong></label>
                 <input type="number" name="hoursWeek" id="hoursWeek" placeholder="Weekly Hours">
             <label class="mt-3"><strong>Notes</strong></label>
-                <textarea name="notes" id="notes" placeholder="notes" rows="4" cols="50"></textarea>
+                <textarea name="Notes" id="Notes" placeholder="Notes" rows="4" cols="50"></textarea>
             <label class="mt-3"><strong>Area of concern</strong></label>
                 <textarea name="concernArea" id="concernArea" placeholder="concernArea" rows="4" cols="50"></textarea>
             <label class="mt-3"><strong>English grade</strong></label>
@@ -214,6 +222,7 @@
     <div id="TestPrep">
         <form class="d-flex flex-column justify-content-center w-100 text-center" method="POST">
             <div class="row w-25 mx-auto">
+                <input type="text" name="studentID" value="{{ studentID }}" hidden/>
             <label class="mt-3"><strong>Test date</strong></label>
                 <input type="date" id="testDate" name="testDate">
             <label class="mt-3"><strong>Test type</strong></label>

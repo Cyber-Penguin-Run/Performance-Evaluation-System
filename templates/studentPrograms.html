@@ -10,13 +10,13 @@
       <a href = "{{url_for('programs_create', studentID = row['studentIDFK'])}}"
          class="container btn text-start m-2 p-1 enrichery-bg-primary" style="width: 40%; min-width: 300px; max-width: 650px; border-radius: 10px">
 
-        <div class="row">
-          <h2>{{row['programType']}}</h2>
+        <div class="row" style="width:fit-content">
+          <h2>{{row['firstName'].capitalize()}} {{row['lastName'].capitalize()}}</h2>
         </div>
 
         <div class="row">
-          <div class="col d-flex">
-            <h6>{{row['programID']}}</h6>
+          <div class="col d-flex" style="width:fit-content">
+            <h6>{{row['programType']}}</h6>
           </div>
         </div>
 

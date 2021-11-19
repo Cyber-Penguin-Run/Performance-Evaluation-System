@@ -5,8 +5,8 @@ from programs_dashboard import Programs
 from __main__ import app, secure_site, db
 
 
-nav_columns = {"Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business"}
-
+nav_columns = {"Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business","Programs":"programs_overview"}
+programs = Programs()
 
 @app.route("/admin/staff", methods = ["POST", "GET", "PUT", "DELETE"])
 @secure_site
@@ -183,18 +183,39 @@ def admin_business(auth_data = None):
 @secure_site
 def programs_overview(auth_data = None):
     if request.method == 'GET':
-        getPrograms = db.query("SELECT * FROM studentPrograms")
+        getPrograms = db.query("SELECT * FROM studentPrograms left JOIN student on studentPrograms.studentIDFK=student.studentID")
         return render_template('studentPrograms.html',auth_data=auth_data, nav_columns=Programs.nav_columns, getPrograms=getPrograms)
     if request.method == 'POST':
         pass
 
-@app.route("/programs/create/", methods = ["POST", "GET", "PUT", "DELETE"])
+@app.route("/programs/students", methods=["GET","POST"])
 @secure_site
-def programs_create(programID = None,auth_data = None):
+def programs_students(auth_data = None):
+    if request.method == "GET":
+        if auth_data['userPerms']['adminDashboard']:
+            students = db.query("SELECT * FROM student")
+        else:
+            students = db.get_coach_students(auth_data['user_id'])
+        return render_template("/programs/programStudents.html", auth_data=auth_data, nav_columns=Programs.nav_columns,
+                               students=students)
+
+    if request.method == "POST":
+        fullname = request.form.get("fullname")
+        print(fullname)
+        if auth_data['userPerms']['adminDashboard']:
+            students = db.get_coach_students_fullname("", fullname)
+        else:
+            students = db.get_coach_students(auth_data['user_id'], fullname)
+        return render_template("/programs/programStudents.html", auth_data=auth_data, nav_columns=Programs.nav_columns,
+                               students=students)
+
+@app.route("/programs/create/<studentID>", methods = ["POST", "GET", "PUT", "DELETE"])
+@secure_site
+def programs_create(studentID,auth_data = None):
     if request.method == 'GET':
         getPrograms = db.query("SELECT * FROM studentPrograms")
         return render_template('/elements/programs_form.html',auth_data=auth_data, nav_columns=Programs.nav_columns,
-                               programID=programID, getPrograms=getPrograms)
+                               studentID=studentID, getPrograms=getPrograms)
     if request.method == 'POST':
         if 'SummerButton' in request.form.keys():
             print(request.form)
@@ -206,9 +227,9 @@ def programs_create(programID = None,auth_data = None):
                 testTaken = 0
             gpa = request.form['GPA']
             notes = request.form['Notes']
-            if Programs.create_program(programType='SummerWorkshop',programInfo={'fromDate':start,'endDate':end,
+            if programs.create_program(programType='SummerWorkshop',programInfo={'fromDate':start,'endDate':end,
                                                                                  'testTaken':testTaken,'gpa':gpa,
-                                                                                 'notes':notes,'programIDFK':programID
+                                                                                 'notes':notes,'studentID':studentID
                                                                                  }):
                 return render_template('/programs/programs_form.html',auth_data=auth_data,nav_columns=Programs.nav_columns,message='successful insert')
         if 'academicCoachButton' in request.form.keys():
@@ -221,14 +242,39 @@ def programs_create(programID = None,auth_data = None):
             math = request.form['mathGrade']
             science = request.form['scienceGrade']
             foreignLanguage = request.form['foreignLanguageGrade']
-            if Programs.create_program(programType='AcademicCoaching',programInfo={'programIDFK':programID,'hoursWeek':hours,
+            if programs.create_program(programType='AcademicCoaching',programInfo={'studentID':studentID,'hoursWeek':hours,
                                                                                    'notes':notes, 'concernArea':concernArea,
-                                                                                   'englishGrade':english,'historyGrade':history,
+                                                                                   'english':english,'history':history,
                                                                                    'mathGrade':math,'scienceGrade':science,
                                                                                    'foreignLanguageGrade':foreignLanguage}):
                 return render_template('/programs/programs_form.html',auth_data=auth_data,nav_columns=Programs.nav_columns,message='successful insert')
 
         if 'collegeCoachButton' in request.form.keys():
+            print(request.form)
+            start = request.form['FromDate']
+            end = request.form['EndDate']
+            if request.form['TestTakenYes']:
+                testTaken = 1
+            elif request.form['TestTakenNo']:
+                testTaken = 0
+            gpa = request.form['GPA']
+            notes = request.form['Notes']
+            if programs.create_program(programType='CollegeCoaching',programInfo={'fromDate':start,'endDate':end,
+                                                                                 'testTaken':testTaken,'gpa':gpa,
+                                                                                 'notes':notes,'studentID':studentID
+                                                                                 }):
+                return render_template('/programs/programs_form.html',auth_data=auth_data,nav_columns=Programs.nav_columns,message='successful insert')
+        if 'EducationFutureButton' in request.form.keys():
+            print(request.form)
+            hours = request.form['hoursWeek']
+            concern = request.form['concernArea']
+            notes = request.form['Notes']
+            if programs.create_program(programType='EducationFuture', programInfo={'hoursWeek':hours, 'areaInterest':concern,
+                                                                                   'notes':notes, 'studentID':studentID}):
+                return render_template('/programs/programs_form.html',auth_data=auth_data,
+                                       nav_columns=Programs.nav_columns,message='successful insert')
+
+        if 'execFunctionButton' in request.form.keys():
             print(request.form)
             hours = request.form['hoursWeek']
             notes = request.form['Notes']
@@ -238,100 +284,165 @@ def programs_create(programID = None,auth_data = None):
             math = request.form['mathGrade']
             science = request.form['scienceGrade']
             foreignLanguage = request.form['foreignLanguageGrade']
-            if Programs.create_program(programType='CollegeCoaching',programInfo={'programIDFK':programID,'hoursWeek':hours,
-                                                                                   'notes':notes, 'concernArea':concernArea,
-                                                                                   'englishGrade':english,'historyGrade':history,
-                                                                                   'mathGrade':math,'scienceGrade':science,
-                                                                                   'foreignLanguageGrade':foreignLanguage}):
-                return render_template('/programs/programs_form.html',auth_data=auth_data,nav_columns=Programs.nav_columns,message='successful insert')
+            if programs.create_program(programType='ExecutiveFunction',
+                                       programInfo={'studentID':studentID,'hoursWeek':hours,
+                                                    'notes':notes, 'concernArea':concernArea,
+                                                    'english':english,'history':history,
+                                                    'math':math,'science':science,
+                                                    'foreignLanguage':foreignLanguage}):
+                return render_template('/elements/programs_form.html',auth_data=auth_data,
+                                       nav_columns=Programs.nav_columns,message='successful insert')
 
+        if 'execFunctionMiniButton' in request.form.keys():
+            print(request.form)
+            hours = request.form['hoursWeek']
+            notes = request.form['Notes']
+            concernArea = request.form['concernArea']
+            english = request.form['englishGrade']
+            history = request.form['historyGrade']
+            math = request.form['mathGrade']
+            science = request.form['scienceGrade']
+            foreignLanguage = request.form['foreignLanguageGrade']
+            if programs.create_program(programType='ExecutiveFunctionMini',
+                                       programInfo={'studentID':studentID, 'hoursWeek': hours,
+                                                    'notes': notes, 'concernArea': concernArea,
+                                                    'english': english, 'history': history,
+                                                    'math': math, 'science': science,
+                                                    'foreignLanguage': foreignLanguage}):
+                return render_template('/elements/programs_form.html', auth_data=auth_data,
+                                       nav_columns=Programs.nav_columns, message='successful insert')
 
-@app.route('/programs/CollegeSummerWorkshop', methods=['GET', 'POST', 'PUT', 'DELETE'])
+        if 'smallGroupsButton' in request.form.keys():
+            hours = request.form['hoursWeek']
+            notes = request.form['Notes']
+            concernArea = request.form['concernArea']
+            english = request.form['englishGrade']
+            history = request.form['historyGrade']
+            math = request.form['mathGrade']
+            science = request.form['scienceGrade']
+            foreignLanguage = request.form['foreignLanguageGrade']
+            if programs.create_program(programType='smallGroups',
+                                       programInfo={'studentID':studentID, 'hoursWeek': hours,
+                                                    'notes': notes, 'concernArea': concernArea,
+                                                    'english': english, 'history': history,
+                                                    'mathGrade': math, 'scienceGrade': science,
+                                                    'foreignLanguageGrade': foreignLanguage}):
+                return render_template('/elements/programs_form.html', auth_data=auth_data,
+                                       nav_columns=Programs.nav_columns, message='successful insert')
+
+        if 'studySpotButton' in request.form.keys():
+            hours = request.form['hoursWeek']
+            notes = request.form['Notes']
+            concernArea = request.form['concernArea']
+            english = request.form['englishGrade']
+            history = request.form['historyGrade']
+            math = request.form['mathGrade']
+            science = request.form['scienceGrade']
+            foreignLanguage = request.form['foreignLanguageGrade']
+            if programs.create_program(programType='studySpot',
+                                       programInfo={'studentID':studentID, 'hoursWeek': hours,
+                                                    'notes': notes, 'concernArea': concernArea,
+                                                    'english': english, 'history': history,
+                                                    'mathGrade': math, 'scienceGrade': science,
+                                                    'foreignLanguageGrade': foreignLanguage}):
+                return render_template('/elements/programs_form.html', auth_data=auth_data,
+                                       nav_columns=Programs.nav_columns, message='successful insert')
+
+        if 'testPrepButton' in request.form.keys():
+            date = request.form['testDate']
+            type = request.form['Testtype']
+            if request.form['TestTakenYes']:
+                testTaken = 1
+            elif request.form['TestTakenNo']:
+                testTaken = 0
+            if request.form['PrevCourseYes']:
+                courseTaken = 1
+            elif request.form['PrevCourseNo']:
+                courseTaken = 0
+            if request.form['accommodationsYes']:
+                accommodations = 1
+            elif request.form['accommodationsNo']:
+                accommodations = 0
+            math = request.form['Matheval']
+            science = request.form['Scienceevl']
+            english = request.form['Englisheval']
+            history = request.form['Histeval']
+            if programs.create_program(programType='testPrep',
+                                       programInfo={'testdate': date,
+                                           'Testtype': type, 'prevtaken': testTaken,'prevcourse': courseTaken,
+                                           'Testaccomidations': accommodations, 'Matheval':math,'Scienceeval':science,
+                                           'Englisheval':english,'Histeval':history, 'studentID':studentID}):
+                return render_template('/elements/programs_form.html', auth_data=auth_data,
+                                       nav_columns=Programs.nav_columns, message='successful insert')
+
+@app.route('/programs/CollegeSummerWorkshop', methods=['GET'])
 @secure_site
 def programs_college_summer_workshop(auth_data=None):
     if request.method == 'GET':
         getPrograms = db.query("SELECT * FROM programCollegeSummerWorkshop")
         return render_template('/programs/SummerWorkshop.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
                                getPrograms=getPrograms)
-    if request.method == 'POST':
-        pass
 
-@app.route('/programs/Academic_Coaching', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/programs/Academic_Coaching', methods=['GET'])
 @secure_site
 def programs_academic_coaching(auth_data=None):
     if request.method == 'GET':
         getPrograms = db.query("SELECT * FROM programAcademicCoaching")
         return render_template('/programs/AcademicCoaching.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
                                getPrograms=getPrograms)
-    if request.method == 'POST':
-        pass
 
-@app.route('/programs/College_Coaching', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/programs/College_Coaching', methods=['GET'])
 @secure_site
 def programs_college_coaching(auth_data=None):
     if request.method == 'GET':
         getPrograms = db.query("SELECT * FROM programCollegeCoaching")
         return render_template('/programs/CollegeCoaching.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
                                getPrograms=getPrograms)
-    if request.method == 'POST':
-        pass
 
-@app.route('/programs/Education_Future', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/programs/Education_Future', methods=['GET'])
 @secure_site
 def programs_education_future(auth_data=None):
     if request.method == 'GET':
         getPrograms = db.query("SELECT * FROM programEducationFuture")
         return render_template('/programs/EducationFuture.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
                                getPrograms=getPrograms)
-    if request.method == 'POST':
-        pass
 
-@app.route('/programs/Exec_Function', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/programs/Exec_Function', methods=['GET'])
 @secure_site
 def programs_exec_function(auth_data=None):
     if request.method == 'GET':
         getPrograms = db.query("SELECT * FROM programExecFunction")
         return render_template('/programs/ExecutiveFunction.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
                                getPrograms=getPrograms)
-    if request.method == 'POST':
-        pass
 
-@app.route('/programs/Exec_Function_Mini', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/programs/Exec_Function_Mini', methods=['GET'])
 @secure_site
 def programs_exec_function_mini(auth_data=None):
     if request.method == 'GET':
         getPrograms = db.query("SELECT * FROM programExecFunctionMini")
         return render_template('/programs/ExecutiveFunctionMini.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
                                getPrograms=getPrograms)
-    if request.method == 'POST':
-        pass
 
-@app.route('/programs/Small_Groups', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/programs/Small_Groups', methods=['GET'])
 @secure_site
 def programs_small_groups(auth_data=None):
     if request.method == 'GET':
         getPrograms = db.query("SELECT * FROM programSmallGroups")
         return render_template('/programs/SmallGroups.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
                                getPrograms=getPrograms)
-    if request.method == 'POST':
-        pass
 
-@app.route('/programs/Study_Spot', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/programs/Study_Spot', methods=['GET'])
 @secure_site
 def programs_study_spot(auth_data=None):
     if request.method == 'GET':
         getPrograms = db.query("SELECT * FROM programStudySpot")
         return render_template('/programs/StudySpot.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
                                getPrograms=getPrograms)
-    if request.method == 'POST':
-        pass
 
-@app.route('/programs/Test_Prep', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/programs/Test_Prep', methods=['GET'])
 @secure_site
 def programs_test_prep(auth_data=None):
     if request.method == 'GET':
         getPrograms = db.query("SELECT * FROM programTestPrep")
         return render_template('/programs/TestPrep.html', auth_data=auth_data, nav_columns=Programs.nav_columns,
                                getPrograms=getPrograms)
-    if request.method == 'POST':
-        pass
