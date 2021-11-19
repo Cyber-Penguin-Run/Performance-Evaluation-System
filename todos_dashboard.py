@@ -1,7 +1,7 @@
 from flask import Flask, json, render_template, url_for, request, redirect, jsonify
 from flask.helpers import make_response
 from connection import Database
-from __main__ import app, secure_site, db
+from app import app, secure_site, db
 
 nav_columns = {"Todos":"todos","All Staff Todos":"todos_all","Change Todo List":"todos_form"}
 

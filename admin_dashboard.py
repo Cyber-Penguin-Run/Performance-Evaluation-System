@@ -2,7 +2,7 @@ from flask import Flask, json, render_template, url_for, request, redirect, json
 from flask.helpers import make_response
 from connection import Database
 from programs_dashboard import Programs
-from __main__ import app, secure_site, db
+from app import app, secure_site, db
 
 
 nav_columns = {"Staff":"admin_staff", "Families":"admin_families", "Business":"admin_business","Programs":"programs_overview"}
